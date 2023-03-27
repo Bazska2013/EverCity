@@ -1,15 +1,14 @@
-package org.elte.building;
+package org.elte.model.building;
 
-public class Factory extends Building{
-
-    Factory(){
-        price = 10;
-        yearlyFee = 5;
-        socialImpact = 10;
+public class Stadium extends Building{
+    Stadium(){
+        price = 100;
+        yearlyFee = 20;
+        socialImpact = 20;
         impactRange = 10;
         width = 2;
         height = 2;
-        chanceToFire = 2;
+        chanceToFire = 1;
         burning = false;
     }
 
@@ -23,7 +22,7 @@ public class Factory extends Building{
         return true;
     }
     public boolean upgradeable() {
-        return true;
+        return false;
     }
     public boolean isBurning() {
         return false;
@@ -33,3 +32,4 @@ public class Factory extends Building{
     }
 
 }
+

@@ -1,12 +1,11 @@
-package org.elte.building;
+package org.elte.model.building;
 
-class Empty extends Building {
-
-    Empty(){
-        price = 0;
-        yearlyFee = 0;
-        socialImpact = 0;
-        impactRange = 0;
+public class FireStation extends Building{
+    FireStation(){
+        price = 30;
+        yearlyFee = 10;
+        socialImpact = 5;
+        impactRange = 30;
         width = 1;
         height = 1;
         chanceToFire = 0;
@@ -17,19 +16,19 @@ class Empty extends Building {
         return true;
     }
     public boolean isDeletable() {
-        return false;
+        return true;
     }
     public boolean isConnected(){
-        return false;
+        return true;
     }
     public boolean upgradeable() {
-        return false;
+        return true;
     }
     public boolean isBurning() {
         return false;
     }
     public boolean isEmpty() {
-        return true;
+        return false;
     }
 
 }

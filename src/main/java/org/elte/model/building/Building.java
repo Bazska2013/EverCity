@@ -1,4 +1,4 @@
-package org.elte.building;
+package org.elte.model.building;
 
 public abstract class Building {
     int price;

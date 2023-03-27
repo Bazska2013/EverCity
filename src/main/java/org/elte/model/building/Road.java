@@ -1,11 +1,11 @@
-package org.elte.building;
+package org.elte.model.building;
 
-public class FireStation extends Building{
-    FireStation(){
-        price = 30;
-        yearlyFee = 10;
-        socialImpact = 5;
-        impactRange = 30;
+public class Road extends Building{
+    Road(){
+        price = 20;
+        yearlyFee = 5;
+        socialImpact = 0;
+        impactRange = 0;
         width = 1;
         height = 1;
         chanceToFire = 0;
@@ -22,7 +22,7 @@ public class FireStation extends Building{
         return true;
     }
     public boolean upgradeable() {
-        return true;
+        return false;
     }
     public boolean isBurning() {
         return false;

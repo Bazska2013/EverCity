@@ -1,14 +1,15 @@
-package org.elte.building;
+package org.elte.model.building;
 
-public class Road extends Building{
-    Road(){
-        price = 20;
+public class Factory extends Building{
+
+    Factory(){
+        price = 10;
         yearlyFee = 5;
-        socialImpact = 0;
-        impactRange = 0;
-        width = 1;
-        height = 1;
-        chanceToFire = 0;
+        socialImpact = 10;
+        impactRange = 10;
+        width = 2;
+        height = 2;
+        chanceToFire = 2;
         burning = false;
     }
 
@@ -22,7 +23,7 @@ public class Road extends Building{
         return true;
     }
     public boolean upgradeable() {
-        return false;
+        return true;
     }
     public boolean isBurning() {
         return false;
@@ -32,4 +33,3 @@ public class Road extends Building{
     }
 
 }
-
