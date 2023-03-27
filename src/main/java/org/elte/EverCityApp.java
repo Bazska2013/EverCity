@@ -1,10 +1,11 @@
 package org.elte;
 
 import org.elte.model.Boostrap;
+import org.elte.view.MainMenu;
 
 public class EverCityApp {
   public static void main(String[] args) {
-    System.out.println("Hello world!");
+    MainMenu mainMenu = new MainMenu();
 
     Boostrap example = Boostrap.builder()
             .name("Example")
