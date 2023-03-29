@@ -1,14 +1,15 @@
-package org.elte.building;
+package org.elte.model.building;
 
-public class Stadium extends Building{
-    Stadium(){
-        price = 100;
-        yearlyFee = 20;
-        socialImpact = 20;
-        impactRange = 10;
-        width = 2;
-        height = 2;
-        chanceToFire = 1;
+class Empty extends Building {
+
+    Empty(){
+        price = 0;
+        yearlyFee = 0;
+        socialImpact = 0;
+        impactRange = 0;
+        width = 1;
+        height = 1;
+        chanceToFire = 0;
         burning = false;
     }
 
@@ -16,10 +17,10 @@ public class Stadium extends Building{
         return true;
     }
     public boolean isDeletable() {
-        return true;
+        return false;
     }
     public boolean isConnected(){
-        return true;
+        return false;
     }
     public boolean upgradeable() {
         return false;
@@ -28,7 +29,7 @@ public class Stadium extends Building{
         return false;
     }
     public boolean isEmpty() {
-        return false;
+        return true;
     }
 
 }
