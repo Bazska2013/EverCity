@@ -1,23 +1,22 @@
 package org.elte.view;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import org.elte.draw.Draw;
+import org.elte.model.Game;
 
 public class Frame {
     private JFrame frame;
     Draw d;
+    Game g = new Game();
     int balance = 20000;
     String time = "2020-02-20";
 
@@ -73,7 +72,7 @@ public class Frame {
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setResizable(false);
-        //frame.addKeyListener(new KeyHandler());
+        //frame.addMouseListener(new MouseHandler());
 
         d = new Draw();
         d.setBounds(0,0,screenSize.width,screenSize.height);
