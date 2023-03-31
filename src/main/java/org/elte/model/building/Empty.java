@@ -1,8 +1,14 @@
 package org.elte.model.building;
 
-class Empty extends Building {
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
-    Empty(){
+public class Empty extends Building {
+    private final String img;
+
+    public Empty(){
         price = 0;
         yearlyFee = 0;
         socialImpact = 0;
@@ -11,6 +17,7 @@ class Empty extends Building {
         height = 1;
         chanceToFire = 0;
         burning = false;
+        img = "/grass.png";
     }
 
     public boolean isPlaceable() {
@@ -30,6 +37,10 @@ class Empty extends Building {
     }
     public boolean isEmpty() {
         return true;
+    }
+
+    public Image getPic() throws IOException {
+        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
     }
 
 }

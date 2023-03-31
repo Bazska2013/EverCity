@@ -12,13 +12,18 @@ public class Game {
     static int columns;
     static int boxheight=32;
     static int zoneboxx;
-    Field[][] fields;
+    static Field[][] fields;
     //int balance;
     //time
 
     public Game(){
         sizes();
         fields = new Field[rows][columns];
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < columns; j++){
+                fields[i][j] = new Field(i, j);
+            }
+        }
     }
 
     private void sizes(){
@@ -37,4 +42,12 @@ public class Game {
     public static int getStarty() { return starty; }
     public static int getBoxheight() { return boxheight; }
     public static int getZoneboxx() { return zoneboxx; }
+
+    /**
+     * Getter
+     * @param i x koordináta
+     * @param j y koordináta
+     * @return Egy konkrét field-et ad vissza
+     */
+    public static Field getField(int i, int j) { return fields[i][j]; }
 }

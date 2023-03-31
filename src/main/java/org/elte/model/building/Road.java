@@ -1,7 +1,14 @@
 package org.elte.model.building;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
+
 public class Road extends Building{
-    Road(){
+
+    private final String img;
+    public Road(){
         price = 20;
         yearlyFee = 5;
         socialImpact = 0;
@@ -10,6 +17,7 @@ public class Road extends Building{
         height = 1;
         chanceToFire = 0;
         burning = false;
+        img = "/road.png";
     }
 
     public boolean isPlaceable() {
@@ -31,5 +39,8 @@ public class Road extends Building{
         return false;
     }
 
+    public Image getPic() throws IOException {
+        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
+    }
 }
 

@@ -1,10 +1,16 @@
 package org.elte.model.building;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
+
 class Tree extends Building {
 
+    private final String img;
     int size;
 
-    Tree() {
+    public Tree() {
         price = 10;
         yearlyFee = 5;
         socialImpact = 10;
@@ -14,6 +20,7 @@ class Tree extends Building {
         chanceToFire = 1;
         burning = false;
         this.size = 1;
+        img = "/forest.png";
     }
 
     public boolean isPlaceable() {
@@ -40,6 +47,9 @@ class Tree extends Building {
         return false;
     }
 
+    public Image getPic() throws IOException {
+        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
+    }
 }
 
 
