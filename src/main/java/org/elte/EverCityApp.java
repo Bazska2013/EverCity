@@ -1,11 +1,23 @@
 package org.elte;
 
 import org.elte.model.Boostrap;
+import org.elte.view.Frame;
 import org.elte.view.MainMenu;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EverCityApp {
   public static void main(String[] args) {
-    MainMenu mainMenu = new MainMenu();
+    //MainMenu mainMenu = new MainMenu();
+    Frame gui = new Frame();
+    try {
+      gui.create();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
 
     Boostrap example = Boostrap.builder()
             .name("Example")

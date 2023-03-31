@@ -4,6 +4,7 @@ import org.elte.view.common.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainMenu {
   public static String GAME_TITLE = "EverCity";
@@ -37,6 +38,9 @@ public class MainMenu {
     JButton continueGameBtn = new CustomButton(CONTINUE_GAME);
     JButton newGameBtn = new CustomButton(NEW_GAME);
     JButton exitBtn = new CustomButton(EXIT_GAME);
+    newGameBtn.addActionListener(e -> {
+        new Frame();
+    });
     exitBtn.addActionListener(e -> System.exit(0));
     continueGameBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
     newGameBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
