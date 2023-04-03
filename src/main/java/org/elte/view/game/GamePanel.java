@@ -1,11 +1,13 @@
 package org.elte.view.game;
 
 import org.elte.model.Game;
+import org.elte.utils.ResourceLoader;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GamePanel extends JLabel {
   private static final long serialVersionUID = 1L;
@@ -33,6 +35,11 @@ public class GamePanel extends JLabel {
     g.setColor(Color.black);
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
+        try {
+          g.drawImage(ResourceLoader.loadImage("grass.png"), i * 32 + MainFrame.START_X, j * 32 + MainFrame.START_Y, Game.getBoxheight(), Game.getBoxheight(), null);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
         // Field f = new Field(i * 32 + 160,j * 32 +30);
 								/*try {
 										Image img = ImageIO.read(getClass().getResource("grass.jpg"));
