@@ -3,51 +3,69 @@ package org.elte.model;
 import lombok.Getter;
 
 import java.awt.*;
+
 @Getter
 public class Game {
+  public static Game INSTANCE = null;
+  static int rows;
+  static int columns;
+  static int boxheight = 32;
+  static Field[][] fields;
+  // int balance;
+  private final GameTime gameTime;
 
-    static int startx;
-    static int starty;
-    static int rows;
-    static int columns;
-    static int boxheight=32;
-    static int zoneboxx;
-    static Field[][] fields;
-    //int balance;
-    //time
+  private Game() {
+    sizes();
 
-    public Game(){
-        sizes();
-        fields = new Field[rows][columns];
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < columns; j++){
-                fields[i][j] = new Field(i, j);
-            }
-        }
+    gameTime =
+            new GameTime(
+                    e -> {
+                      // runnable code here
+                    });
+    gameTime.setTimerSpeed(TimerSpeed.ONE);
+    fields = new Field[rows][columns];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        fields[i][j] = new Field(i, j);
+      }
     }
+  }
 
-    private void sizes(){
-        Toolkit tk=Toolkit.getDefaultToolkit();
-        Dimension screenSize = tk.getScreenSize();
-        startx = (int) (screenSize.width*0.12);
-        starty = (int) (screenSize.height*0.05);
-        columns = (int) ((screenSize.width*0.76)/32);
-        rows = (int) ((screenSize.height*0.67)/32);
-        zoneboxx = (int) ((screenSize.height*0.75));
-    }
+  private void sizes() {
+    Toolkit tk = Toolkit.getDefaultToolkit();
+    Dimension screenSize = tk.getScreenSize();
+    columns = (int) ((screenSize.width * 0.76) / 32);
+    rows = (int) ((screenSize.height * 0.67) / 32);
+  }
 
-    public static int getRows() { return rows; }
-    public static int getColumns() { return columns; }
-    public static int getStartx() { return startx; }
-    public static int getStarty() { return starty; }
-    public static int getBoxheight() { return boxheight; }
-    public static int getZoneboxx() { return zoneboxx; }
+  public static int getRows() {
+    return rows;
+  }
 
-    /**
-     * Getter
-     * @param i x koordináta
-     * @param j y koordináta
-     * @return Egy konkrét field-et ad vissza
-     */
-    public static Field getField(int i, int j) { return fields[i][j]; }
+  public static int getColumns() {
+    return columns;
+  }
+
+
+  public static int getBoxheight() {
+    return boxheight;
+  }
+
+
+  /**
+   * Getter
+   *
+   * @param i x koordináta
+   * @param j y koordináta
+   * @return Egy konkrét field-et ad vissza
+   */
+  public static Field getField(int i, int j) {
+    return fields[i][j];
+  }
+
+  public static Game getInstance() {
+    if (INSTANCE == null) INSTANCE = new Game();
+
+    return INSTANCE;
+  }
 }
