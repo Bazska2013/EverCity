@@ -1,18 +1,15 @@
 package org.elte;
 
-import org.elte.view.Frame;
-
-import java.io.IOException;
+import org.elte.view.MainFrame;
 
 public class EverCityApp {
-  public static void main(String[] args) {
-    //MainMenu mainMenu = new MainMenu();
-    Frame gui = new Frame();
-    try {
-      gui.create();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+		public static void main(String[] args) {
+				// MainMenu mainMenu = new MainMenu();
 
-  }
+				try {
+						MainFrame gui = new MainFrame();
+				} catch (Exception e) {
+						throw new RuntimeException(e);
+				}
+		}
 }
