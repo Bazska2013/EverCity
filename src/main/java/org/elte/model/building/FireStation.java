@@ -1,6 +1,7 @@
 package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
 
 public class FireStation extends Building {
 		public FireStation() {
@@ -13,6 +14,7 @@ public class FireStation extends Building {
 				height = 1;
 				chanceToFire = 0;
 				burning = false;
+				imageResource = ImageResource.FIRE_STATION;
 		}
 
 		public boolean isPlaceable() {

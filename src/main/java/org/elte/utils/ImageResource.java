@@ -11,8 +11,8 @@ public abstract class ImageResource {
 
 		public static final Image GRASS = ResourceLoader.loadImage("grass.png");
 		public static final Image FACTORY = ResourceLoader.loadImage("factory.png");
-		public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
 		public static final Image FIRE_STATION = ResourceLoader.loadImage("firestation.png");
+		public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
 		public static final Image STADIUM = ResourceLoader.loadImage("football-stadion.png");
 		public static final Image FOREST = ResourceLoader.loadImage("forest.png");
 		public static final Image HOUSE = ResourceLoader.loadImage("house.png");

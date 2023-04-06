@@ -39,7 +39,7 @@ public class MainMenu {
 				JButton exitBtn = new CustomButton(EXIT_GAME);
 				newGameBtn.addActionListener(
 								e -> {
-										new MainFrame();
+										MainFrame.newInstance();
 								});
 				exitBtn.addActionListener(e -> System.exit(0));
 				continueGameBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
