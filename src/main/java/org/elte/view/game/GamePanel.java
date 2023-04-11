@@ -1,12 +1,13 @@
 package org.elte.view.game;
 
-import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
 import org.elte.model.zone.Empty;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
+import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.MainFrame;
 
@@ -17,135 +18,110 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class GamePanel extends JPanel {
-	private static final long serialVersionUID = 1L;
-	private Game game;
-	private Dimension screenSize;
-	Point p;
+		private static final long serialVersionUID = 1L;
+		private Game game;
+		private Dimension screenSize;
+		Point p;
 
-	public static GamePanel gamePanel = null;
+		public static GamePanel gamePanel = null;
 
-	public static boolean zoneMode = false;
+		public static boolean zoneMode = false;
 
-	private MouseListener listener = new MouseAdapter() {
-		public void mouseClicked(MouseEvent e) {
-			int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / 32);
-			int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32);
-			System.out.println("Clicked - X: " + current_x + ", Y: " + current_y);
+		private MouseListener listener =
+						new MouseAdapter() {
+								public void mouseClicked(MouseEvent e) {
+										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / 32.0);
+										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32.0);
 
-			try{
-				if(BuildablePanel.getSelectedFieldZoneType() != null) {
-					switch (BuildablePanel.getSelectedFieldZoneType()) {
-						case EMPTY -> fields[current_y][current_x].setZone(new Empty(1));
-						case SERVICE -> fields[current_y][current_x].setZone(new Service(1, 2, 3, 4, 5));
-						case INDUSTRY -> fields[current_y][current_x].setZone(new Industry(1, 2, 3, 4, 5));
-						case RESIDENT -> fields[current_y][current_x].setZone(new Resident(1, 2, 3, 4, 5, null));
-					}
+										try {
+												if (BuildablePanel.getSelectedFieldZoneType() != null) {
+														switch (BuildablePanel.getSelectedFieldZoneType()) {
+																case EMPTY -> game.getField(new Position(current_x, current_y))
+																				.setZone(new Empty(1));
+																case SERVICE -> game.getField(new Position(current_x, current_y))
+																				.setZone(new Service(1, 2, 3, 4, 5));
+																case INDUSTRY -> game.getField(new Position(current_x, current_y))
+																				.setZone(new Industry(1, 2, 3, 4, 5));
+																case RESIDENT -> game.getField(new Position(current_x, current_y))
+																				.setZone(new Resident(1, 2, 3, 4, 5, null));
+														}
+												}
+
+												if (BuildablePanel.getSelectedBuildingType() != null) {
+														switch (BuildablePanel.getSelectedBuildingType()) {
+																case ROAD -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new Road());
+																case EMPTY -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new org.elte.model.building.Empty());
+																case FACTORY -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new Factory());
+																case FIRE_STATION -> game.getField(
+																								new Position(current_x, current_y))
+																				.setBuilding(new FireStation());
+																case FOREST -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new Forest());
+																case POLICE -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new Police());
+																case STADIUM -> game.getField(new Position(current_x, current_y))
+																				.setBuilding(new Stadium());
+														}
+												}
+
+												repaint();
+										} catch (ArrayIndexOutOfBoundsException ex) {
+												System.out.println("Clicked outside of playing area...");
+										}
+								}
+						};
+
+		public GamePanel() {
+				addMouseListener(listener);
+				this.game = Game.getInstance();
+				this.screenSize = ScreenUtils.getScreenSize();
+				this.setBounds(0, 0, screenSize.width, MainFrame.ZONE_BOX_Y - 50);
+				this.setVisible(true);
+				gamePanel = this;
+		}
+
+		protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+
+				/** Kirajzolja a négyzeteket. */
+				g.setColor(Color.black);
+				for (int i = 0; i < Game.getColumns(); i++) {
+						for (int j = 0; j < Game.getRows(); j++) {
+								if (!zoneMode) {
+										g.drawImage(
+														ImageResource.getImageOfClass(
+																		game.getField(new Position(i, j)).getBuilding().getClass()),
+														i * 32 + MainFrame.START_X,
+														j * 32 + MainFrame.START_Y,
+														Game.getBoxWidth(),
+														Game.getBoxheight(),
+														null);
+								} else {
+										g.drawImage(
+														ImageResource.getZoneImageOfClass(
+																		game.getField(new Position(i, j)).getZone().getClass()),
+														i * 32 + MainFrame.START_X,
+														j * 32 + MainFrame.START_Y,
+														Game.getBoxWidth(),
+														Game.getBoxheight(),
+														null);
+								}
+								/** Keret megrajzolása * */
+								g.drawRect(
+												i * 32 + MainFrame.START_X,
+												j * 32 + MainFrame.START_Y,
+												Game.getBoxheight(),
+												Game.getBoxheight());
+						}
 				}
 
-				if(BuildablePanel.getSelectedBuildingType() != null) {
-					switch (BuildablePanel.getSelectedBuildingType()) {
-						case ROAD -> fields[current_y][current_x].setBuilding(new Road());
-						case EMPTY -> fields[current_y][current_x].setBuilding(new org.elte.model.building.Empty());
-						case FACTORY -> fields[current_y][current_x].setBuilding(new Factory());
-						case FIRE_STATION -> fields[current_y][current_x].setBuilding(new FireStation());
-						case FOREST -> fields[current_y][current_x].setBuilding(new Forest());
-						case POLICE -> fields[current_y][current_x].setBuilding(new Police());
-						case STADIUM -> fields[current_y][current_x].setBuilding(new Stadium());
-					}
-				}
-
-				repaint();
-			} catch (ArrayIndexOutOfBoundsException ex) {
-				System.out.println("Clicked outside of playing area...");
-			}
-
+				/** Kirajzolja az információs doboz hátterét. */
+				g.setColor(Color.blue);
+				g.fillRect(screenSize.width - 150, 10, 150, 150);
 		}
-	};
-
-	/** Létrehozunk egy mezőket tartalmazó mátrixot. */
-	private Field[][] fields;
-
-	public GamePanel() {
-		addMouseListener(listener);
-		this.game = Game.getInstance();
-		this.fields = new Field[Game.getRows()][Game.getColumns()];
-		this.screenSize = ScreenUtils.getScreenSize();
-		this.setBounds(0, 0, screenSize.width, MainFrame.ZONE_BOX_Y - 50);
-		this.setVisible(true);
-
-		/** Inicializáljuk a mátrixunkat. */
-		for (int i = 0; i < Game.getRows(); i++) {
-			for (int j = 0; j < Game.getColumns(); j++) {
-				fields[i][j] = new Field(j * 32 + MainFrame.START_X, i * 32 + MainFrame.START_Y);
-			}
-		}
-
-		/** Feltöltjük ideiglenesen dummy adatokkal a fields tömbünket. */
-		for (int i = 0; i < Game.getRows(); i++) {
-			for (int j = 0; j < Game.getColumns(); j++) {
-				switch((i+j)%4) {
-					case 0:
-						fields[i][j].setZone(new Empty(1000));
-						break;
-					case 1:
-						fields[i][j].setZone(new Industry(1, 2, 3, 4, 5));
-						break;
-					case 2:
-						fields[i][j].setZone(new Resident(1, 2, 3, 4, 5, null));
-						break;
-					case 3:
-						fields[i][j].setZone(new Service(1, 2, 3, 4, 5));
-						break;
-				}
-			}
-		}
-
-		gamePanel = this;
-
-	}
-
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-
-		/** Megrajzolja a játékterület hátterét. */
-		g.setColor(new Color(0, 200, 0));
-		g.fillRect(MainFrame.START_X, MainFrame.START_Y, 960, 480);
-
-		/** Kirajzolja a négyzeteket. */
-		g.setColor(Color.black);
-		for (int i = 0; i < Game.getRows(); i++) {
-			for (int j = 0; j < Game.getColumns(); j++) {
-
-				/** Beállítjuk az adott mező értékének megfelelő rajzolási képet. */
-
-				/** Kirajzoljuk az adott mezőt. */
-
-				fields[i][j].drawField(g, zoneMode);
-
-				g.drawRect(
-					j * 32 + MainFrame.START_X,
-					i * 32 + MainFrame.START_Y,
-					Game.getBoxheight(),
-					Game.getBoxheight());
-			}
-		}
-
-		/** Kirajzolja a keretet. */
-		g.setColor(Color.black);
-		g.drawRect(
-			MainFrame.START_X,
-			MainFrame.START_Y,
-			Game.getBoxheight() * Game.getColumns(),
-			Game.getBoxheight() * Game.getRows());
-
-		/** Kirajzolja a csíkot, amin az elhelyezhető Zónák és épületek lesznek. */
-
-		/** Kirajzolja az információs doboz hátterét. */
-		g.setColor(Color.blue);
-		g.fillRect(screenSize.width - 150, 10, 150, 150);
-
-	}
-
 }

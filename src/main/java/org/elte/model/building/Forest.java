@@ -8,7 +8,7 @@ public class Forest extends Building {
 		int size;
 
 		public Forest() {
-			buildingType = BuildingTypes.FOREST;
+				buildingType = BuildingTypes.FOREST;
 				price = 10;
 				yearlyFee = 5;
 				socialImpact = 10;
@@ -18,7 +18,7 @@ public class Forest extends Building {
 				chanceToFire = 1;
 				burning = false;
 				this.size = 1;
-			imageResource = ImageResource.FOREST;
+				imageResource = ImageResource.FOREST;
 		}
 
 		public boolean isPlaceable() {
@@ -44,5 +44,4 @@ public class Forest extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-
 }
