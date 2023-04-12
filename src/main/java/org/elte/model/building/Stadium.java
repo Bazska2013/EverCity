@@ -1,14 +1,17 @@
 package org.elte.model.building;
 
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Stadium extends Building{
-    private final String img;
 
     public Stadium(){
+        buildingType = BuildingTypes.STADIUM;
         price = 100;
         yearlyFee = 20;
         socialImpact = 20;
@@ -17,7 +20,7 @@ public class Stadium extends Building{
         height = 2;
         chanceToFire = 1;
         burning = false;
-        img = "/football-stadion.png";
+        imageResource = ImageResource.STADIUM;
     }
 
     public boolean isPlaceable() {
@@ -39,8 +42,5 @@ public class Stadium extends Building{
         return false;
     }
 
-    public Image getPic() throws IOException {
-        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
-    }
 }
 
