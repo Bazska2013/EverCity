@@ -1,5 +1,8 @@
 package org.elte.model.building;
 
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
@@ -7,8 +10,8 @@ import java.util.Objects;
 
 public class Factory extends Building{
 
-    private final String img;
     public Factory(){
+        buildingType = BuildingTypes.FACTORY;
         price = 10;
         yearlyFee = 5;
         socialImpact = 10;
@@ -17,7 +20,7 @@ public class Factory extends Building{
         height = 2;
         chanceToFire = 2;
         burning = false;
-        img = "/factory.png";
+        imageResource = ImageResource.FACTORY;
     }
 
     public boolean isPlaceable() {
@@ -39,7 +42,4 @@ public class Factory extends Building{
         return false;
     }
 
-    public Image getPic() throws IOException {
-        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
-    }
 }

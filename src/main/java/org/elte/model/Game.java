@@ -9,7 +9,8 @@ public class Game {
 		public static Game INSTANCE = null;
 		static int rows;
 		static int columns;
-		static int boxheight = 32;
+		static int boxHeight = 32;
+		static int boxWidth = 32;
 		static Field[][] fields;
 		// int balance;
 		private final GameTime gameTime;
@@ -47,7 +48,10 @@ public class Game {
 		}
 
 		public static int getBoxheight() {
-				return boxheight;
+				return boxHeight;
+		}
+		public static int getBoxWidth() {
+			return boxWidth;
 		}
 
 		/**

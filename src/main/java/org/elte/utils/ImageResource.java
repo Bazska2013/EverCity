@@ -1,6 +1,7 @@
 package org.elte.utils;
 
 import org.elte.model.building.*;
+import org.elte.model.building.Tree;
 
 import java.awt.*;
 
@@ -17,10 +18,16 @@ public abstract class ImageResource {
 		public static final Image POLICE = ResourceLoader.loadImage("police.png");
 		public static final Image ROAD = ResourceLoader.loadImage("road.png");
 
+		public static final Image ZONE_RESIDENT = ResourceLoader.loadImage("zone_resident.png");
+		public static final Image ZONE_INDUSTRY = ResourceLoader.loadImage("zone_industry.png");
+		public static final Image ZONE_SERVICE = ResourceLoader.loadImage("zone_service.png");
+		public static final Image ZONE_EMPTY = ResourceLoader.loadImage("zone_empty.png");
+		public static final Image ZONE_MODE_TOGGLE = ResourceLoader.loadImage("zone_mode_toggle.png");
+
 		public static Image getImageOfClass(Class<?> clazz) {
 				if (clazz == Factory.class) return FACTORY;
 				if (clazz == Stadium.class) return STADIUM;
-				if (clazz == Tree.class) return FOREST;
+				if (clazz == Forest.class) return FOREST;
 				if (clazz == Police.class) return POLICE;
 				if (clazz == Road.class) return ROAD;
 				return GRASS;

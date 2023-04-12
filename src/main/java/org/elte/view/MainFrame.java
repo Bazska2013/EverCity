@@ -26,7 +26,7 @@ public class MainFrame {
   public static final String BALANCE_TEXT = "Egyenleg:";
   public static final String BALANCE_CURRENCY = "$";
   private final JFrame frame;
-  GamePanel draw;
+  GamePanel gamePanel;
   TimeButtons timeButtons;
   BuildablePanel buildablePanel;
   Game game;
@@ -41,12 +41,11 @@ public class MainFrame {
     timeButtons = new TimeButtons();
     screenSize = ScreenUtils.getScreenSize();
 
-    draw = new GamePanel();
-
+    gamePanel = new GamePanel();
 
     frame.setSize(screenSize.width, screenSize.height);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(draw);
+    frame.add(gamePanel);
 
     frame.setJMenuBar(createMenuBar());
     // Image img = ImageIO.read(getClass().getResource("../pic/fogaskerek.png"));

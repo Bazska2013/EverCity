@@ -1,14 +1,17 @@
 package org.elte.model.building;
 
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Empty extends Building {
-    private final String img;
 
     public Empty(){
+        buildingType = BuildingTypes.EMPTY;
         price = 0;
         yearlyFee = 0;
         socialImpact = 0;
@@ -17,7 +20,7 @@ public class Empty extends Building {
         height = 1;
         chanceToFire = 0;
         burning = false;
-        img = "/grass.png";
+        imageResource = ImageResource.GRASS;
     }
 
     public boolean isPlaceable() {
@@ -39,9 +42,6 @@ public class Empty extends Building {
         return true;
     }
 
-    public Image getPic() throws IOException {
-        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
-    }
 
 }
 

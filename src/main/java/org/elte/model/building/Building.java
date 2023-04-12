@@ -2,6 +2,7 @@ package org.elte.model.building;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.model.enums.BuildingTypes;
 
 import java.awt.*;
 import java.io.IOException;
@@ -18,6 +19,9 @@ public abstract class Building {
     int chanceToFire;
     boolean burning;
 
+    Image imageResource;
+    BuildingTypes buildingType;
+
     public abstract boolean isPlaceable();
     public abstract boolean isDeletable();
     public abstract boolean isConnected();
@@ -28,8 +32,7 @@ public abstract class Building {
     /**
      * Visszaadja az adott buildinghez párosított képet
      * @return kép
-     * @throws IOException
      */
-    public abstract Image getPic() throws IOException;
+    public Image getImageResource() {return imageResource;};
 }
 
