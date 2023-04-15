@@ -1,7 +1,9 @@
 package org.elte.utils;
 
 import org.elte.model.building.*;
-//import org.elte.model.building.Tree;
+import org.elte.model.zone.Industry;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
 
 import java.awt.*;
 
@@ -32,6 +34,14 @@ public abstract class ImageResource {
 				if (clazz == Forest.class) return FOREST;
 				if (clazz == Police.class) return POLICE;
 				if (clazz == Road.class) return ROAD;
+				if (clazz == House.class) return HOUSE;
 				return GRASS;
+		}
+
+		public static Image getZoneImageOfClass(Class<?> clazz) {
+				if (clazz == Industry.class) return ZONE_INDUSTRY;
+				if (clazz == Resident.class) return ZONE_RESIDENT;
+				if (clazz == Service.class) return ZONE_SERVICE;
+				return ZONE_EMPTY;
 		}
 }

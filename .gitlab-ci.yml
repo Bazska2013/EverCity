@@ -15,7 +15,7 @@ variables:
     -DdeployAtEnd=true
 
 
-image: maven:3.8.5-openjdk-18
+image: jelastic/maven:3.8.6-openjdk-20.ea-b24
 
 cache:
   paths:
