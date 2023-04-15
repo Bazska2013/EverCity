@@ -1,45 +1,41 @@
 package org.elte.model.building;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
-import java.util.Objects;
+import org.elte.model.enums.BuildingTypes;
 
-public class FireStation extends Building{
-    private final String img;
-    public FireStation(){
-        price = 30;
-        yearlyFee = 10;
-        socialImpact = 5;
-        impactRange = 30;
-        width = 1;
-        height = 1;
-        chanceToFire = 0;
-        burning = false;
-        img = "/firestation.png";
-    }
+public class FireStation extends Building {
+		public FireStation() {
+				buildingType = BuildingTypes.FIRE_STATION;
+				price = 30;
+				yearlyFee = 10;
+				socialImpact = 5;
+				impactRange = 30;
+				width = 1;
+				height = 1;
+				chanceToFire = 0;
+				burning = false;
+		}
 
-    public boolean isPlaceable() {
-        return true;
-    }
-    public boolean isDeletable() {
-        return true;
-    }
-    public boolean isConnected(){
-        return true;
-    }
-    public boolean upgradeable() {
-        return true;
-    }
-    public boolean isBurning() {
-        return false;
-    }
-    public boolean isEmpty() {
-        return false;
-    }
+		public boolean isPlaceable() {
+				return true;
+		}
 
-    public Image getPic() throws IOException {
-        return ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
-    }
+		public boolean isDeletable() {
+				return true;
+		}
+
+		public boolean isConnected() {
+				return true;
+		}
+
+		public boolean upgradeable() {
+				return true;
+		}
+
+		public boolean isBurning() {
+				return false;
+		}
+
+		public boolean isEmpty() {
+				return false;
+		}
 }
-
