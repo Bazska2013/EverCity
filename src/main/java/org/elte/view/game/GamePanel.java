@@ -2,6 +2,7 @@ package org.elte.view.game;
 
 import org.elte.model.Field;
 import org.elte.model.Game;
+import org.elte.model.building.*;
 import org.elte.model.zone.Empty;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
@@ -38,6 +39,18 @@ public class GamePanel extends JPanel {
 						case SERVICE -> fields[current_y][current_x].setZone(new Service(1, 2, 3, 4, 5));
 						case INDUSTRY -> fields[current_y][current_x].setZone(new Industry(1, 2, 3, 4, 5));
 						case RESIDENT -> fields[current_y][current_x].setZone(new Resident(1, 2, 3, 4, 5, null));
+					}
+				}
+
+				if(BuildablePanel.getSelectedBuildingType() != null) {
+					switch (BuildablePanel.getSelectedBuildingType()) {
+						case ROAD -> fields[current_y][current_x].setBuilding(new Road());
+						case EMPTY -> fields[current_y][current_x].setBuilding(new org.elte.model.building.Empty());
+						case FACTORY -> fields[current_y][current_x].setBuilding(new Factory());
+						case FIRE_STATION -> fields[current_y][current_x].setBuilding(new FireStation());
+						case FOREST -> fields[current_y][current_x].setBuilding(new Forest());
+						case POLICE -> fields[current_y][current_x].setBuilding(new Police());
+						case STADIUM -> fields[current_y][current_x].setBuilding(new Stadium());
 					}
 				}
 

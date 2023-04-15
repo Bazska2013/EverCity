@@ -1,8 +1,8 @@
 package org.elte.model;
 
 import lombok.Getter;
-import org.elte.model.building.Building;
-import org.elte.model.building.Empty;
+import org.elte.model.building.*;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
@@ -29,11 +29,23 @@ public class Field {
 		this.zone = zone;
 	}
 
+	public void setBuilding(Building building) { this.building = building; }
+
 	public FieldTypes getZoneType() {
 		if (zone instanceof org.elte.model.zone.Empty) return FieldTypes.EMPTY;
 		else if (zone instanceof Industry) return FieldTypes.INDUSTRY;
 		else if (zone instanceof Resident) return FieldTypes.RESIDENT;
 		else return FieldTypes.SERVICE;
+	}
+
+	public BuildingTypes getBuildingType() {
+		if (building instanceof Empty) return BuildingTypes.EMPTY;
+		else if (building instanceof Factory) return BuildingTypes.FACTORY;
+		else if (building instanceof FireStation) return BuildingTypes.FIRE_STATION;
+		else if (building instanceof Forest) return BuildingTypes.FOREST;
+		else if (building instanceof Police) return BuildingTypes.POLICE;
+		else if (building instanceof  Road) return BuildingTypes.ROAD;
+		else return BuildingTypes.STADIUM;
 	}
 
 	public void drawField(Graphics g, boolean zoneMode) {
