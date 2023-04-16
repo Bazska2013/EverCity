@@ -8,208 +8,191 @@ import org.elte.view.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class BuildablePanel extends JPanel {
 
-  private final JButton residentButton;
-  private final JButton industryButton;
-  private final JButton serviceButton;
-  private final JButton emptyButton;
-  private final JButton zoneModeToggleButton;
-  private final JButton roadButton;
-  private final JButton emptyBuildingButton;
-  private final JButton factoryButton;
-  private final JButton fireStationButton;
-  private final JButton forestButton;
-  private final JButton policeButton;
-  private final JButton stadiumButton;
+		private final JButton[] zoneButtons;
+		private final JButton[] buildingButtons;
+		private final JButton toggleButton;
 
-  private final Image residentImage = ImageResource.ZONE_RESIDENT;
-  private final Image industryImage = ImageResource.ZONE_INDUSTRY;
-  private final Image serviceImage = ImageResource.ZONE_SERVICE;
-  private final Image emptyImage = ImageResource.ZONE_EMPTY;
-  private final Image zoneModeToggleImage = ImageResource.ZONE_MODE_TOGGLE;
-  private final Image roadImage = ImageResource.ROAD;
-  private final Image emptyBuildingImage = ImageResource.GRASS;
-  private final Image factoryImage = ImageResource.FACTORY;
-  private final Image fireStationImage = ImageResource.FIRE_STATION;
-  private final Image forestImage = ImageResource.FOREST;
-  private final Image policeImage = ImageResource.POLICE;
-  private final Image stadiumImage = ImageResource.STADIUM;
+		private static FieldTypes selectedFieldZoneType = null;
+		private static BuildingTypes selectedBuildingType = null;
 
-  private static FieldTypes selectedFieldZoneType = null;
+		public BuildablePanel() {
+				super();
+				this.setBounds(
+								0,
+								MainFrame.ZONE_BOX_Y,
+								ScreenUtils.getScreenSize().width,
+								MainFrame.ZONE_BOX_SIZE);
+				this.setBackground(Color.GRAY);
 
-  private static BuildingTypes selectedBuildingType = null;
-  private final JButton[] zoneButtons;
-  private final JButton[] buildingButtons;
+				zoneButtons = createZoneTypeSelectionButtons();
+				buildingButtons = createBuildingTypeSelectionButtons();
 
-  public BuildablePanel() {
-    super();
-    this.setBounds(
-            0,
-            MainFrame.ZONE_BOX_Y,
-            ScreenUtils.getScreenSize().width,
-            MainFrame.ZONE_BOX_SIZE);
-    this.setBackground(Color.GRAY);
+				toggleButton = new JButton(new ImageIcon(ImageResource.ZONE_MODE_TOGGLE));
+				toggleButton.setBorder(BorderFactory.createEmptyBorder());
+				toggleButton.setContentAreaFilled(false);
+				toggleButton.addActionListener(
+								new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+												GamePanel.zoneMode = !GamePanel.zoneMode;
+												switchButtons();
+												GamePanel.gamePanel.repaint();
+										}
+								});
 
-    residentButton = createZoneTypeSelectionButton(residentImage);
-    industryButton = createZoneTypeSelectionButton(industryImage);
-    serviceButton = createZoneTypeSelectionButton(serviceImage);
-    emptyButton = createZoneTypeSelectionButton(emptyImage);
+				add(toggleButton);
+				addButtonsToComponent(zoneButtons);
+				addButtonsToComponent(buildingButtons);
+				switchButtons();
+		}
 
-    roadButton = createBuildingTypeSelectionButton(roadImage);
-    emptyBuildingButton = createBuildingTypeSelectionButton(emptyBuildingImage);
-    factoryButton = createBuildingTypeSelectionButton(factoryImage);
-    fireStationButton = createBuildingTypeSelectionButton(fireStationImage);
-    forestButton = createBuildingTypeSelectionButton(forestImage);
-    policeButton = createBuildingTypeSelectionButton(policeImage);
-    stadiumButton = createBuildingTypeSelectionButton(stadiumImage);
+		private JButton[] createZoneTypeSelectionButtons() {
+				JButton residentButton =
+								createZoneTypeSelectionButton(ImageResource.ZONE_RESIDENT, FieldTypes.RESIDENT);
+				JButton industryButton =
+								createZoneTypeSelectionButton(ImageResource.ZONE_INDUSTRY, FieldTypes.INDUSTRY);
+				JButton serviceButton =
+								createZoneTypeSelectionButton(ImageResource.ZONE_SERVICE, FieldTypes.SERVICE);
+				JButton emptyButton =
+								createZoneTypeSelectionButton(ImageResource.ZONE_EMPTY, FieldTypes.EMPTY);
+				return new JButton[] {residentButton, industryButton, serviceButton, emptyButton};
+		}
 
-    zoneModeToggleButton = createZoneTypeSelectionButton(zoneModeToggleImage);
-    zoneModeToggleButton.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                toggleZoneMode();
-              }
-            });
+		private JButton[] createBuildingTypeSelectionButtons() {
+				JButton roadButton =
+								createBuildingTypeSelectionButton(ImageResource.ROAD, BuildingTypes.ROAD);
+				JButton emptyBuildingButton =
+								createBuildingTypeSelectionButton(ImageResource.GRASS, BuildingTypes.EMPTY);
+				JButton factoryButton =
+								createBuildingTypeSelectionButton(ImageResource.FACTORY, BuildingTypes.FACTORY);
+				JButton fireStationButton =
+								createBuildingTypeSelectionButton(
+												ImageResource.FIRE_STATION, BuildingTypes.FIRE_STATION);
+				JButton forestButton =
+								createBuildingTypeSelectionButton(ImageResource.FOREST, BuildingTypes.FOREST);
+				JButton policeButton =
+								createBuildingTypeSelectionButton(ImageResource.POLICE, BuildingTypes.POLICE);
+				JButton stadiumButton =
+								createBuildingTypeSelectionButton(ImageResource.STADIUM, BuildingTypes.STADIUM);
+				return new JButton[] {
+						roadButton,
+						emptyBuildingButton,
+						factoryButton,
+						fireStationButton,
+						forestButton,
+						policeButton,
+						stadiumButton
+				};
+		}
 
-    addClickListenerToZoneTypeSelectionButton(residentButton, FieldTypes.RESIDENT);
-    addClickListenerToZoneTypeSelectionButton(industryButton, FieldTypes.INDUSTRY);
-    addClickListenerToZoneTypeSelectionButton(serviceButton, FieldTypes.SERVICE);
-    addClickListenerToZoneTypeSelectionButton(emptyButton, FieldTypes.EMPTY);
+		private JButton createZoneTypeSelectionButton(Image image, FieldTypes fieldType) {
+				JButton button = new JButton(new ImageIcon(image));
+				button.setBorder(BorderFactory.createEmptyBorder());
+				button.setContentAreaFilled(false);
+				button.addActionListener(
+								new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+												handleZoneTypeSelectionButton(button, fieldType);
+										}
+								});
+				return button;
+		}
 
-    addClickListenerToBuildingTypeSelectionButton(roadButton, BuildingTypes.ROAD);
-    addClickListenerToBuildingTypeSelectionButton(emptyBuildingButton, BuildingTypes.EMPTY);
-    addClickListenerToBuildingTypeSelectionButton(factoryButton, BuildingTypes.FACTORY);
-    addClickListenerToBuildingTypeSelectionButton(
-            fireStationButton, BuildingTypes.FIRE_STATION);
-    addClickListenerToBuildingTypeSelectionButton(forestButton, BuildingTypes.FOREST);
-    addClickListenerToBuildingTypeSelectionButton(policeButton, BuildingTypes.POLICE);
-    addClickListenerToBuildingTypeSelectionButton(stadiumButton, BuildingTypes.STADIUM);
+		private JButton createBuildingTypeSelectionButton(Image image, BuildingTypes buildingType) {
+				JButton button = new JButton(new ImageIcon(image));
+				button.setBorder(BorderFactory.createEmptyBorder());
+				button.setContentAreaFilled(false);
+				button.addActionListener(
+								new ActionListener() {
+										@Override
+										public void actionPerformed(ActionEvent e) {
+												handleBuildingTypeSelectionButton(button, buildingType);
+										}
+								});
+				return button;
+		}
 
-    add(zoneModeToggleButton);
-    zoneButtons = new JButton[]{residentButton, industryButton, serviceButton, emptyButton};
-    buildingButtons = new JButton[]{roadButton, emptyBuildingButton, factoryButton, fireStationButton, forestButton, policeButton, stadiumButton};
+		private void addButtonsToComponent(JButton[] buttons) {
+				Arrays.stream(buttons).forEach(this::add);
+		}
 
-    switchButtons();
-  }
+		private void showButtons(JButton[] buttons) {
+				Arrays.stream(buttons).forEach(btn -> btn.setVisible(true));
+		}
 
+		private void removeButtons(JButton[] buttons) {
+				Arrays.stream(buttons).forEach(btn -> btn.setVisible(false));
+		}
 
-  private void showButtons(JButton[] buttons) {
-    Arrays.stream(buttons).forEach(this::add);
-  }
+		private void switchButtons() {
+				selectedBuildingType = null;
+				selectedFieldZoneType = null;
+				if (GamePanel.zoneMode) {
+						removeButtons(buildingButtons);
+						showButtons(zoneButtons);
+				} else {
+						removeButtons(zoneButtons);
+						showButtons(buildingButtons);
+				}
+				repaint();
+		}
 
-  private void removeButtons(JButton[] buttons) {
-    Arrays.stream(buttons).forEach(this::remove);
-  }
+		private void handleZoneTypeSelectionButton(JButton button, FieldTypes fieldType) {
+				if (selectedFieldZoneType != fieldType) {
+						resetZoneTypeSelectionButtons();
+						button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
+						button.setContentAreaFilled(true);
+						selectedFieldZoneType = fieldType;
+				} else {
+						button.setBorder(BorderFactory.createEmptyBorder());
+						button.setContentAreaFilled(false);
+						selectedFieldZoneType = null;
+				}
+		}
 
-  private void switchButtons(){
-    if(GamePanel.zoneMode){
-      removeButtons(buildingButtons);
-      showButtons(zoneButtons);
-    }else{
-      removeButtons(zoneButtons);
-      showButtons(buildingButtons);
-    }
-    repaint();
-  }
+		private void handleBuildingTypeSelectionButton(JButton button, BuildingTypes buildingType) {
+				if (selectedBuildingType != buildingType) {
+						resetBuildingTypeSelectionButtons();
+						button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
+						button.setContentAreaFilled(true);
+						selectedBuildingType = buildingType;
+				} else {
+						button.setBorder(BorderFactory.createEmptyBorder());
+						button.setContentAreaFilled(false);
+						selectedBuildingType = null;
+				}
+		}
 
-  private void toggleZoneMode(){
-    GamePanel.zoneMode = !GamePanel.zoneMode;
-    GamePanel.gamePanel.repaint();
-    switchButtons();
-  }
+		private void resetZoneTypeSelectionButtons() {
+				Arrays.stream(zoneButtons).forEach(this::resetZoneTypeSelectionButton);
+		}
 
-  private JButton createZoneTypeSelectionButton(Image image) {
-    JButton newJButton = new JButton(new ImageIcon(image));
-    newJButton.setBorder(BorderFactory.createEmptyBorder());
-    newJButton.setContentAreaFilled(false);
-    return newJButton;
-  }
+		public void resetBuildingTypeSelectionButtons() {
+				Arrays.stream(buildingButtons).forEach(this::resetBuildingTypeSelectionButton);
+		}
 
-  private JButton createBuildingTypeSelectionButton(Image image) {
-    JButton newJButton = new JButton(new ImageIcon(image));
-    newJButton.setBorder(BorderFactory.createEmptyBorder());
-    newJButton.setContentAreaFilled(false);
-    return newJButton;
-  }
+		private void resetZoneTypeSelectionButton(JButton button) {
+				button.setBorder(BorderFactory.createEmptyBorder());
+				button.setContentAreaFilled(false);
+		}
 
-  private void addClickListenerToZoneTypeSelectionButton(
-          JButton button, final FieldTypes buttonFieldType) {
-    button.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                if (selectedFieldZoneType != buttonFieldType) {
-                  resetZoneTypeSelectionButtons();
-                  button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
-                  button.setContentAreaFilled(true);
-                  selectedFieldZoneType = buttonFieldType;
-                } else {
-                  button.setBorder(BorderFactory.createEmptyBorder());
-                  button.setContentAreaFilled(false);
-                  selectedFieldZoneType = null;
-                }
-              }
-            });
-  }
+		public void resetBuildingTypeSelectionButton(JButton button) {
+				button.setBorder(BorderFactory.createEmptyBorder());
+				button.setContentAreaFilled(false);
+		}
 
-  private void addClickListenerToBuildingTypeSelectionButton(
-          JButton button, final BuildingTypes buildingType) {
-    button.addMouseListener(
-            new MouseAdapter() {
-              @Override
-              public void mouseClicked(MouseEvent e) {
-                if (selectedBuildingType != buildingType) {
-                  resetBuildingTypeSelectionButtons();
-                  button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
-                  button.setContentAreaFilled(true);
-                  selectedBuildingType = buildingType;
-                } else {
-                  button.setBorder(BorderFactory.createEmptyBorder());
-                  button.setContentAreaFilled(false);
-                  selectedBuildingType = null;
-                }
-              }
-            });
-  }
+		public static FieldTypes getSelectedFieldZoneType() {
+				return selectedFieldZoneType;
+		}
 
-  private void resetZoneTypeSelectionButtons() {
-    resetZoneTypeSelectionButton(residentButton);
-    resetZoneTypeSelectionButton(industryButton);
-    resetZoneTypeSelectionButton(serviceButton);
-    resetZoneTypeSelectionButton(emptyButton);
-  }
-
-  public void resetBuildingTypeSelectionButtons() {
-    resetBuildingTypeSelectionButton(roadButton);
-    resetBuildingTypeSelectionButton(emptyBuildingButton);
-    resetBuildingTypeSelectionButton(factoryButton);
-    resetBuildingTypeSelectionButton(fireStationButton);
-    resetBuildingTypeSelectionButton(forestButton);
-    resetBuildingTypeSelectionButton(policeButton);
-    resetBuildingTypeSelectionButton(stadiumButton);
-  }
-
-  private void resetZoneTypeSelectionButton(JButton button) {
-    button.setBorder(BorderFactory.createEmptyBorder());
-    button.setContentAreaFilled(false);
-  }
-
-  public void resetBuildingTypeSelectionButton(JButton button) {
-    button.setBorder(BorderFactory.createEmptyBorder());
-    button.setContentAreaFilled(false);
-  }
-
-  public static FieldTypes getSelectedFieldZoneType() {
-    return selectedFieldZoneType;
-  }
-
-  public static BuildingTypes getSelectedBuildingType() {
-    return selectedBuildingType;
-  }
+		public static BuildingTypes getSelectedBuildingType() {
+				return selectedBuildingType;
+		}
 }
