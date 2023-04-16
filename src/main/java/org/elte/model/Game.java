@@ -3,6 +3,7 @@ package org.elte.model;
 import lombok.Getter;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
+import org.elte.model.zone.Resident;
 import org.elte.utils.Position;
 
 import java.awt.*;
@@ -83,22 +84,62 @@ public class Game {
 				for (int i = 0; i < fields.length; i++) {
 						for (int j = 0; j < fields[i].length; j++) {
 								if (fields[i][j].getBuilding().isRoad()) {
-										if (i + 1 < fields.length && fields[i + 1][j].getBuilding().isEmpty()) {
+										if (i + 1 < fields.length && fields[i + 1][j].getBuilding().isEmpty() && fields[i+1][j].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j, i + 1));
 										}
-										if (i - 1 >= 0 && fields[i - 1][j].getBuilding().isEmpty()) {
+										if (i - 1 >= 0 && fields[i - 1][j].getBuilding().isEmpty() && fields[i-1][j].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j, i - 1));
 										}
-										if (j + 1 < fields[i].length && fields[i][j + 1].getBuilding().isEmpty()) {
+										if (j + 1 < fields[i].length && fields[i][j + 1].getBuilding().isEmpty() && fields[i][j+1].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j + 1, i));
 										}
-										if (j - 1 >= 0 && fields[i][j - 1].getBuilding().isEmpty()) {
+										if (j - 1 >= 0 && fields[i][j - 1].getBuilding().isEmpty() && fields[i][j-1].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j - 1, i));
 										}
 								}
 						}
 				}
 				return Optional.empty();
+		}
+
+		public boolean isBuildingPlaceableHere(int x, int y) {
+			boolean found = false;
+			if (getField(new Position(x + 1, y)).getBuilding().isRoad()) {
+				getField(new Position(x + 1, y)).getBuilding().disableDeletable();
+				found = true;
+			}
+			if (getField(new Position(x - 1, y)).getBuilding().isRoad()) {
+				getField(new Position(x - 1, y)).getBuilding().disableDeletable();
+				found = true;
+			}
+			if (getField(new Position(x, y + 1)).getBuilding().isRoad()) {
+				getField(new Position(x, y + 1)).getBuilding().disableDeletable();
+				found = true;
+			}
+			if (getField(new Position(x, y - 1)).getBuilding().isRoad()) {
+				getField(new Position(x, y - 1)).getBuilding().disableDeletable();
+				found = true;
+			}
+			return found;
+		}
+
+		public void removeTensionFromRoad(int x, int y){
+			if (getField(new Position(x + 1, y)).getBuilding().isRoad()) {
+				getField(new Position(x + 1, y)).getBuilding().removeDeletable();
+			}
+			if (getField(new Position(x - 1, y)).getBuilding().isRoad()) {
+				getField(new Position(x - 1, y)).getBuilding().removeDeletable();
+			}
+			if (getField(new Position(x, y + 1)).getBuilding().isRoad()) {
+				getField(new Position(x, y + 1)).getBuilding().removeDeletable();
+			}
+			if (getField(new Position(x, y - 1)).getBuilding().isRoad()) {
+				getField(new Position(x, y - 1)).getBuilding().removeDeletable();
+			}
 		}
 
 		public static Game getInstance() {
