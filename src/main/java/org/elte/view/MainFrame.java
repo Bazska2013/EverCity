@@ -11,8 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame {
-		public static String language = "hu_HU";
-		public static final int START_X = (int) (ScreenUtils.getScreenSize().width * 0.12);
+	public static String language = "hu_HU";
+	public static final int START_X = (int) (ScreenUtils.getScreenSize().width * 0.15);
 		public static final int START_Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
 
 		public static final int ZONE_BOX_Y = (int) (ScreenUtils.getScreenSize().height * 0.75);
@@ -22,6 +22,7 @@ public class MainFrame {
 						ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
 		public static final int GAME_SIZE =
 						ScreenUtils.getScreenSize().height - TIME_PANEL_SIZE - ZONE_BOX_Y;
+		public static final int FIELD_SIZE = (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
 		private static final int RERENDER_INTERVAL = 500;
 		public static final String BALANCE_CURRENCY = "$";
 		private final JFrame frame;

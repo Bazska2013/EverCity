@@ -145,27 +145,27 @@ public class GamePanel extends JPanel {
 										g.drawImage(
 														ImageResource.getImageOfClass(
 																		game.getField(new Position(i, j)).getBuilding().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
+														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+														MainFrame.FIELD_SIZE,
+														MainFrame.FIELD_SIZE,
 														null);
 								} else {
 										g.drawImage(
 														ImageResource.getZoneImageOfClass(
 																		game.getField(new Position(i, j)).getZone().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
+														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+														MainFrame.FIELD_SIZE,
+														MainFrame.FIELD_SIZE,
 														null);
 								}
 								/** Keret megrajzolása * */
 								g.drawRect(
-												i * 32 + MainFrame.START_X,
-												j * 32 + MainFrame.START_Y,
-												Game.getBoxheight(),
-												Game.getBoxheight());
+												i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+												j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+												MainFrame.FIELD_SIZE,
+												MainFrame.FIELD_SIZE);
 						}
 				}
 
