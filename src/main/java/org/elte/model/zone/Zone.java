@@ -23,4 +23,7 @@ public abstract class Zone {
 		public abstract boolean isEmpty();
 
 		public abstract FieldTypes getZoneType();
+
+        public abstract int getTax();
+
 }

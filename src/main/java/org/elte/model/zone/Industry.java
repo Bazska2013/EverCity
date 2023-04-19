@@ -26,4 +26,8 @@ public class Industry extends Zone {
 		public FieldTypes getZoneType() {
 				return FieldTypes.INDUSTRY;
 		}
+        @Override
+        public int getTax() {
+            return tax*capacity;
+        }
 }

@@ -22,4 +22,13 @@ public class Field {
 				this.x = x;
 				this.y = y;
 		}
+
+		public void setZone(Zone zone) {
+				this.zone = zone;
+		}
+
+		public int getTaxes(){
+			return zone.getTax();
+		}
+		public int getFees() { return building.getTax();}
 }

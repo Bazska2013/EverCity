@@ -33,4 +33,8 @@ public class Resident extends Zone {
 		public FieldTypes getZoneType() {
 				return FieldTypes.RESIDENT;
 		}
+        @Override
+        public int getTax() {
+            return tax*capacity;
+        }
 }

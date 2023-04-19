@@ -49,4 +49,6 @@ public class Police extends Building {
 		public void disableDeletable() {}
 
 		public void removeDeletable() {}
+
+		public int getTax(){return yearlyFee;}
 }

@@ -6,6 +6,8 @@ import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.model.zone.Resident;
 import org.elte.utils.Position;
+import org.elte.view.MainFrame;
+import org.elte.view.MainFrame;
 
 import java.util.Optional;
 
@@ -27,6 +29,10 @@ public class Game {
             new GameTime(
                     e -> {
                       tryToPlaceCitizenHouse();
+					  if(getGameTime().overAYear()){
+						  MainFrame.SetBalance(MainFrame.GetBalance()-yearlyFee());
+						  MainFrame.SetBalance(MainFrame.GetBalance()+yearlyTax());
+					  }
                     });
     gameTime.setTimerSpeed(TimerSpeed.ONE);
   }
@@ -124,4 +130,22 @@ public class Game {
 
     return INSTANCE;
   }
+	public int yearlyFee(){
+		int fees=0;
+		for(int i=0;i<rows;i++){
+			for(int j=0;j<columns;j++){
+				fees+=fields[i][j].getFees();
+			}
+		}
+		return fees;
+	}
+	public int yearlyTax(){
+		int fees=0;
+		for(int i=0;i<rows;i++){
+			for(int j=0;j<columns;j++){
+				fees+=fields[i][j].getTaxes();
+			}
+		}
+		return fees;
+	}
 }
