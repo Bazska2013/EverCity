@@ -1,5 +1,11 @@
 package org.elte.view.game;
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.*;
+import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
 import org.elte.model.zone.Empty;
@@ -10,12 +16,6 @@ import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.MainFrame;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class GamePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -34,60 +34,78 @@ public class GamePanel extends JPanel {
 										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32.0);
 
 										try {
+												Field field = game.getField(new Position(current_x, current_y));
+												;
 												if (BuildablePanel.getSelectedFieldZoneType() != null) {
 														switch (BuildablePanel.getSelectedFieldZoneType()) {
-																case EMPTY -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Empty(1));
-																case SERVICE -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Service(1, 2, 3, 4, 5));
-																case INDUSTRY -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Industry(1, 2, 3, 4, 5));
-																case RESIDENT -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Resident(1, 2, 3, 4, 5, null));
+																case EMPTY -> field.setZone(new Empty(1));
+																case SERVICE -> field.setZone(new Service(1, 2, 3, 4, 5));
+																case INDUSTRY -> field.setZone(new Industry(1, 2, 3, 4, 5));
+																case RESIDENT -> field.setZone(new Resident(1, 2, 3, 4, 5, null));
 														}
 												}
 
 												if (BuildablePanel.getSelectedBuildingType() != null) {
-                                                    switch (BuildablePanel.getSelectedBuildingType()) {
-                                                        case ROAD -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty()) {
-                                                                game.getField((new Position(current_x, current_y))).setBuilding(new Road());
-                                                            }
-                                                        }
-                                                        case EMPTY -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isDeletable()) {
-                                                                if (!game.getField(new Position(current_x,current_y)).getBuilding().isRoad()){
-                                                                    game.removeTensionFromRoad(current_x, current_y);
-                                                                }
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new org.elte.model.building.Empty());
-                                                            }
-                                                        }
-                                                        case FACTORY -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty() && game.getField(new Position(current_x, current_y)).getZone() instanceof Industry && game.isBuildingPlaceableHere(current_x, current_y)) {
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new Factory());
-                                                            }
-                                                        }
-                                                        case FIRE_STATION -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty() && game.isBuildingPlaceableHere(current_x, current_y)) {
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new FireStation());
-                                                            }
-                                                        }
-                                                        case FOREST -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty()) {
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new Forest());
-                                                            }
-                                                        }
-                                                        case POLICE -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty() && game.isBuildingPlaceableHere(current_x, current_y)) {
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new Police());
-                                                            }
-                                                        }
-                                                        case STADIUM -> {
-                                                            if (game.getField(new Position(current_x, current_y)).getBuilding().isEmpty() && game.isBuildingPlaceableHere(current_x, current_y)) {
-                                                                game.getField(new Position(current_x, current_y)).setBuilding(new Stadium());
-                                                            }
-                                                        }
-                                                    }
+														Building buildingType = new Road();
+														switch (BuildablePanel.getSelectedBuildingType()) {
+																case ROAD -> {
+																		if (field.getBuilding().isEmpty()) {
+																				field.setBuilding(new Road());
+																		}
+																}
+																case EMPTY -> {
+																		if (field.getBuilding().isDeletable()) {
+																				if (!field.getBuilding().isRoad()) {
+																						game.searchSurroundingBuildings(
+																										current_x, current_y, false, buildingType);
+																				}
+																				field.setBuilding(new org.elte.model.building.Empty());
+																		}
+																}
+																case FACTORY -> {
+																		if (field.getBuilding().isEmpty()
+																						&& field.getZone() instanceof Industry
+																						&& game.searchSurroundingBuildings(
+																										current_x, current_y, true, buildingType)) {
+																				field.setBuilding(new Factory());
+																		}
+																}
+																case FIRE_STATION -> {
+																		if (field.getBuilding().isEmpty()
+																						&& game.getField(new Position(current_x, current_y))
+																														.getZone()
+																										instanceof Empty
+																						&& game.searchSurroundingBuildings(
+																										current_x, current_y, true, buildingType)) {
+																				field.setBuilding(new FireStation());
+																		}
+																}
+																case FOREST -> {
+																		if (field.getBuilding().isEmpty()) {
+																				field.setBuilding(new Forest());
+																		}
+																}
+																case POLICE -> {
+																		if (field.getBuilding().isEmpty()
+																						&& game.getField(new Position(current_x, current_y))
+																														.getZone()
+																										instanceof Empty
+																						&& game.searchSurroundingBuildings(
+																										current_x, current_y, true, buildingType)) {
+																				field.setBuilding(new Police());
+																		}
+																}
+																case STADIUM -> {
+																		if (field.getBuilding().isEmpty()
+																						&& game.getField(new Position(current_x, current_y))
+																														.getZone()
+																										instanceof Empty
+																						&& game.searchSurroundingBuildings(
+																										current_x, current_y, true, buildingType)) {
+																				field.setBuilding(new Stadium());
+																		}
+																}
+														}
 												}
 
 												repaint();

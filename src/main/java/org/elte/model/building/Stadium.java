@@ -42,6 +42,7 @@ public class Stadium extends Building {
 				return false;
 		}
 
-	public void disableDeletable(){	}
-	public void removeDeletable(){ }
+		public void disableDeletable() {}
+
+		public void removeDeletable() {}
 }

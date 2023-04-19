@@ -40,6 +40,8 @@ public class Police extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-	public void disableDeletable(){	}
-	public void removeDeletable(){ }
+
+		public void disableDeletable() {}
+
+		public void removeDeletable() {}
 }

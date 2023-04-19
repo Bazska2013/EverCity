@@ -1,11 +1,10 @@
 package org.elte.utils;
 
+import java.awt.*;
 import org.elte.model.building.*;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
-
-import java.awt.*;
 
 public abstract class ImageResource {
 
