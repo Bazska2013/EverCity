@@ -1,6 +1,7 @@
 package org.elte.model;
 
 import lombok.Getter;
+import org.elte.model.building.Field;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.utils.Position;

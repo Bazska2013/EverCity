@@ -1,6 +1,7 @@
 package org.elte.view;
 
 import org.elte.model.Game;
+import org.elte.model.enums.LanguageEnum;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame {
+		public static String language = "hu_HU";
 		public static final int START_X = (int) (ScreenUtils.getScreenSize().width * 0.12);
 		public static final int START_Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
 
@@ -21,42 +23,33 @@ public class MainFrame {
 		public static final int GAME_SIZE =
 						ScreenUtils.getScreenSize().height - TIME_PANEL_SIZE - ZONE_BOX_Y;
 		private static final int RERENDER_INTERVAL = 500;
-		public static final String MENU_TEXT = "Menü";
-		public static final String NEW_GAME_TEXT = "Új játék";
-		public static final String EXIT_TEXT = "Kilépés";
-		public static final String MOOD_LEVEL_TEXT = "Jókedvmérő";
-		public static final String BALANCE_TEXT = "Egyenleg:";
 		public static final String BALANCE_CURRENCY = "$";
 		private final JFrame frame;
-		GamePanel gamePanel;
-		TimeButtons timeButtons;
-		BuildablePanel buildablePanel;
-		Game game;
+		private final GamePanel gamePanel;
+		private final TimeButtons timeButtons;
+		private final BuildablePanel buildablePanel;
+		private final Game game;
 		int balance = 20000;
 		JMenu timeMenu;
 		Timer timer;
 		Dimension screenSize;
 
-		public MainFrame() {
-				frame = new JFrame("EverCity");
-				this.game = Game.getInstance();
-				timeButtons = new TimeButtons();
-				screenSize = ScreenUtils.getScreenSize();
+		private static MainFrame instance = null;
+		private JMenu balanceMenu;
 
-				gamePanel = new GamePanel();
+		private MainFrame() {
+				frame = new JFrame("EverCity");
+				screenSize = ScreenUtils.getScreenSize();
+				game = Game.getInstance();
+
+				frame.setJMenuBar(createMenuBar());
 
 				frame.setSize(screenSize.width, screenSize.height);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.add(gamePanel);
-
-				frame.setJMenuBar(createMenuBar());
-				// Image img = ImageIO.read(getClass().getResource("../pic/fogaskerek.png"));
-				// Image icon = img.getScaledInstance(15, 15, Image.SCALE_DEFAULT);
 
 				frame.setLocationRelativeTo(null);
 				frame.setLayout(null);
 				frame.setResizable(false);
-				//				 frame.addMouseListener(new MouseHandler());
 
 				timeButtons = new TimeButtons();
 				frame.add(timeButtons);
@@ -64,6 +57,8 @@ public class MainFrame {
 				buildablePanel = new BuildablePanel();
 				frame.add(buildablePanel);
 
+				gamePanel = new GamePanel();
+				frame.add(gamePanel);
 				frame.requestFocus();
 				frame.setVisible(true);
 				timer =
@@ -77,27 +72,66 @@ public class MainFrame {
 				timer.setRepeats(true);
 		}
 
+		public static MainFrame getInstance() {
+				if (instance == null) {
+						instance = new MainFrame();
+				}
+				return instance;
+		}
+
+		public static void newInstance() {
+				instance = new MainFrame();
+		}
+
 		private JMenuBar createMenuBar() {
 				JMenuBar menuBar = new JMenuBar();
-				JMenu gameOptions = new JMenu(MENU_TEXT);
+				JMenu gameOptions = new JMenu(Localization.getProp().getProperty("menu_text"));
 				// menu.setIcon(new ImageIcon(icon));
-				JMenuItem newGame = new JMenuItem(NEW_GAME_TEXT);
+				JMenuItem newGame = new JMenuItem(Localization.getProp().getProperty("new_game_text"));
 				gameOptions.add(newGame);
 
-				JMenuItem exitMenuItem = new JMenuItem(EXIT_TEXT);
+				JMenu languageSelectorMenuItem =
+								new JMenu(Localization.getProp().getProperty("language_title"));
+				JMenuItem hungarianLanguageSelectorItem =
+								new JMenuItem(Localization.getProp().getProperty("hungarian"));
+				hungarianLanguageSelectorItem.addActionListener(
+								e -> {
+										MainFrame.language = LanguageEnum.hu_HU.name();
+										Localization.reloadProp();
+										frame.setJMenuBar(createMenuBar());
+										frame.repaint();
+								});
+				JMenuItem englishLanguageSelectorItem =
+								new JMenuItem(Localization.getProp().getProperty("english"));
+				englishLanguageSelectorItem.addActionListener(
+								e -> {
+										MainFrame.language = LanguageEnum.en_GB.name();
+										Localization.reloadProp();
+										frame.setJMenuBar(createMenuBar());
+										frame.repaint();
+								});
+				languageSelectorMenuItem.add(hungarianLanguageSelectorItem);
+				languageSelectorMenuItem.add(englishLanguageSelectorItem);
+				gameOptions.add(languageSelectorMenuItem);
+
+				JMenuItem exitMenuItem = new JMenuItem(Localization.getProp().getProperty("exit_text"));
 				exitMenuItem.addActionListener(ae -> System.exit(0));
 				gameOptions.add(exitMenuItem);
 
 				menuBar.add(gameOptions);
 
 				menuBar.add(Box.createHorizontalStrut(30));
-				JMenu balanceMenu = new JMenu(BALANCE_TEXT + balance + BALANCE_CURRENCY);
+				this.balanceMenu =
+								new JMenu(
+												Localization.getProp().getProperty("balance_text")
+																+ balance
+																+ BALANCE_CURRENCY);
 				// balancemenu.setEnabled(false);
-				menuBar.add(balanceMenu);
+				menuBar.add(this.balanceMenu);
 
 				menuBar.add(Box.createHorizontalStrut(50));
 
-				JMenu moodLevel = new JMenu(MOOD_LEVEL_TEXT);
+				JMenu moodLevel = new JMenu(Localization.getProp().getProperty("mood_level_text"));
 				balanceMenu.setEnabled(false);
 				menuBar.add(moodLevel);
 
@@ -110,5 +144,11 @@ public class MainFrame {
 
 		private void updateTimer() {
 				timeMenu.setText(game.getGameTime().toString());
+		}
+
+		public void modifyBalance(int value) {
+				balance += value;
+				balanceMenu.setText(
+								Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
 		}
 }

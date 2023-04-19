@@ -7,7 +7,7 @@ public class EverCityApp {
 				// MainMenu mainMenu = new MainMenu();
 
 				try {
-						MainFrame gui = new MainFrame();
+						MainFrame gui = MainFrame.getInstance();
 				} catch (Exception e) {
 						throw new RuntimeException(e);
 				}
