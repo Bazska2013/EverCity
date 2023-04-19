@@ -46,4 +46,6 @@ public class Road extends Building {
 		public boolean isRoad() {
 				return true;
 		}
+
+		public int getTax(){return yearlyFee;}
 }

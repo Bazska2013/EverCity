@@ -1,5 +1,6 @@
 package org.elte.view;
 
+import lombok.Setter;
 import org.elte.model.Game;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
@@ -8,6 +9,8 @@ import org.elte.view.game.TimeButtons;
 
 import javax.swing.*;
 import java.awt.*;
+
+@Setter
 
 public class MainFrame {
 		public static final int START_X = (int) (ScreenUtils.getScreenSize().width * 0.12);
@@ -28,12 +31,13 @@ public class MainFrame {
 		public static final String BALANCE_TEXT = "Egyenleg:";
 		public static final String BALANCE_CURRENCY = "$";
 		private final JFrame frame;
-		GamePanel gamePanel;
+		static GamePanel gamePanel;
 		TimeButtons timeButtons;
 		BuildablePanel buildablePanel;
 		Game game;
-		int balance = 20000;
+		static int balance = 20000;
 		JMenu timeMenu;
+		JMenu balanceMenu;
 		Timer timer;
 		Dimension screenSize;
 
@@ -71,13 +75,13 @@ public class MainFrame {
 												RERENDER_INTERVAL,
 												e -> {
 														updateTimer();
-														gamePanel.repaint();
+														updateBalance();
 												});
 				timer.start();
 				timer.setRepeats(true);
 		}
 
-		private JMenuBar createMenuBar() {
+		public JMenuBar createMenuBar() {
 				JMenuBar menuBar = new JMenuBar();
 				JMenu gameOptions = new JMenu(MENU_TEXT);
 				// menu.setIcon(new ImageIcon(icon));
@@ -91,7 +95,7 @@ public class MainFrame {
 				menuBar.add(gameOptions);
 
 				menuBar.add(Box.createHorizontalStrut(30));
-				JMenu balanceMenu = new JMenu(BALANCE_TEXT + balance + BALANCE_CURRENCY);
+				balanceMenu = new JMenu(BALANCE_TEXT + balance + BALANCE_CURRENCY);
 				// balancemenu.setEnabled(false);
 				menuBar.add(balanceMenu);
 
@@ -111,4 +115,21 @@ public class MainFrame {
 		private void updateTimer() {
 				timeMenu.setText(game.getGameTime().toString());
 		}
+		private void updateBalance() {
+			balanceMenu.setText(BALANCE_TEXT + balance + BALANCE_CURRENCY);
+	}
+
+
+		public static int GetBalance(){
+			return balance;
+		}
+		public static void SetBalance(int bal){
+			balance=bal;
+		}
+
+		public static GamePanel getGamePanel(){
+			return gamePanel;
+		}
+
+
 }

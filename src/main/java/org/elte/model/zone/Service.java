@@ -21,4 +21,9 @@ public class Service extends Zone {
     public boolean isEmpty() {
         return false;
     }
+    @Override
+    public int getTax() {
+        return tax*capacity;
+    }
+
 }

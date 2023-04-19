@@ -35,4 +35,11 @@ public class GameTime extends Timer {
 				}
 				this.setDelay(timerSpeed.getValue());
 		}
+
+		public boolean overAYear(){
+			if((getPassedDays()%365)==0){
+				return true;
+			}
+			return false;
+		}
 }

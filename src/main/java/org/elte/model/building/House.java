@@ -30,4 +30,6 @@ public class House extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
+
+		public int getTax(){return yearlyFee;}
 }

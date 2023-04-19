@@ -24,4 +24,9 @@ public class Field {
 		public void setZone(Zone zone) {
 				this.zone = zone;
 		}
+
+		public int getTaxes(){
+			return zone.getTax();
+		}
+		public int getFees() { return building.getTax();}
 }

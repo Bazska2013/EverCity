@@ -35,4 +35,6 @@ public abstract class Building {
 		public boolean isRoad() {
 				return false;
 		}
+
+		public abstract int getTax();
 }

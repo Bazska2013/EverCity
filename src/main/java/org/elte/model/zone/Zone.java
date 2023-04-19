@@ -18,4 +18,6 @@ public abstract class Zone {
     public abstract boolean isDeletable();
     public abstract boolean isEmpty();
 
+    public abstract int getTax();
+
 }

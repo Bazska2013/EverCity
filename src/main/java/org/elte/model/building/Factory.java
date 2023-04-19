@@ -41,4 +41,6 @@ public class Factory extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
+
+		public int getTax(){return yearlyFee;}
 }
