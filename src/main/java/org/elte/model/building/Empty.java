@@ -41,4 +41,8 @@ public class Empty extends Building {
 		public boolean isEmpty() {
 				return true;
 		}
+
+		public void disableDeletable() {}
+
+		public void removeDeletable() {}
 }

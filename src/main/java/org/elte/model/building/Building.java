@@ -1,10 +1,9 @@
 package org.elte.model.building;
 
+import java.awt.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.elte.model.enums.BuildingTypes;
-
-import java.awt.*;
 
 @Getter
 @Setter
@@ -35,4 +34,7 @@ public abstract class Building {
 		public boolean isRoad() {
 				return false;
 		}
+
+	public abstract void disableDeletable();
+	public abstract void removeDeletable();
 }

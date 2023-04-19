@@ -1,9 +1,13 @@
 package org.elte.model;
 
+import java.awt.*;
+import java.util.Optional;
 import lombok.Getter;
 import org.elte.model.building.Field;
+import org.elte.model.building.Building;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
+import org.elte.model.zone.Resident;
 import org.elte.utils.Position;
 
 import java.util.Optional;
@@ -66,22 +70,56 @@ public class Game {
 				for (int i = 0; i < fields.length; i++) {
 						for (int j = 0; j < fields[i].length; j++) {
 								if (fields[i][j].getBuilding().isRoad()) {
-										if (i + 1 < fields.length && fields[i + 1][j].getBuilding().isEmpty()) {
+										if (i + 1 < fields.length
+														&& fields[i + 1][j].getBuilding().isEmpty()
+														&& fields[i + 1][j].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j, i + 1));
 										}
-										if (i - 1 >= 0 && fields[i - 1][j].getBuilding().isEmpty()) {
+										if (i - 1 >= 0
+														&& fields[i - 1][j].getBuilding().isEmpty()
+														&& fields[i - 1][j].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j, i - 1));
 										}
-										if (j + 1 < fields[i].length && fields[i][j + 1].getBuilding().isEmpty()) {
+										if (j + 1 < fields[i].length
+														&& fields[i][j + 1].getBuilding().isEmpty()
+														&& fields[i][j + 1].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j + 1, i));
 										}
-										if (j - 1 >= 0 && fields[i][j - 1].getBuilding().isEmpty()) {
+										if (j - 1 >= 0
+														&& fields[i][j - 1].getBuilding().isEmpty()
+														&& fields[i][j - 1].getZone() instanceof Resident) {
+												fields[i][j].getBuilding().disableDeletable();
 												return Optional.of(new Position(j - 1, i));
 										}
 								}
 						}
 				}
 				return Optional.empty();
+		}
+
+		public boolean searchSurroundingBuildings(int x, int y, boolean keres, Building buildingType) {
+				boolean found = false;
+				for (int i = Math.max(0, x - 1); i <= Math.min(x + 1, columns - 1); i++) {
+						for (int j = Math.max(0, y - 1); j <= Math.min(y + 1, rows - 1); j++) {
+								if (i == x && j == y) {
+										continue;
+								}
+								if (buildingType instanceof Road) {
+										if (getField(new Position(i, j)).getBuilding() instanceof Road) {
+												if (keres) {
+														getField(new Position(i, j)).getBuilding().disableDeletable();
+														found = true;
+												} else {
+														getField(new Position(i, j)).getBuilding().removeDeletable();
+												}
+										}
+								}
+						}
+				}
+				return found;
 		}
 
 		public static Game getInstance() {

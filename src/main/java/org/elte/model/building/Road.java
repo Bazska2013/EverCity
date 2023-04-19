@@ -4,6 +4,7 @@ import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
 
 public class Road extends Building {
+		int deletable = 0;
 
 		public Road() {
 				buildingType = BuildingTypes.ROAD;
@@ -18,12 +19,20 @@ public class Road extends Building {
 				imageResource = ImageResource.ROAD;
 		}
 
+		public void disableDeletable() {
+				this.deletable++;
+		}
+
+		public void removeDeletable() {
+				this.deletable--;
+		}
+
 		public boolean isPlaceable() {
 				return true;
 		}
 
 		public boolean isDeletable() {
-				return true;
+				return deletable == 0;
 		}
 
 		public boolean isConnected() {

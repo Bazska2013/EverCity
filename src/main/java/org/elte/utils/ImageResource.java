@@ -1,11 +1,10 @@
 package org.elte.utils;
 
+import java.awt.*;
 import org.elte.model.building.*;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
-
-import java.awt.*;
 
 public abstract class ImageResource {
 
@@ -19,7 +18,7 @@ public abstract class ImageResource {
 		public static final Image HOUSE_LV2 = ResourceLoader.loadImage("house-v2.png");
 		public static final Image HOUSE_LV3 = ResourceLoader.loadImage("house-v3.png");
 		public static final Image POLICE = ResourceLoader.loadImage("police.png");
-		public static final Image ROAD = ResourceLoader.loadImage("road.png");
+		public static final Image ROAD = ResourceLoader.loadImage("empty-road.png");
 
 		public static final Image ZONE_RESIDENT = ResourceLoader.loadImage("zone_resident.png");
 		public static final Image ZONE_INDUSTRY = ResourceLoader.loadImage("zone_industry.png");
