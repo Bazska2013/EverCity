@@ -6,23 +6,18 @@ import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.utils.Position;
 
-import java.awt.*;
 import java.util.Optional;
 
 @Getter
 public class Game {
 		public static Game INSTANCE = null;
-		static int rows;
-		static int columns;
-		static int boxHeight = 32;
-		static int boxWidth = 32;
+		static int rows = 16;
+		static int columns = 32;
 		public Field[][] fields;
 		// int balance;
 		private final GameTime gameTime;
 
 		private Game() {
-				sizes();
-
 				fields = new Field[rows][columns];
 				fillFields();
 				fields[0][2].setBuilding(new Road());
@@ -43,12 +38,6 @@ public class Game {
 				}
 		}
 
-		private void sizes() {
-				Toolkit tk = Toolkit.getDefaultToolkit();
-				Dimension screenSize = tk.getScreenSize();
-				columns = (int) ((screenSize.width * 0.76) / 32);
-				rows = (int) ((screenSize.height * 0.67) / 32);
-		}
 
 		public static int getRows() {
 				return rows;
@@ -58,13 +47,6 @@ public class Game {
 				return columns;
 		}
 
-		public static int getBoxheight() {
-				return boxHeight;
-		}
-
-		public static int getBoxWidth() {
-				return boxWidth;
-		}
 
 		public Field getField(Position position) {
 				return fields[position.y()][position.x()];

@@ -34,8 +34,8 @@ public class GamePanel extends JPanel {
 		private MouseListener mouseListener =
 						new MouseAdapter() {
 								public void mouseClicked(MouseEvent e) {
-										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / 32);
-										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32);
+										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
+										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
 										System.out.println("Clicked - X: " + current_x + ", Y: " + current_y);
 
 										try {
@@ -105,14 +105,14 @@ public class GamePanel extends JPanel {
 
 								@Override
 								public void mouseMoved(MouseEvent e) {
-										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / 32);
-										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32);
+										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
+										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
 
 										if (checkIfCursorInsideMapBoundaries(current_x, current_y)) {
 												current_x_mouse_position =
-																(int) Math.floor((e.getX() - MainFrame.START_X) / 32);
+																(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
 												current_y_mouse_position =
-																(int) Math.floor((e.getY() - MainFrame.START_Y) / 32);
+																(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
 												cursor_inside_bounderies = true;
 												repaint();
 										} else if (cursor_inside_bounderies) {
@@ -145,27 +145,27 @@ public class GamePanel extends JPanel {
 										g.drawImage(
 														ImageResource.getImageOfClass(
 																		game.getField(new Position(i, j)).getBuilding().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
+														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+														MainFrame.FIELD_SIZE,
+														MainFrame.FIELD_SIZE,
 														null);
 								} else {
 										g.drawImage(
 														ImageResource.getZoneImageOfClass(
 																		game.getField(new Position(i, j)).getZone().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
+														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+														MainFrame.FIELD_SIZE,
+														MainFrame.FIELD_SIZE,
 														null);
 								}
 								/** Keret megrajzolása * */
 								g.drawRect(
-												i * 32 + MainFrame.START_X,
-												j * 32 + MainFrame.START_Y,
-												Game.getBoxheight(),
-												Game.getBoxheight());
+												i * MainFrame.FIELD_SIZE + MainFrame.START_X,
+												j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
+												MainFrame.FIELD_SIZE,
+												MainFrame.FIELD_SIZE);
 						}
 				}
 
