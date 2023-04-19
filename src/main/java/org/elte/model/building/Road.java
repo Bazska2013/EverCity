@@ -2,11 +2,13 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class Road extends Building {
 		int deletable = 0;
 
-		public Road() {
+		public Road(Position position) {
+			this.position = position;
 				buildingType = BuildingTypes.ROAD;
 				price = 20;
 				yearlyFee = 5;
@@ -28,7 +30,7 @@ public class Road extends Building {
 		}
 
 		public boolean isPlaceable() {
-				return true;
+				return hasEnoughSpace();
 		}
 
 		public boolean isDeletable() {

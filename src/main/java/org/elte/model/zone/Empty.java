@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import org.elte.model.enums.FieldTypes;
+
 public class Empty extends Zone {
 
 		public Empty(int price) {
@@ -18,5 +20,10 @@ public class Empty extends Zone {
 		@Override
 		public boolean isEmpty() {
 				return true;
+		}
+
+		@Override
+		public FieldTypes getZoneType() {
+				return FieldTypes.EMPTY;
 		}
 }

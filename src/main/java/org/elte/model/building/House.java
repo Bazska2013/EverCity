@@ -3,7 +3,7 @@ package org.elte.model.building;
 public class House extends Building {
 		@Override
 		public boolean isPlaceable() {
-				return false;
+				return hasEnoughSpace();
 		}
 
 		@Override

@@ -1,5 +1,6 @@
 package org.elte.model.zone;
 
+import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 
 import java.util.List;
@@ -26,5 +27,10 @@ public class Resident extends Zone {
 		@Override
 		public boolean isEmpty() {
 				return false;
+		}
+
+		@Override
+		public FieldTypes getZoneType() {
+				return FieldTypes.RESIDENT;
 		}
 }

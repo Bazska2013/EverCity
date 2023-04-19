@@ -6,29 +6,25 @@ import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
+import org.elte.view.game.gamepanel.FieldInfoBox;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame {
-	public static String language = "hu_HU";
-	public static final int START_X = (int) (ScreenUtils.getScreenSize().width * 0.15);
-		public static final int START_Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
-
+		public static String language = "hu_HU";
 		public static final int ZONE_BOX_Y = (int) (ScreenUtils.getScreenSize().height * 0.75);
 		public static final int ZONE_BOX_SIZE = (ScreenUtils.getScreenSize().height - ZONE_BOX_Y);
 		public static final int TIME_PANEL_SIZE = 30;
 		public static final int TIME_PANEL_Y =
 						ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
-		public static final int GAME_SIZE =
-						ScreenUtils.getScreenSize().height - TIME_PANEL_SIZE - ZONE_BOX_Y;
-		public static final int FIELD_SIZE = (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
 		private static final int RERENDER_INTERVAL = 500;
 		public static final String BALANCE_CURRENCY = "$";
 		private final JFrame frame;
 		private final GamePanel gamePanel;
 		private final TimeButtons timeButtons;
 		private final BuildablePanel buildablePanel;
+		private final FieldInfoBox fieldInfoBox;
 		private final Game game;
 		int balance = 20000;
 		JMenu timeMenu;
@@ -58,7 +54,10 @@ public class MainFrame {
 				buildablePanel = new BuildablePanel();
 				frame.add(buildablePanel);
 
-				gamePanel = new GamePanel();
+				fieldInfoBox = new FieldInfoBox();
+				frame.add(fieldInfoBox);
+
+				gamePanel = new GamePanel(fieldInfoBox);
 				frame.add(gamePanel);
 				frame.requestFocus();
 				frame.setVisible(true);

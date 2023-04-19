@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import org.elte.model.enums.FieldTypes;
+
 public class Service extends Zone {
 
 		public Service(int capacity, int hapiness, int tax, int price, int level) {
@@ -18,5 +20,10 @@ public class Service extends Zone {
 		@Override
 		public boolean isEmpty() {
 				return false;
+		}
+
+		@Override
+		public FieldTypes getZoneType() {
+				return FieldTypes.SERVICE;
 		}
 }
