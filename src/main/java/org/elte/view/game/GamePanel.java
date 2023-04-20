@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import javax.swing.*;
-import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
 import org.elte.model.zone.Empty;
@@ -17,13 +17,6 @@ import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
 import org.elte.view.MainFrame;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 public class GamePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -40,43 +33,40 @@ public class GamePanel extends JPanel {
 		private MouseListener mouseListener =
 						new MouseAdapter() {
 								public void mouseClicked(MouseEvent e) {
-										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
-										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
+										int current_x =
+														(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
+										int current_y =
+														(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
 										System.out.println("Clicked - X: " + current_x + ", Y: " + current_y);
 
 										try {
 												Field field = game.getField(new Position(current_x, current_y));
-												;
 
 												if (BuildablePanel.getSelectedFieldZoneType() != null) {
 														switch (BuildablePanel.getSelectedFieldZoneType()) {
 																case EMPTY -> {
-																		if (!(game.getField(new Position(current_x, current_y))
-																										.getZone()
-																						instanceof Empty))
-																				game.getField(new Position(current_x, current_y))
-																								.setZone(new Empty(1000));
+																		if (!(field.getZone() instanceof Empty))
+																				if ((field.getBuilding()
+																								instanceof org.elte.model.building.Empty))
+																						field.setZone(new Empty(1000));
 																}
 																case SERVICE -> {
-																		if (!(game.getField(new Position(current_x, current_y))
-																										.getZone()
-																						instanceof Service))
-																				game.getField(new Position(current_x, current_y))
-																								.setZone(new Service(1, 2, 3, 4, 5));
+																		if (!(field.getZone() instanceof Service))
+																				if ((field.getBuilding()
+																								instanceof org.elte.model.building.Empty))
+																						field.setZone(new Service(1, 2, 3, 4, 5));
 																}
 																case INDUSTRY -> {
-																		if (!(game.getField(new Position(current_x, current_y))
-																										.getZone()
-																						instanceof Industry))
-																				game.getField(new Position(current_x, current_y))
-																								.setZone(new Industry(1, 2, 3, 4, 5));
+																		if (!(field.getZone() instanceof Industry))
+																				if ((field.getBuilding()
+																								instanceof org.elte.model.building.Empty))
+																						field.setZone(new Industry(1, 2, 3, 4, 5));
 																}
 																case RESIDENT -> {
-																		if (!(game.getField(new Position(current_x, current_y))
-																										.getZone()
-																						instanceof Resident))
-																				game.getField(new Position(current_x, current_y))
-																								.setZone(new Resident(1, 2, 3, 4, 5, null));
+																		if (!(field.getZone() instanceof Resident))
+																				if ((field.getBuilding()
+																								instanceof org.elte.model.building.Empty))
+																						field.setZone(new Resident(1, 2, 3, 4, 5, null));
 																}
 														}
 												}
@@ -156,14 +146,22 @@ public class GamePanel extends JPanel {
 
 								@Override
 								public void mouseMoved(MouseEvent e) {
-										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
-										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
+										int current_x =
+														(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
+										int current_y =
+														(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
 
 										if (checkIfCursorInsideMapBoundaries(current_x, current_y)) {
 												current_x_mouse_position =
-																(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
+																(int)
+																				Math.floor(
+																								(e.getX() - MainFrame.START_X)
+																												/ MainFrame.FIELD_SIZE);
 												current_y_mouse_position =
-																(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
+																(int)
+																				Math.floor(
+																								(e.getY() - MainFrame.START_Y)
+																												/ MainFrame.FIELD_SIZE);
 												cursor_inside_bounderies = true;
 												repaint();
 										} else if (cursor_inside_bounderies) {
