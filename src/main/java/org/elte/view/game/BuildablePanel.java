@@ -4,6 +4,7 @@ import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.ImageResource;
 import org.elte.utils.ScreenUtils;
+import org.elte.view.Localization;
 import org.elte.view.MainFrame;
 
 import javax.swing.*;
@@ -53,33 +54,43 @@ public class BuildablePanel extends JPanel {
 		}
 
 		private JButton[] createZoneTypeSelectionButtons() {
-				JButton residentButton =
+				JButton residentZoneButton =
 								createZoneTypeSelectionButton(ImageResource.ZONE_RESIDENT, FieldTypes.RESIDENT);
-				JButton industryButton =
+				residentZoneButton.setToolTipText(Localization.getProp().getProperty("resident_zone"));
+				JButton industryZoneButton =
 								createZoneTypeSelectionButton(ImageResource.ZONE_INDUSTRY, FieldTypes.INDUSTRY);
-				JButton serviceButton =
+				industryZoneButton.setToolTipText(Localization.getProp().getProperty("industry_zone"));
+				JButton serviceZoneButton =
 								createZoneTypeSelectionButton(ImageResource.ZONE_SERVICE, FieldTypes.SERVICE);
-				JButton emptyButton =
+				serviceZoneButton.setToolTipText(Localization.getProp().getProperty("service_zone"));
+				JButton emptyZoneButton =
 								createZoneTypeSelectionButton(ImageResource.ZONE_EMPTY, FieldTypes.EMPTY);
-				return new JButton[] {residentButton, industryButton, serviceButton, emptyButton};
+				emptyZoneButton.setToolTipText(Localization.getProp().getProperty("empty_zone"));
+				return new JButton[] {residentZoneButton, industryZoneButton, serviceZoneButton, emptyZoneButton};
 		}
 
 		private JButton[] createBuildingTypeSelectionButtons() {
 				JButton roadButton =
 								createBuildingTypeSelectionButton(ImageResource.ROAD, BuildingTypes.ROAD);
+				roadButton.setToolTipText(Localization.getProp().getProperty("road"));
 				JButton emptyBuildingButton =
 								createBuildingTypeSelectionButton(ImageResource.GRASS, BuildingTypes.EMPTY);
+				emptyBuildingButton.setToolTipText(Localization.getProp().getProperty("grass"));
 				JButton factoryButton =
 								createBuildingTypeSelectionButton(ImageResource.FACTORY, BuildingTypes.FACTORY);
+				factoryButton.setToolTipText(Localization.getProp().getProperty("factory"));
 				JButton fireStationButton =
-								createBuildingTypeSelectionButton(
-												ImageResource.FIRE_STATION, BuildingTypes.FIRE_STATION);
+								createBuildingTypeSelectionButton(ImageResource.FIRE_STATION, BuildingTypes.FIRE_STATION);
+				fireStationButton.setToolTipText(Localization.getProp().getProperty("fire_station"));
 				JButton forestButton =
 								createBuildingTypeSelectionButton(ImageResource.FOREST, BuildingTypes.FOREST);
+				forestButton.setToolTipText(Localization.getProp().getProperty("forest"));
 				JButton policeButton =
 								createBuildingTypeSelectionButton(ImageResource.POLICE, BuildingTypes.POLICE);
+				policeButton.setToolTipText(Localization.getProp().getProperty("police"));
 				JButton stadiumButton =
 								createBuildingTypeSelectionButton(ImageResource.STADIUM, BuildingTypes.STADIUM);
+				stadiumButton.setToolTipText(Localization.getProp().getProperty("stadium"));
 				return new JButton[] {
 						roadButton,
 						emptyBuildingButton,
