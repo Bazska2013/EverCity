@@ -1,11 +1,10 @@
 package org.elte.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import javax.swing.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -34,6 +33,10 @@ public class GameTime extends Timer {
 						this.restart();
 				}
 				this.setDelay(timerSpeed.getValue());
+		}
+
+		public LocalDate getDate() {
+				return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays());
 		}
 
 		public boolean overAYear(){

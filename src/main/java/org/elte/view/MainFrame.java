@@ -30,12 +30,15 @@ public class MainFrame {
 		private final FieldInfoBox fieldInfoBox;
 		private final Game game;
 		static int balance = 20000;
+		public static int startingCitizensToAdd = 50;
+		public static int citizenNumber = 0;
 		JMenu timeMenu;
-		JMenu balanceMenu;
 		Timer timer;
 		Dimension screenSize;
 
 		private static MainFrame instance = null;
+		private JMenu balanceMenu;
+		private JMenu populationBar;
 
 		private MainFrame() {
 				frame = new JFrame("EverCity");
@@ -72,6 +75,7 @@ public class MainFrame {
 														gamePanel.repaint();
 														updateBalance();
 												});
+
 				timer.start();
 				timer.setRepeats(true);
 		}
@@ -87,7 +91,7 @@ public class MainFrame {
 			instance = new MainFrame();
 		}
 
-		public JMenuBar createMenuBar() {
+		private JMenuBar createMenuBar() {
 				JMenuBar menuBar = new JMenuBar();
 				JMenu gameOptions = new JMenu(Localization.getProp().getProperty("menu_text"));
 				// menu.setIcon(new ImageIcon(icon));
@@ -128,10 +132,15 @@ public class MainFrame {
 				this.balanceMenu =
 								new JMenu(
 												Localization.getProp().getProperty("balance_text")
+																+ " "
 																+ balance
 																+ BALANCE_CURRENCY);
-				// balancemenu.setEnabled(false);
 				menuBar.add(this.balanceMenu);
+
+				this.populationBar =
+								new JMenu(Localization.getProp().getProperty("population") + " " + citizenNumber);
+				populationBar.setEnabled(false);
+				menuBar.add(populationBar);
 
 				menuBar.add(Box.createHorizontalStrut(50));
 
@@ -172,5 +181,9 @@ public class MainFrame {
 					Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
 		}
 
-
+		public void addCitizen() {
+				citizenNumber++;
+				populationBar.setText(
+								Localization.getProp().getProperty("population") + " " + citizenNumber);
+		}
 }
