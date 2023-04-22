@@ -25,6 +25,7 @@ public class GamePanel extends JPanel {
 		public static final int FIELD_SIZE =
 						(int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
 		private static final long serialVersionUID = 1L;
+		private int current_x_mouse_position, current_y_mouse_position;
 		private boolean cursor_inside_bounderies = false;
 		private Game game;
 		private Dimension screenSize;

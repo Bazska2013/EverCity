@@ -13,7 +13,7 @@ public class GameTime extends Timer {
 		private static final int START_YEAR = 2023;
 
 		public GameTime(ActionListener listener) {
-				super(TimerSpeed.ONE.getValue(), listener);
+				super(TimerSpeed.STOP.getValue(), listener);
 				super.addActionListener(e -> passedDays++);
 				super.setRepeats(true);
 				super.start();

@@ -5,9 +5,13 @@ import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 
 import java.util.List;
+import java.util.Random;
+
+import lombok.Getter;
 import org.elte.model.people.Citizen;
 import org.elte.view.MainFrame;
 
+@Getter
 public class Resident extends Zone {
 
 		protected List<Citizen> citizens = new ArrayList<>();
@@ -21,11 +25,10 @@ public class Resident extends Zone {
 
 				if (MainFrame.startingCitizensToAdd > 0) {
 						for (int i = 0; i < Math.min(MainFrame.startingCitizensToAdd, capacity); i++) {
-								citizens.add(new Citizen());
-								MainFrame.getInstance().addCitizen();
+								citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
 						}
-						this.capacity -= citizens.size();
 						MainFrame.startingCitizensToAdd -= citizens.size();
+					MainFrame.getInstance().repaintCitizenNumber();
 				}
 		}
 
