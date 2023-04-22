@@ -1,26 +1,27 @@
 package org.elte.view.game;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import javax.swing.*;
+import org.elte.model.Field;
 import org.elte.model.Game;
-import org.elte.model.building.*;
-import org.elte.model.zone.Empty;
-import org.elte.model.zone.Industry;
-import org.elte.model.zone.Resident;
-import org.elte.model.zone.Service;
+import org.elte.model.building.Building;
 import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
-import org.elte.view.Localization;
-import org.elte.view.MainFrame;
+import org.elte.view.game.gamepanel.FieldInfoBox;
+import org.elte.view.game.gamepanel.GameMouseAdapter;
+import org.elte.view.game.gamepanel.GameMouseMotionListener;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
+		public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.15);
+		public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
+		public static final int FIELD_SIZE =
+						(int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
 		private static final long serialVersionUID = 1L;
-		private int current_x_mouse_position, current_y_mouse_position;
 		private boolean cursor_inside_bounderies = false;
 		private Game game;
 		private Dimension screenSize;
@@ -30,153 +31,18 @@ public class GamePanel extends JPanel {
 
 		public static boolean zoneMode = false;
 
-		private MouseListener mouseListener =
-						new MouseAdapter() {
-								public void mouseClicked(MouseEvent e) {
-										int current_x =
-														(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
-										int current_y =
-														(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
-										System.out.println("Clicked - X: " + current_x + ", Y: " + current_y);
+		private MouseListener mouseListener;
 
-										try {
-												Field field = game.getField(new Position(current_x, current_y));
+		private MouseMotionListener mouseMotionListener;
 
-												if (BuildablePanel.getSelectedFieldZoneType() != null) {
-														switch (BuildablePanel.getSelectedFieldZoneType()) {
-																case EMPTY -> {
-																		if (!(field.getZone() instanceof Empty))
-																				if ((field.getBuilding()
-																								instanceof org.elte.model.building.Empty))
-																						field.setZone(new Empty(1000));
-																}
-																case SERVICE -> {
-																		if (!(field.getZone() instanceof Service))
-																				if ((field.getBuilding()
-																								instanceof org.elte.model.building.Empty))
-																						field.setZone(new Service(1, 2, 3, 4, 5));
-																}
-																case INDUSTRY -> {
-																		if (!(field.getZone() instanceof Industry))
-																				if ((field.getBuilding()
-																								instanceof org.elte.model.building.Empty))
-																						field.setZone(new Industry(1, 2, 3, 4, 5));
-																}
-																case RESIDENT -> {
-																		if (!(field.getZone() instanceof Resident))
-																				if ((field.getBuilding()
-																								instanceof org.elte.model.building.Empty))
-																						field.setZone(new Resident(1, 2, 3, 4, 5, null));
-																}
-														}
-												}
-												if (BuildablePanel.getSelectedBuildingType() != null) {
-														Building buildingType = new Road();
-														switch (BuildablePanel.getSelectedBuildingType()) {
-																case ROAD -> {
-																		if (field.getBuilding().isEmpty()) {
-																				field.setBuilding(new Road());
-																		}
-																}
-																case EMPTY -> {
-																		if (field.getBuilding().isDeletable()) {
-																				if (!field.getBuilding().isRoad()) {
-																						game.searchSurroundingBuildings(
-																										current_x, current_y, false, buildingType);
-																				}
-																				field.setBuilding(new org.elte.model.building.Empty());
-																		}
-																}
-																case FACTORY -> {
-																		if (field.getBuilding().isEmpty()
-																						&& field.getZone() instanceof Industry
-																						&& game.searchSurroundingBuildings(
-																										current_x, current_y, true, buildingType)) {
-																				field.setBuilding(new Factory());
-																		}
-																}
-																case FIRE_STATION -> {
-																		if (field.getBuilding().isEmpty()
-																						&& game.getField(new Position(current_x, current_y))
-																														.getZone()
-																										instanceof Empty
-																						&& game.searchSurroundingBuildings(
-																										current_x, current_y, true, buildingType)) {
-																				field.setBuilding(new FireStation());
-																		}
-																}
-																case FOREST -> {
-																		if (field.getBuilding().isEmpty()) {
-																				field.setBuilding(new Forest());
-																		}
-																}
-																case POLICE -> {
-																		if (field.getBuilding().isEmpty()
-																						&& game.getField(new Position(current_x, current_y))
-																														.getZone()
-																										instanceof Empty
-																						&& game.searchSurroundingBuildings(
-																										current_x, current_y, true, buildingType)) {
-																				field.setBuilding(new Police());
-																		}
-																}
-																case STADIUM -> {
-																		if (field.getBuilding().isEmpty()
-																						&& game.getField(new Position(current_x, current_y))
-																														.getZone()
-																										instanceof Empty
-																						&& game.searchSurroundingBuildings(
-																										current_x, current_y, true, buildingType)) {
-																				field.setBuilding(new Stadium());
-																		}
-																}
-														}
-												}
-												repaint();
-										} catch (ArrayIndexOutOfBoundsException ex) {
-												System.out.println("Clicked outside of playing area...");
-										}
-								}
-						};
-
-		private MouseMotionListener mouseMotionListener =
-						new MouseMotionListener() {
-								@Override
-								public void mouseDragged(MouseEvent e) {}
-
-								@Override
-								public void mouseMoved(MouseEvent e) {
-										int current_x =
-														(int) Math.floor((e.getX() - MainFrame.START_X) / MainFrame.FIELD_SIZE);
-										int current_y =
-														(int) Math.floor((e.getY() - MainFrame.START_Y) / MainFrame.FIELD_SIZE);
-
-										if (checkIfCursorInsideMapBoundaries(current_x, current_y)) {
-												current_x_mouse_position =
-																(int)
-																				Math.floor(
-																								(e.getX() - MainFrame.START_X)
-																												/ MainFrame.FIELD_SIZE);
-												current_y_mouse_position =
-																(int)
-																				Math.floor(
-																								(e.getY() - MainFrame.START_Y)
-																												/ MainFrame.FIELD_SIZE);
-												cursor_inside_bounderies = true;
-												repaint();
-										} else if (cursor_inside_bounderies) {
-												cursor_inside_bounderies = false;
-												repaint();
-										}
-								}
-						};
-
-		public GamePanel() {
-				addMouseListener(mouseListener);
-				addMouseMotionListener(mouseMotionListener);
+		public GamePanel(FieldInfoBox fieldInfoBox) {
 				this.game = Game.getInstance();
 				this.screenSize = ScreenUtils.getScreenSize();
-				this.setBounds(0, 0, screenSize.width, MainFrame.ZONE_BOX_Y - 50);
+				this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
+				this.mouseListener = new GameMouseAdapter(game, this);
+				addMouseListener(mouseListener);
+				addMouseMotionListener(mouseMotionListener);
+				this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
 				this.setVisible(true);
 				gamePanel = this;
 		}
@@ -186,70 +52,74 @@ public class GamePanel extends JPanel {
 				Graphics2D g2d = (Graphics2D) g;
 				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
-				/** Kirajzolja a négyzeteket. */
-				g.setColor(Color.black);
-				for (int i = 0; i < Game.getColumns(); i++) {
-						for (int j = 0; j < Game.getRows(); j++) {
-								if (!zoneMode) {
-										g.drawImage(
-														ImageResource.getImageOfClass(
-																		game.getField(new Position(i, j)).getBuilding().getClass()),
-														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
-														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
-														MainFrame.FIELD_SIZE,
-														MainFrame.FIELD_SIZE,
-														null);
-								} else {
-										g.drawImage(
-														ImageResource.getZoneImageOfClass(
-																		game.getField(new Position(i, j)).getZone().getClass()),
-														i * MainFrame.FIELD_SIZE + MainFrame.START_X,
-														j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
-														MainFrame.FIELD_SIZE,
-														MainFrame.FIELD_SIZE,
-														null);
-								}
-								/** Keret megrajzolása * */
-								g.drawRect(
-												i * MainFrame.FIELD_SIZE + MainFrame.START_X,
-												j * MainFrame.FIELD_SIZE + MainFrame.START_Y,
-												MainFrame.FIELD_SIZE,
-												MainFrame.FIELD_SIZE);
-						}
+				if (!zoneMode) {
+						drawBuildings(g);
+				} else {
+						drawZones(g);
 				}
+				drawBorders(g);
 
 				/** Kirajzolja az információs doboz hátterét. */
 				g.setColor(Color.blue);
 				g.fillRect(screenSize.width - 200, screenSize.height / 2 - 150, 180, 150);
-				g.setColor(Color.white);
-				if (cursor_inside_bounderies) {
-						g.drawString(
-										Localization.getProp().getProperty("zone_type_title")
-														+ " "
-														+ game.getField(
-																						new Position(
-																										current_x_mouse_position,
-																										current_y_mouse_position))
-																		.getZoneType()
-																		.name(),
-										screenSize.width - 190,
-										screenSize.height / 2 - 130);
-						g.drawString(
-										Localization.getProp().getProperty("zone_position_x")
-														+ " "
-														+ current_x_mouse_position,
-										screenSize.width - 190,
-										screenSize.height / 2 - 110);
-						g.drawString(
-										Localization.getProp().getProperty("zone_position_y")
-														+ " "
-														+ current_y_mouse_position,
-										screenSize.width - 190,
-										screenSize.height / 2 - 90);
+
+				if (cursor_inside_bounderies) {}
+		}
+
+		private void drawBuildings(Graphics g) {
+				ArrayList<Position> positionsToSkip = new ArrayList<>();
+				for (int i = 0; i < Game.getColumns(); i++) {
+						for (int j = 0; j < Game.getRows(); j++) {
+								Position position = new Position(i, j);
+								if (positionsToSkip.contains(position)) {
+										continue;
+								}
+								Field field = game.getField(position);
+								Building building = field.getBuilding();
+								int x = i * FIELD_SIZE;
+								int y = j * FIELD_SIZE;
+								int width = building.getWidth() * FIELD_SIZE;
+								int height = building.getHeight() * FIELD_SIZE;
+								g.drawImage(
+												ImageResource.getImageOfClass(building.getClass()),
+												x,
+												y,
+												width,
+												height,
+												null);
+								g.setColor(Color.black);
+								g.drawRect(x, y, width, height);
+								for (int k = 0; k < building.getWidth(); k++) {
+										for (int l = 0; l < building.getHeight(); l++) {
+												positionsToSkip.add(new Position(position.x() + l, position.y() + k));
+										}
+								}
+						}
 				}
 		}
 
-		private boolean checkIfCursorInsideMapBoundaries(int x, int y) {
-				return (y >= 0) && (y < Game.getRows()) && (x >= 0) && (x < Game.getColumns());
+		private void drawZones(Graphics g) {
+				g.setColor(Color.black);
+				for (int i = 0; i < Game.getColumns(); i++) {
+						for (int j = 0; j < Game.getRows(); j++) {
+								g.drawImage(
+												ImageResource.getZoneImageOfClass(
+																game.getField(new Position(i, j)).getZone().getClass()),
+												i * FIELD_SIZE,
+												j * FIELD_SIZE,
+												FIELD_SIZE,
+												FIELD_SIZE,
+												null);
+						}
+				}
+		}
+
+		private void drawBorders(Graphics g) {
+				for (int i = 0; i < Game.getColumns(); i++) {
+						for (int j = 0; j < Game.getRows(); j++) {
+								/** Keret megrajzolása * */
+								g.drawRect(i * FIELD_SIZE, j * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+						}
+				}
 		}
 }

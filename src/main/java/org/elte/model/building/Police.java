@@ -1,9 +1,13 @@
 package org.elte.model.building;
 
+import org.elte.model.Field;
+import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.Position;
 
 public class Police extends Building {
-		public Police() {
+		public Police(Position position) {
+				this.position = position;
 				buildingType = BuildingTypes.POLICE;
 				price = 30;
 				yearlyFee = 10;
@@ -13,12 +17,13 @@ public class Police extends Building {
 				height = 1;
 				chanceToFire = 1;
 				burning = false;
-				// TODO: replace null imageResource with valid image
-				imageResource = null;
 		}
 
 		public boolean isPlaceable() {
-				return true;
+				Game game = Game.getInstance();
+				Field currentField = game.getField(position);
+
+				return hasEnoughSpace() && currentField.getZone().isEmpty() && hasRoadAtLeastOneSide();
 		}
 
 		public boolean isDeletable() {

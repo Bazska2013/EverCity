@@ -2,9 +2,11 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class FireStation extends Building {
-		public FireStation() {
+		public FireStation(Position position) {
+				this.position = position;
 				buildingType = BuildingTypes.FIRE_STATION;
 				price = 30;
 				yearlyFee = 10;
@@ -18,7 +20,7 @@ public class FireStation extends Building {
 		}
 
 		public boolean isPlaceable() {
-				return true;
+				return hasEnoughSpace() && hasRoadAtLeastOneSide();
 		}
 
 		public boolean isDeletable() {

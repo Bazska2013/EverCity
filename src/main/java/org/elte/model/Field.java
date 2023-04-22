@@ -1,0 +1,25 @@
+package org.elte.model;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.elte.model.building.Building;
+import org.elte.model.building.Empty;
+import org.elte.model.zone.Zone;
+
+@Getter
+@Setter
+public class Field {
+		Building building;
+		private Zone zone;
+		private int height = 1;
+		private int width = 1;
+		int x;
+		int y;
+
+		public Field(int x, int y) {
+				zone = new org.elte.model.zone.Empty(1000);
+				building = new Empty();
+				this.x = x;
+				this.y = y;
+		}
+}
