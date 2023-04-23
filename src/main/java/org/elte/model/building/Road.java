@@ -2,6 +2,7 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
 
 public class Road extends Building {
 
@@ -16,6 +17,7 @@ public class Road extends Building {
 				chanceToFire = 0;
 				burning = false;
 				imageResource = ImageResource.ROAD;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -48,4 +50,8 @@ public class Road extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

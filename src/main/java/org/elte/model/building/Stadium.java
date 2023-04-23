@@ -2,6 +2,7 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
 
 public class Stadium extends Building {
 
@@ -16,6 +17,7 @@ public class Stadium extends Building {
 				chanceToFire = 1;
 				burning = false;
 				imageResource = ImageResource.STADIUM;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -43,4 +45,8 @@ public class Stadium extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

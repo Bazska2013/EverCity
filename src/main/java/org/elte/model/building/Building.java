@@ -37,4 +37,5 @@ public abstract class Building {
 		}
 
 		public abstract int getTax();
+		public abstract void payment();
 }

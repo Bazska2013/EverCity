@@ -1,6 +1,7 @@
 package org.elte.model.zone;
 
 import org.elte.model.people.Citizen;
+import org.elte.view.MainFrame;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Resident extends Zone {
         this.tax = tax;
         this.level = level;
         this.price = price;
+        payment();
     }
 
     @Override
@@ -29,5 +31,9 @@ public class Resident extends Zone {
     @Override
     public int getTax() {
         return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()-price);
     }
 }

@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import org.elte.view.MainFrame;
+
 public class House extends Building {
 		@Override
 		public boolean isPlaceable() {
@@ -32,4 +34,7 @@ public class House extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){}
+
 }

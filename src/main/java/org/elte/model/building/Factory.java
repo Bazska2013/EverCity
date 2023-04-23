@@ -2,6 +2,7 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
 
 public class Factory extends Building {
 
@@ -16,6 +17,7 @@ public class Factory extends Building {
 				chanceToFire = 2;
 				burning = false;
 				imageResource = ImageResource.FACTORY;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -43,4 +45,8 @@ public class Factory extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

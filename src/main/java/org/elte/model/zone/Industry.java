@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import org.elte.view.MainFrame;
+
 import java.util.List;
 
 public class Industry extends Zone {
@@ -10,6 +12,7 @@ public class Industry extends Zone {
         this.tax = tax;
         this.level = level;
         this.price = price;
+        payment();
     }
 
     @Override
@@ -24,5 +27,9 @@ public class Industry extends Zone {
     @Override
     public int getTax() {
         return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()-price);
     }
 }

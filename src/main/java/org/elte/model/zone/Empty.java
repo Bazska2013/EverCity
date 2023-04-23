@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import org.elte.view.MainFrame;
+
 import java.util.List;
 
 public class Empty extends Zone {
@@ -10,6 +12,7 @@ public class Empty extends Zone {
         this.tax = 0;
         this.level = 0;
         this.price = price;
+        payment();
     }
 
     @Override
@@ -24,6 +27,10 @@ public class Empty extends Zone {
     @Override
     public int getTax() {
         return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()+price);
     }
 
 }

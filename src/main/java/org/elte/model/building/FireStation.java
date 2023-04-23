@@ -1,6 +1,7 @@
 package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
+import org.elte.view.MainFrame;
 
 public class FireStation extends Building {
 		public FireStation() {
@@ -13,6 +14,7 @@ public class FireStation extends Building {
 				height = 1;
 				chanceToFire = 0;
 				burning = false;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -40,4 +42,8 @@ public class FireStation extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

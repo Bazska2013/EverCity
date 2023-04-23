@@ -2,6 +2,7 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
 
 public class Forest extends Building {
 
@@ -19,6 +20,7 @@ public class Forest extends Building {
 				burning = false;
 				this.size = 1;
 				imageResource = ImageResource.FOREST;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -46,4 +48,8 @@ public class Forest extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

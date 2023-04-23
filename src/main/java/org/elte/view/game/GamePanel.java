@@ -124,4 +124,5 @@ public class GamePanel extends JPanel {
 				g.setColor(Color.blue);
 				g.fillRect(screenSize.width - 150, 10, 150, 150);
 		}
+
 }

@@ -19,5 +19,6 @@ public abstract class Zone {
     public abstract boolean isEmpty();
 
     public abstract int getTax();
+    public abstract void payment();
 
 }

@@ -1,6 +1,7 @@
 package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
+import org.elte.view.MainFrame;
 
 public class Police extends Building {
 		public Police() {
@@ -15,6 +16,7 @@ public class Police extends Building {
 				burning = false;
 				// TODO: replace null imageResource with valid image
 				imageResource = null;
+				payment();
 		}
 
 		public boolean isPlaceable() {
@@ -42,4 +44,9 @@ public class Police extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
+
 }
