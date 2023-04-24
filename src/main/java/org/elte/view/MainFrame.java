@@ -1,8 +1,15 @@
 package org.elte.view;
 
+import java.awt.*;
+import java.util.Random;
+import javax.swing.*;
 import lombok.Setter;
+import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.enums.LanguageEnum;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Resident;
+import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
@@ -29,18 +36,22 @@ public class MainFrame {
 		private final BuildablePanel buildablePanel;
 		private final FieldInfoBox fieldInfoBox;
 		private final Game game;
+		private int currentYear;
 		static int balance = 20000;
+		public static int startingCitizensToAdd = 50;
 		JMenu timeMenu;
-		JMenu balanceMenu;
 		Timer timer;
 		Dimension screenSize;
 
 		private static MainFrame instance = null;
+		private JMenu balanceMenu;
+		private JMenu populationBar;
 
 		private MainFrame() {
 				frame = new JFrame("EverCity");
 				screenSize = ScreenUtils.getScreenSize();
 				game = Game.getInstance();
+				currentYear = game.getGameTime().getDate().getYear();
 
 				frame.setJMenuBar(createMenuBar());
 
@@ -72,6 +83,7 @@ public class MainFrame {
 														gamePanel.repaint();
 														updateBalance();
 												});
+
 				timer.start();
 				timer.setRepeats(true);
 		}
@@ -87,7 +99,7 @@ public class MainFrame {
 			instance = new MainFrame();
 		}
 
-		public JMenuBar createMenuBar() {
+		private JMenuBar createMenuBar() {
 				JMenuBar menuBar = new JMenuBar();
 				JMenu gameOptions = new JMenu(Localization.getProp().getProperty("menu_text"));
 				// menu.setIcon(new ImageIcon(icon));
@@ -128,10 +140,14 @@ public class MainFrame {
 				this.balanceMenu =
 								new JMenu(
 												Localization.getProp().getProperty("balance_text")
+																+ " "
 																+ balance
 																+ BALANCE_CURRENCY);
-				// balancemenu.setEnabled(false);
 				menuBar.add(this.balanceMenu);
+
+				this.populationBar = new JMenu(Localization.getProp().getProperty("population") + " " + 0);
+				populationBar.setEnabled(false);
+				menuBar.add(populationBar);
 
 				menuBar.add(Box.createHorizontalStrut(50));
 
@@ -148,6 +164,27 @@ public class MainFrame {
 
 		private void updateTimer() {
 				timeMenu.setText(game.getGameTime().toString());
+				if (game.getGameTime().getDate().getYear() > currentYear) {
+						Random rand = new Random();
+						for (Field[] fields : game.getFields()) {
+								for (Field field : fields) {
+										if (field.getZone() instanceof Resident) {
+												for (Citizen cit : ((Resident) field.getZone()).getCitizens()) {
+														cit.setAge(cit.getAge() + 1);
+														System.out.println(cit.getAge());
+														if (cit.getAge() >= 65) {
+																cit.setWorksAt(null);
+																cit.setRetired(true);
+																if (cit.getAge() > 65 + Math.floorMod(rand.nextInt(), 36)) {
+																		cit.resetCitizen();
+																}
+														}
+												}
+										}
+								}
+						}
+						currentYear++;
+				}
 		}
 		private void updateBalance() {
 			balanceMenu.setText(Localization.getProp().getProperty("balance_text")
@@ -172,5 +209,20 @@ public class MainFrame {
 					Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
 		}
 
+		public void repaintCitizenNumber() {
+				int citizenNumber = 0;
+				for (int i = 0; i < Game.getColumns(); i++) {
+						for (int j = 0; j < Game.getRows(); j++) {
+								if (game.getField(new Position(i, j)).getZone() instanceof Resident) {
+										citizenNumber +=
+														((Resident) game.getField(new Position(i, j)).getZone())
+																		.getCitizens()
+																		.size();
+								}
+						}
+				}
 
+				populationBar.setText(
+								Localization.getProp().getProperty("population") + " " + citizenNumber);
+		}
 }

@@ -3,6 +3,7 @@ package org.elte.model.building;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 
 public class Police extends Building {
@@ -17,6 +18,7 @@ public class Police extends Building {
 				height = 1;
 				chanceToFire = 1;
 				burning = false;
+				imageResource = ImageResource.POLICE;
 		}
 
 		public boolean isPlaceable() {

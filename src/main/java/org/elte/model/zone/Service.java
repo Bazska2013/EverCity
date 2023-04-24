@@ -1,8 +1,16 @@
 package org.elte.model.zone;
 
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import org.elte.model.people.Citizen;
 import org.elte.model.enums.FieldTypes;
 
+@Getter
+
 public class Service extends Zone {
+
+		List<Citizen> workers = new ArrayList<>();
 
 		public Service(int capacity, int hapiness, int tax, int price, int level) {
 				super(price);
