@@ -2,10 +2,12 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class Empty extends Building {
 
-		public Empty() {
+		public Empty(Position position) {
+			this.position = position;
 				buildingType = BuildingTypes.EMPTY;
 				price = 0;
 				yearlyFee = 0;

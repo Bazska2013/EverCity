@@ -123,7 +123,7 @@ public abstract class Building {
 						fieldPositions.forEach(
 										pos -> {
 												Field currentField = game.getField(pos);
-												currentField.setBuilding(new Empty());
+												currentField.setBuilding(new Empty(pos));
 										});
 				}
 		}

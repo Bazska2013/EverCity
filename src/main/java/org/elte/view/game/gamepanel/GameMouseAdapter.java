@@ -36,7 +36,7 @@ public class GameMouseAdapter extends MouseAdapter {
 								placeZone(current_x, current_y);
 						}
 						if (BuildablePanel.getSelectedBuildingType() != null) {
-								Building buildingType = new Road(currentPosition);
+								Building buildingType = new org.elte.model.building.Empty(currentPosition);
 								switch (BuildablePanel.getSelectedBuildingType()) {
 										case ROAD -> buildingType = new Road(currentPosition);
 										case EMPTY -> {
