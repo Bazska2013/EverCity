@@ -6,7 +6,6 @@ import org.elte.model.people.Citizen;
 
 import java.util.List;
 import java.util.Random;
-
 import lombok.Getter;
 import org.elte.model.people.Citizen;
 import org.elte.view.MainFrame;
@@ -25,10 +24,11 @@ public class Resident extends Zone {
 
 				if (MainFrame.startingCitizensToAdd > 0) {
 						for (int i = 0; i < Math.min(MainFrame.startingCitizensToAdd, capacity); i++) {
-								citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
+								citizens.add(
+												new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
 						}
 						MainFrame.startingCitizensToAdd -= citizens.size();
-					MainFrame.getInstance().repaintCitizenNumber();
+						MainFrame.getInstance().repaintCitizenNumber();
 				}
 		}
 

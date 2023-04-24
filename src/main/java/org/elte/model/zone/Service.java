@@ -1,13 +1,12 @@
 package org.elte.model.zone;
 
-import lombok.Getter;
-import org.elte.model.people.Citizen;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import org.elte.model.people.Citizen;
+import org.elte.model.enums.FieldTypes;
 
 @Getter
-import org.elte.model.enums.FieldTypes;
 
 public class Service extends Zone {
 

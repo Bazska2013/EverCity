@@ -15,11 +15,11 @@ public class Citizen {
 		private boolean isRetired = false;
 
 		public Citizen(Zone livesAt, Zone worksAt, int age) {
-			this.livestAt = livesAt;
-			this.worksAt = worksAt;
-			this.age = age;
-			satisfaction = 50;
-			income = 0;
+				this.livestAt = livesAt;
+				this.worksAt = worksAt;
+				this.age = age;
+				satisfaction = 50;
+				income = 0;
 		}
 
 		public void resetCitizen() {
@@ -29,5 +29,4 @@ public class Citizen {
 				age = 18;
 				isRetired = false;
 		}
-
 }

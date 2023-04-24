@@ -1,7 +1,14 @@
 package org.elte.model.building;
 
+import org.elte.model.enums.BuildingTypes;
+
 public class House extends Building {
-		@Override
+
+	public House() {
+		buildingType = BuildingTypes.HOUSE_1;
+	}
+
+	@Override
 		public boolean isPlaceable() {
 				return hasEnoughSpace();
 		}

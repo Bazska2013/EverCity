@@ -1,13 +1,12 @@
 package org.elte.model.zone;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import org.elte.model.people.Citizen;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Getter
 import org.elte.model.enums.FieldTypes;
+@Getter
 
 public class Industry extends Zone {
 

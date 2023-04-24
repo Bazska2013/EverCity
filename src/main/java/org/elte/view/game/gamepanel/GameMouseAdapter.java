@@ -85,7 +85,7 @@ public class GameMouseAdapter extends MouseAdapter {
 								if (!(game.getField(new Position(current_x, current_y)).getZone()
 												instanceof Resident))
 										game.getField(new Position(current_x, current_y))
-														.setZone(new Resident(1, 2, 3, 4, 5, null));
+														.setZone(new Resident(1, 2, 3, 4, 5));
 						}
 				}
 		}
