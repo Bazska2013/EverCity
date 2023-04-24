@@ -26,4 +26,8 @@ public class Service extends Zone {
 		public FieldTypes getZoneType() {
 				return FieldTypes.SERVICE;
 		}
+        @Override
+        public int getTax() {
+            return tax*capacity;
+        }
 }

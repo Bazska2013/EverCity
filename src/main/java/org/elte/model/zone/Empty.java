@@ -22,6 +22,11 @@ public class Empty extends Zone {
 				return true;
 		}
 
+        @Override
+        public int getTax() {
+            return tax*capacity;
+        }
+
 		@Override
 		public FieldTypes getZoneType() {
 				return FieldTypes.EMPTY;

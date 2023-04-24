@@ -1,5 +1,6 @@
 package org.elte.view;
 
+import lombok.Setter;
 import org.elte.model.Game;
 import org.elte.model.enums.LanguageEnum;
 import org.elte.utils.ScreenUtils;
@@ -11,6 +12,8 @@ import org.elte.view.game.gamepanel.FieldInfoBox;
 import javax.swing.*;
 import java.awt.*;
 
+@Setter
+
 public class MainFrame {
 		public static String language = "hu_HU";
 		public static final int ZONE_BOX_Y = (int) (ScreenUtils.getScreenSize().height * 0.75);
@@ -21,18 +24,18 @@ public class MainFrame {
 		private static final int RERENDER_INTERVAL = 500;
 		public static final String BALANCE_CURRENCY = "$";
 		private final JFrame frame;
-		private final GamePanel gamePanel;
+		private static GamePanel gamePanel;
 		private final TimeButtons timeButtons;
 		private final BuildablePanel buildablePanel;
 		private final FieldInfoBox fieldInfoBox;
 		private final Game game;
-		int balance = 20000;
+		static int balance = 20000;
 		JMenu timeMenu;
+		JMenu balanceMenu;
 		Timer timer;
 		Dimension screenSize;
 
 		private static MainFrame instance = null;
-		private JMenu balanceMenu;
 
 		private MainFrame() {
 				frame = new JFrame("EverCity");
@@ -67,23 +70,24 @@ public class MainFrame {
 												e -> {
 														updateTimer();
 														gamePanel.repaint();
+														updateBalance();
 												});
 				timer.start();
 				timer.setRepeats(true);
 		}
 
 		public static MainFrame getInstance() {
-				if (instance == null) {
-						instance = new MainFrame();
-				}
-				return instance;
+			if (instance == null) {
+				instance = new MainFrame();
+			}
+			return instance;
 		}
 
 		public static void newInstance() {
-				instance = new MainFrame();
+			instance = new MainFrame();
 		}
 
-		private JMenuBar createMenuBar() {
+		public JMenuBar createMenuBar() {
 				JMenuBar menuBar = new JMenuBar();
 				JMenu gameOptions = new JMenu(Localization.getProp().getProperty("menu_text"));
 				// menu.setIcon(new ImageIcon(icon));
@@ -145,10 +149,28 @@ public class MainFrame {
 		private void updateTimer() {
 				timeMenu.setText(game.getGameTime().toString());
 		}
+		private void updateBalance() {
+			balanceMenu.setText(Localization.getProp().getProperty("balance_text")
+					+ balance
+					+ BALANCE_CURRENCY);
+	}
 
-		public void modifyBalance(int value) {
-				balance += value;
-				balanceMenu.setText(
-								Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
+
+		public static int GetBalance(){
+			return balance;
 		}
+		public static void SetBalance(int bal){
+			balance=bal;
+		}
+
+		public static GamePanel getGamePanel(){
+			return gamePanel;
+		}
+		public void modifyBalance(int value) {
+			balance += value;
+			balanceMenu.setText(
+					Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
+		}
+
+
 }

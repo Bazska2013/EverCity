@@ -31,6 +31,8 @@ public class House extends Building {
 				return false;
 		}
 
+		public int getTax(){return yearlyFee;}
+
 		public void disableDeletable() {}
 
 		public void removeDeletable() {}

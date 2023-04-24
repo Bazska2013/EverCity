@@ -45,4 +45,6 @@ public class Empty extends Building {
 		public void disableDeletable() {}
 
 		public void removeDeletable() {}
+
+		public int getTax(){return yearlyFee;}
 }
