@@ -9,9 +9,15 @@ import org.elte.model.zone.Empty;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
+import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.List;
 
 public class GameMouseAdapter extends MouseAdapter {
 		Game game;
@@ -45,11 +51,10 @@ public class GameMouseAdapter extends MouseAdapter {
 										case POLICE -> buildingType = new Police(currentPosition);
 										case STADIUM -> buildingType = new Stadium(currentPosition);
 								}
-								if (buildingType.isPlaceable()
-												&& !(buildingType instanceof org.elte.model.building.Empty)) {
+								if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
 										buildingType.create();
 								} else {
-										if (!(buildingType instanceof org.elte.model.building.Empty)) {
+										if (!buildingType.isEmpty()) {
 												System.out.println(
 																buildingType.getBuildingType().name() + " can't be placed");
 										}

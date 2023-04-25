@@ -42,7 +42,7 @@ public class Game {
 	public void fillFields() {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				fields[i][j] = new Field(i, j);
+				fields[i][j] = new Field(new Position(j,i));
 			}
 		}
 	}
