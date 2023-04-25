@@ -45,10 +45,6 @@ public abstract class Building {
 				return false;
 		}
 
-		public abstract void disableDeletable();
-
-		public abstract void removeDeletable();
-
 		public boolean hasEnoughSpace() {
 				return hasEnoughSpace(FieldTypes.EMPTY);
 		}

@@ -21,14 +21,6 @@ public class Road extends Building {
 				imageResource = ImageResource.ROAD;
 		}
 
-		public void disableDeletable() {
-				this.deletable++;
-		}
-
-		public void removeDeletable() {
-				this.deletable--;
-		}
-
 		public boolean isPlaceable() {
 				return hasEnoughSpace();
 		}
