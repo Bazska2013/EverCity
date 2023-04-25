@@ -11,7 +11,7 @@ public class Factory extends Building {
 				this.position = position;
 				buildingType = BuildingTypes.FACTORY;
 				price = 10;
-				yearlyFee = 5;
+				yearlyFee = 50;
 				socialImpact = 10;
 				impactRange = 10;
 				width = 2;

@@ -6,7 +6,6 @@ import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
-import org.elte.view.MainFrame;
 
 import java.util.Optional;
 
@@ -15,6 +14,7 @@ public class Game {
 	private static Game INSTANCE = null;
 	static int rows = 16;
 	static int columns = 32;
+	private int balance = 20000;
 	public Field[][] fields;
 	// int balance;
 	private final GameTime gameTime;
@@ -30,8 +30,8 @@ public class Game {
 							tryToPlaceCitizenHouse();
 							tryToPlaceServiceBuilding();
 							if (getGameTime().overAYear()) {
-								MainFrame.SetBalance(MainFrame.GetBalance() - yearlyFee());
-								MainFrame.SetBalance(MainFrame.GetBalance() + yearlyTax());
+								balance+= yearlyTax();
+								balance-= yearlyFee();
 							}
 						});
 		gameTime.setTimerSpeed(TimerSpeed.ONE);
