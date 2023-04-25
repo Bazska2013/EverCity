@@ -1,10 +1,12 @@
 package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.Position;
 
 public class House extends Building {
 
-	public House() {
+	public House(Position position) {
+		this.position = position;
 		buildingType = BuildingTypes.HOUSE_1;
 	}
 
@@ -39,8 +41,4 @@ public class House extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 }

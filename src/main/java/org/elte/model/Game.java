@@ -1,13 +1,11 @@
 package org.elte.model;
 
 import lombok.Getter;
-import org.elte.model.building.Building;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
-import org.elte.model.zone.Resident;
+import org.elte.model.building.ServiceBuilding;
+import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
-import org.elte.view.MainFrame;
-import org.elte.view.MainFrame;
 
 import java.util.Optional;
 
@@ -16,6 +14,7 @@ public class Game {
 	private static Game INSTANCE = null;
 	static int rows = 16;
 	static int columns = 32;
+	private int balance = 20000;
 	public Field[][] fields;
 	// int balance;
 	private final GameTime gameTime;
@@ -29,9 +28,10 @@ public class Game {
 				new GameTime(
 						e -> {
 							tryToPlaceCitizenHouse();
+							tryToPlaceServiceBuilding();
 							if (getGameTime().overAYear()) {
-								MainFrame.SetBalance(MainFrame.GetBalance() - yearlyFee());
-								MainFrame.SetBalance(MainFrame.GetBalance() + yearlyTax());
+								balance+= yearlyTax();
+								balance-= yearlyFee();
 							}
 						});
 		gameTime.setTimerSpeed(TimerSpeed.ONE);
@@ -61,41 +61,47 @@ public class Game {
 	}
 
 	private void tryToPlaceCitizenHouse() {
-		this.findNewCitizenHousePosition()
+		this.findZonePositionNearStreet(FieldTypes.RESIDENT)
 				.ifPresent(
 						position -> {
 							if ((int) (Math.random() * 2) == 1) {
-								this.getField(position).setBuilding(new House());
+								this.getField(position).setBuilding(new House(position));
 							}
 						});
 	}
 
-	public Optional<Position> findNewCitizenHousePosition() {
+	private void tryToPlaceServiceBuilding() {
+		this.findZonePositionNearStreet(FieldTypes.SERVICE)
+						.ifPresent(
+										position -> {
+											if ((int) (Math.random() * 3) == 1) {
+												this.getField(position).setBuilding(new ServiceBuilding(position));
+											}
+										});
+	}
+
+	public Optional<Position> findZonePositionNearStreet(FieldTypes zoneType) {
 		for (int i = 0; i < fields.length; i++) {
 			for (int j = 0; j < fields[i].length; j++) {
 				if (fields[i][j].getBuilding().isRoad()) {
 					if (i + 1 < fields.length
 							&& fields[i + 1][j].getBuilding().isEmpty()
-							&& fields[i + 1][j].getZone() instanceof Resident) {
-						fields[i][j].getBuilding().disableDeletable();
+							&& fields[i + 1][j].getZone().getZoneType() == zoneType) {
 						return Optional.of(new Position(j, i + 1));
 					}
 					if (i - 1 >= 0
 							&& fields[i - 1][j].getBuilding().isEmpty()
-							&& fields[i - 1][j].getZone() instanceof Resident) {
-						fields[i][j].getBuilding().disableDeletable();
+							&& fields[i - 1][j].getZone().getZoneType() == zoneType) {
 						return Optional.of(new Position(j, i - 1));
 					}
 					if (j + 1 < fields[i].length
 							&& fields[i][j + 1].getBuilding().isEmpty()
-							&& fields[i][j + 1].getZone() instanceof Resident) {
-						fields[i][j].getBuilding().disableDeletable();
+							&& fields[i][j + 1].getZone().getZoneType() == zoneType) {
 						return Optional.of(new Position(j + 1, i));
 					}
 					if (j - 1 >= 0
 							&& fields[i][j - 1].getBuilding().isEmpty()
-							&& fields[i][j - 1].getZone() instanceof Resident) {
-						fields[i][j].getBuilding().disableDeletable();
+							&& fields[i][j - 1].getZone().getZoneType() == zoneType) {
 						return Optional.of(new Position(j - 1, i));
 					}
 				}
@@ -104,27 +110,6 @@ public class Game {
 		return Optional.empty();
 	}
 
-	public boolean searchSurroundingBuildings(int x, int y, boolean keres, Building buildingType) {
-		boolean found = false;
-		for (int i = Math.max(0, x - 1); i <= Math.min(x + 1, columns - 1); i++) {
-			for (int j = Math.max(0, y - 1); j <= Math.min(y + 1, rows - 1); j++) {
-				if (i == x && j == y) {
-					continue;
-				}
-				if (buildingType instanceof Road) {
-					if (getField(new Position(i, j)).getBuilding() instanceof Road) {
-						if (keres) {
-							getField(new Position(i, j)).getBuilding().disableDeletable();
-							found = true;
-						} else {
-							getField(new Position(i, j)).getBuilding().removeDeletable();
-						}
-					}
-				}
-			}
-		}
-		return found;
-	}
 
 	public int yearlyFee() {
 		int fees = 0;

@@ -1,15 +1,17 @@
 package org.elte.utils;
 
-import java.awt.*;
 import org.elte.model.building.*;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 
+import java.awt.*;
+
 public abstract class ImageResource {
 
 		public static final Image GRASS = ResourceLoader.loadImage("grass.png");
 		public static final Image FACTORY = ResourceLoader.loadImage("factory.png");
+		public static final Image SERVICE_BUILDING = ResourceLoader.loadImage("service-building.jpg");
 		public static final Image FIRE_STATION = ResourceLoader.loadImage("firestation.png");
 		public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
 		public static final Image STADIUM = ResourceLoader.loadImage("football-stadion.png");
@@ -29,6 +31,7 @@ public abstract class ImageResource {
 		public static Image getImageOfClass(Class<?> clazz) {
 				if (clazz == FireStation.class) return FIRE_STATION;
 				if (clazz == Factory.class) return FACTORY;
+				if (clazz == ServiceBuilding.class) return SERVICE_BUILDING;
 				if (clazz == Stadium.class) return STADIUM;
 				if (clazz == Forest.class) return FOREST;
 				if (clazz == Police.class) return POLICE;

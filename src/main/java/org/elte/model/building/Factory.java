@@ -11,7 +11,7 @@ public class Factory extends Building {
 				this.position = position;
 				buildingType = BuildingTypes.FACTORY;
 				price = 10;
-				yearlyFee = 5;
+				yearlyFee = 50;
 				socialImpact = 10;
 				impactRange = 10;
 				width = 2;
@@ -44,10 +44,6 @@ public class Factory extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 
 		public int getTax(){return yearlyFee;}
 }

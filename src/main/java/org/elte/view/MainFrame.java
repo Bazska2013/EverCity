@@ -1,8 +1,5 @@
 package org.elte.view;
 
-import java.awt.*;
-import java.util.Random;
-import javax.swing.*;
 import lombok.Setter;
 import org.elte.model.Field;
 import org.elte.model.Game;
@@ -18,9 +15,9 @@ import org.elte.view.game.gamepanel.FieldInfoBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 @Setter
-
 public class MainFrame {
 		public static String language = "hu_HU";
 		public static final int ZONE_BOX_Y = (int) (ScreenUtils.getScreenSize().height * 0.75);
@@ -37,7 +34,6 @@ public class MainFrame {
 		private final FieldInfoBox fieldInfoBox;
 		private final Game game;
 		private int currentYear;
-		static int balance = 20000;
 		public static int startingCitizensToAdd = 50;
 		JMenu timeMenu;
 		Timer timer;
@@ -137,12 +133,7 @@ public class MainFrame {
 				menuBar.add(gameOptions);
 
 				menuBar.add(Box.createHorizontalStrut(30));
-				this.balanceMenu =
-								new JMenu(
-												Localization.getProp().getProperty("balance_text")
-																+ " "
-																+ balance
-																+ BALANCE_CURRENCY);
+				this.balanceMenu = new JMenu();
 				menuBar.add(this.balanceMenu);
 
 				this.populationBar = new JMenu(Localization.getProp().getProperty("population") + " " + 0);
@@ -188,25 +179,14 @@ public class MainFrame {
 		}
 		private void updateBalance() {
 			balanceMenu.setText(Localization.getProp().getProperty("balance_text")
-					+ balance
+					+ game.getBalance()
 					+ BALANCE_CURRENCY);
 	}
 
 
-		public static int GetBalance(){
-			return balance;
-		}
-		public static void SetBalance(int bal){
-			balance=bal;
-		}
 
 		public static GamePanel getGamePanel(){
 			return gamePanel;
-		}
-		public void modifyBalance(int value) {
-			balance += value;
-			balanceMenu.setText(
-					Localization.getProp().getProperty("balance_text") + balance + BALANCE_CURRENCY);
 		}
 
 		public void repaintCitizenNumber() {

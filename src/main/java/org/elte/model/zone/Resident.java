@@ -1,14 +1,13 @@
 package org.elte.model.zone;
 
-import java.util.ArrayList;
+import lombok.Getter;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
+import org.elte.view.MainFrame;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import lombok.Getter;
-import org.elte.model.people.Citizen;
-import org.elte.view.MainFrame;
 
 @Getter
 public class Resident extends Zone {
@@ -46,8 +45,8 @@ public class Resident extends Zone {
 		public FieldTypes getZoneType() {
 				return FieldTypes.RESIDENT;
 		}
-        @Override
-        public int getTax() {
-            return tax*capacity;
-        }
+		@Override
+		public int getTax() {
+				return tax*capacity;
+		}
 }
