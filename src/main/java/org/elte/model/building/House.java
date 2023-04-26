@@ -16,11 +16,6 @@ public class House extends Building {
 		}
 
 		@Override
-		public boolean isDeletable() {
-				return false;
-		}
-
-		@Override
 		public boolean isConnected() {
 				return false;
 		}

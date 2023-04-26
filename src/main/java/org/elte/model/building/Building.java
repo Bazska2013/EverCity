@@ -136,14 +136,24 @@ public abstract class Building {
 		}
 
 		public void delete() {
+			if (isRoad()){
 				if (!hasBuildingAtLeastOneSide()) {
-						Game game = Game.getInstance();
-						fieldPositions.forEach(
-										pos -> {
-												Field currentField = game.getField(pos);
-												currentField.setBuilding(new Empty(pos));
-										});
+					Game game = Game.getInstance();
+					fieldPositions.forEach(
+							pos -> {
+								Field currentField = game.getField(pos);
+								currentField.setBuilding(new Empty(pos));
+							});
 				}
+			} else {
+				Game game = Game.getInstance();
+				fieldPositions.forEach(
+						pos -> {
+							Field currentField = game.getField(pos);
+							currentField.setBuilding(new Empty(pos));
+						});
+			}
+
 		}
 
 		public abstract int getTax();
