@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.awt.*;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import org.elte.model.Field;
@@ -7,9 +9,6 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -51,14 +50,14 @@ public abstract class Building {
 				Game game = Game.getInstance();
 				Field field = game.getField(position);
 				if (field == null) {
-					System.out.println("field is null");
+						System.out.println("field is null");
 						return false;
 				}
 				if (position.x() < 0
 								|| position.x() + width > Game.getColumns()
 								|| position.y() < 0
 								|| position.y() + height > Game.getRows()) {
-					System.out.println("out of bound");
+						System.out.println("out of bound");
 						return false;
 				}
 
@@ -68,7 +67,7 @@ public abstract class Building {
 												game.getField(new Position(position.x() + j, position.y() + i));
 								if (!currentField.getBuilding().isEmpty()
 												|| !(currentField.getZone().getZoneType() == fieldTypes)) {
-									System.out.println("Not empty or zonetype not fit");
+										System.out.println("Not empty or zonetype not fit");
 										return false;
 								}
 						}
@@ -97,26 +96,30 @@ public abstract class Building {
 				return false;
 		}
 
-	public boolean hasBuildingAtLeastOneSide() {
-		Game game = Game.getInstance();
-		for (int i = position.y() - 1; i <= position.y() + height; i++) {
-			for (int j = position.x() - 1; j <= position.x() + width; j++) {
-				if (i == position.y() - 1
-						|| i == position.y() + height
-						|| j == position.x() - 1
-						|| j == position.x() + width) {
-					// check if the field is within the game boundaries
-					if (i >= 0 && i < Game.getRows() && j >= 0 && j < Game.getColumns()) {
-						Field field = game.getField(new Position(j, i));
-						if (field.getBuilding() instanceof Factory || field.getBuilding() instanceof FireStation || field.getBuilding() instanceof House || field.getBuilding() instanceof Police || field.getBuilding() instanceof Stadium) {
-							return true;
+		public boolean hasBuildingAtLeastOneSide() {
+				Game game = Game.getInstance();
+				for (int i = position.y() - 1; i <= position.y() + height; i++) {
+						for (int j = position.x() - 1; j <= position.x() + width; j++) {
+								if (i == position.y() - 1
+												|| i == position.y() + height
+												|| j == position.x() - 1
+												|| j == position.x() + width) {
+										// check if the field is within the game boundaries
+										if (i >= 0 && i < Game.getRows() && j >= 0 && j < Game.getColumns()) {
+												Field field = game.getField(new Position(j, i));
+												if (field.getBuilding() instanceof Factory
+																|| field.getBuilding() instanceof FireStation
+																|| field.getBuilding() instanceof House
+																|| field.getBuilding() instanceof Police
+																|| field.getBuilding() instanceof Stadium) {
+														return true;
+												}
+										}
+								}
 						}
-					}
 				}
-			}
+				return false;
 		}
-		return false;
-	}
 
 		public void create() {
 				if (isPlaceable()) {

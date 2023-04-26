@@ -2,7 +2,7 @@ package org.elte.model.building;
 
 public class House extends Building {
 
-	@Override
+		@Override
 		public boolean isConnected() {
 				return false;
 		}
@@ -22,5 +22,7 @@ public class House extends Building {
 				return false;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }

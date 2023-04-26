@@ -23,7 +23,7 @@ public class Forest extends Building {
 				imageResource = ImageResource.FOREST;
 		}
 
-	public boolean isConnected() {
+		public boolean isConnected() {
 				return false;
 		}
 
@@ -39,5 +39,7 @@ public class Forest extends Building {
 				return false;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }

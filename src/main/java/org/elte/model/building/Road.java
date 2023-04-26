@@ -7,7 +7,7 @@ import org.elte.utils.Position;
 public class Road extends Building {
 
 		public Road(Position position) {
-			this.position = position;
+				this.position = position;
 				buildingType = BuildingTypes.ROAD;
 				price = 20;
 				yearlyFee = 5;
@@ -20,7 +20,7 @@ public class Road extends Building {
 				imageResource = ImageResource.ROAD;
 		}
 
-	public boolean isConnected() {
+		public boolean isConnected() {
 				return true;
 		}
 
@@ -41,5 +41,7 @@ public class Road extends Building {
 				return true;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }

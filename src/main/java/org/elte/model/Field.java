@@ -28,8 +28,11 @@ public class Field {
 				this.zone = zone;
 		}
 
-		public int getTaxes(){
-			return zone.getTax();
+		public int getTaxes() {
+				return zone.getTax();
 		}
-		public int getFees() { return building.getTax();}
+
+		public int getFees() {
+				return building.getTax();
+		}
 }
