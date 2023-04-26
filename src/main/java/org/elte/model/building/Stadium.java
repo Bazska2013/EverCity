@@ -23,10 +23,6 @@ public class Stadium extends Building {
 				return hasEnoughSpace() && hasRoadAtLeastOneSide();
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return true;
 		}
@@ -42,10 +38,6 @@ public class Stadium extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 
 		public int getTax(){return yearlyFee;}
 }

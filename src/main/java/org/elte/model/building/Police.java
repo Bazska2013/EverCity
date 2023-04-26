@@ -6,6 +6,7 @@ import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
 public class Police extends Building {
+
 		public Police(Position position) {
 				this.position = position;
 				buildingType = BuildingTypes.POLICE;
@@ -26,10 +27,6 @@ public class Police extends Building {
 				return hasEnoughSpace() && currentField.getZone().isEmpty() && hasRoadAtLeastOneSide();
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return true;
 		}
@@ -45,10 +42,6 @@ public class Police extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 
 		public int getTax(){return yearlyFee;}
 }

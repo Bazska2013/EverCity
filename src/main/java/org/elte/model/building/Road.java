@@ -5,7 +5,6 @@ import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 
 public class Road extends Building {
-		int deletable = 0;
 
 		public Road(Position position) {
 			this.position = position;
@@ -21,23 +20,7 @@ public class Road extends Building {
 				imageResource = ImageResource.ROAD;
 		}
 
-		public void disableDeletable() {
-				this.deletable++;
-		}
-
-		public void removeDeletable() {
-				this.deletable--;
-		}
-
-		public boolean isPlaceable() {
-				return hasEnoughSpace();
-		}
-
-		public boolean isDeletable() {
-				return deletable == 0;
-		}
-
-		public boolean isConnected() {
+	public boolean isConnected() {
 				return true;
 		}
 

@@ -1,17 +1,8 @@
 package org.elte.model.building;
 
 public class House extends Building {
-		@Override
-		public boolean isPlaceable() {
-				return hasEnoughSpace();
-		}
 
-		@Override
-		public boolean isDeletable() {
-				return false;
-		}
-
-		@Override
+	@Override
 		public boolean isConnected() {
 				return false;
 		}
@@ -32,8 +23,4 @@ public class House extends Building {
 		}
 
 		public int getTax(){return yearlyFee;}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 }

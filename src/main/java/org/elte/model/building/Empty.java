@@ -19,13 +19,9 @@ public class Empty extends Building {
 				burning = false;
 				imageResource = ImageResource.GRASS;
 		}
-
+		@Override
 		public boolean isPlaceable() {
-				return true;
-		}
-
-		public boolean isDeletable() {
-				return false;
+				return hasBuildingAtLeastOneSide();
 		}
 
 		public boolean isConnected() {
@@ -43,10 +39,6 @@ public class Empty extends Building {
 		public boolean isEmpty() {
 				return true;
 		}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 
 		public int getTax(){return yearlyFee;}
 }

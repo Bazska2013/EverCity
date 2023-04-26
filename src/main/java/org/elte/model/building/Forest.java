@@ -23,16 +23,7 @@ public class Forest extends Building {
 				imageResource = ImageResource.FOREST;
 		}
 
-		public boolean isPlaceable() {
-
-				return hasEnoughSpace();
-		}
-
-		public boolean isDeletable() {
-				return true;
-		}
-
-		public boolean isConnected() {
+	public boolean isConnected() {
 				return false;
 		}
 
@@ -47,10 +38,6 @@ public class Forest extends Building {
 		public boolean isEmpty() {
 				return false;
 		}
-
-		public void disableDeletable() {}
-
-		public void removeDeletable() {}
 
 		public int getTax(){return yearlyFee;}
 }

@@ -31,8 +31,6 @@ public abstract class Building {
 				return hasEnoughSpace();
 		}
 
-		public abstract boolean isDeletable();
-
 		public abstract boolean isConnected();
 
 		public abstract boolean upgradeable();
@@ -44,10 +42,6 @@ public abstract class Building {
 		public boolean isRoad() {
 				return false;
 		}
-
-		public abstract void disableDeletable();
-
-		public abstract void removeDeletable();
 
 		public boolean hasEnoughSpace() {
 				return hasEnoughSpace(FieldTypes.EMPTY);
@@ -93,7 +87,7 @@ public abstract class Building {
 										// check if the field is within the game boundaries
 										if (i >= 0 && i < Game.getRows() && j >= 0 && j < Game.getColumns()) {
 												Field field = game.getField(new Position(j, i));
-												if (field.getBuilding().isRoad()) {
+												if (field.getBuilding() instanceof Road) {
 														return true;
 												}
 										}
@@ -102,6 +96,27 @@ public abstract class Building {
 				}
 				return false;
 		}
+
+	public boolean hasBuildingAtLeastOneSide() {
+		Game game = Game.getInstance();
+		for (int i = position.y() - 1; i <= position.y() + height; i++) {
+			for (int j = position.x() - 1; j <= position.x() + width; j++) {
+				if (i == position.y() - 1
+						|| i == position.y() + height
+						|| j == position.x() - 1
+						|| j == position.x() + width) {
+					// check if the field is within the game boundaries
+					if (i >= 0 && i < Game.getRows() && j >= 0 && j < Game.getColumns()) {
+						Field field = game.getField(new Position(j, i));
+						if (field.getBuilding() instanceof Factory || field.getBuilding() instanceof FireStation || field.getBuilding() instanceof House || field.getBuilding() instanceof Police || field.getBuilding() instanceof Stadium) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 		public void create() {
 				if (isPlaceable()) {
@@ -118,7 +133,7 @@ public abstract class Building {
 		}
 
 		public void delete() {
-				if (isDeletable()) {
+				if (!hasBuildingAtLeastOneSide()) {
 						Game game = Game.getInstance();
 						fieldPositions.forEach(
 										pos -> {
