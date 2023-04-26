@@ -7,7 +7,7 @@ import java.util.*;
 public class BFSRunner {
 
 
-  public static HashMap<Position, List<Position>> buildGraph(Field[][] fields){
+  public static HashMap<Position, List<Position>> buildRoadGraph(Field[][] fields){
     HashMap<Position, List<Position>> graph = new HashMap<>();
     int rows = fields.length;
     int cols = fields[0].length;
@@ -28,7 +28,7 @@ public class BFSRunner {
     }
     return graph;
   }
-  public static void traverse(HashMap<Position, ArrayList<Position>> graph, Position startingPosition) {
+  public static boolean traverse(HashMap<Position, List<Position>> graph, Position startingPosition, Position targetPosition) {
 
     HashSet<Position> visited = new HashSet<>();
     LinkedList<Position> queue
@@ -39,7 +39,9 @@ public class BFSRunner {
 
     while (!queue.isEmpty()){
       Position currentPosition = queue.poll();
-      System.out.println(currentPosition + " ");
+      if(currentPosition == targetPosition){
+        return true;
+      }
 
       graph.get(currentPosition).forEach(position -> {
         if(!visited.contains(position)){
@@ -48,5 +50,6 @@ public class BFSRunner {
         }
       });
     }
+    return false;
   }
 }
