@@ -5,12 +5,12 @@ import org.elte.utils.Position;
 
 public class House extends Building {
 
-	public House(Position position) {
-		this.position = position;
-		buildingType = BuildingTypes.HOUSE_1;
-	}
+		public House(Position position) {
+				this.position = position;
+				buildingType = BuildingTypes.HOUSE_1;
+		}
 
-	@Override
+		@Override
 		public boolean isPlaceable() {
 				return hasEnoughSpace();
 		}
@@ -35,5 +35,7 @@ public class House extends Building {
 				return false;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }

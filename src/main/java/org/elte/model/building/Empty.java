@@ -41,5 +41,7 @@ public class Empty extends Building {
 				return true;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }
