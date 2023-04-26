@@ -39,5 +39,7 @@ public class Forest extends Building {
 				return false;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }

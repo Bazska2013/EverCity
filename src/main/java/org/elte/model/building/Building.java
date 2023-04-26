@@ -1,7 +1,5 @@
 package org.elte.model.building;
 
-import java.awt.*;
-import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import org.elte.model.Field;
@@ -9,6 +7,9 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -136,24 +137,23 @@ public abstract class Building {
 		}
 
 		public void delete() {
-			if (isRoad()){
-				if (!hasBuildingAtLeastOneSide()) {
-					Game game = Game.getInstance();
-					fieldPositions.forEach(
-							pos -> {
-								Field currentField = game.getField(pos);
-								currentField.setBuilding(new Empty(pos));
-							});
+				if (isRoad()) {
+						if (!hasBuildingAtLeastOneSide()) {
+								Game game = Game.getInstance();
+								fieldPositions.forEach(
+												pos -> {
+														Field currentField = game.getField(pos);
+														currentField.setBuilding(new Empty(pos));
+												});
+						}
+				} else {
+						Game game = Game.getInstance();
+						fieldPositions.forEach(
+										pos -> {
+												Field currentField = game.getField(pos);
+												currentField.setBuilding(new Empty(pos));
+										});
 				}
-			} else {
-				Game game = Game.getInstance();
-				fieldPositions.forEach(
-						pos -> {
-							Field currentField = game.getField(pos);
-							currentField.setBuilding(new Empty(pos));
-						});
-			}
-
 		}
 
 		public abstract int getTax();

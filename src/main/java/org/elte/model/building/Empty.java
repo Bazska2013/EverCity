@@ -7,7 +7,7 @@ import org.elte.utils.Position;
 public class Empty extends Building {
 
 		public Empty(Position position) {
-			this.position = position;
+				this.position = position;
 				buildingType = BuildingTypes.EMPTY;
 				price = 0;
 				yearlyFee = 0;
@@ -41,5 +41,7 @@ public class Empty extends Building {
 				return true;
 		}
 
-		public int getTax(){return yearlyFee;}
+		public int getTax() {
+				return yearlyFee;
+		}
 }
