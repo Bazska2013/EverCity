@@ -23,10 +23,6 @@ public class Stadium extends Building {
 				return hasEnoughSpace() && hasRoadAtLeastOneSide();
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return true;
 		}

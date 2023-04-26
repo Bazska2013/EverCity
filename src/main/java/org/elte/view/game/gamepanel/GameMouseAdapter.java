@@ -1,5 +1,7 @@
 package org.elte.view.game.gamepanel;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
@@ -10,9 +12,6 @@ import org.elte.model.zone.Service;
 import org.elte.utils.Position;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GameMouseAdapter extends MouseAdapter {
 		Game game;
@@ -36,24 +35,24 @@ public class GameMouseAdapter extends MouseAdapter {
 								placeZone(current_x, current_y);
 						}
 						if (BuildablePanel.getSelectedBuildingType() != null) {
-								Building buildingType = new Road(currentPosition);
+								Building buildingType = new org.elte.model.building.Empty(currentPosition);
 								switch (BuildablePanel.getSelectedBuildingType()) {
 										case ROAD -> buildingType = new Road(currentPosition);
-										case EMPTY -> {
-												if (field.getBuilding().isDeletable()) {
-														field.getBuilding().delete();
-												}
-										}
+										case EMPTY -> field.getBuilding().delete();
 										case FACTORY -> buildingType = new Factory(currentPosition);
 										case FIRE_STATION -> buildingType = new FireStation(currentPosition);
 										case FOREST -> buildingType = new Forest(currentPosition);
 										case POLICE -> buildingType = new Police(currentPosition);
 										case STADIUM -> buildingType = new Stadium(currentPosition);
 								}
-								if (buildingType.isPlaceable()) {
+								if (buildingType.isPlaceable()
+												&& !(buildingType instanceof org.elte.model.building.Empty)) {
 										buildingType.create();
-								}else{
-									System.out.println(buildingType.getBuildingType().name() + " can't be placed");
+								} else {
+										if (!(buildingType instanceof org.elte.model.building.Empty)) {
+												System.out.println(
+																buildingType.getBuildingType().name() + " can't be placed");
+										}
 								}
 						}
 						gamePanel.repaint();

@@ -5,6 +5,7 @@ import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 
 public class FireStation extends Building {
+
 		public FireStation(Position position) {
 				this.position = position;
 				buildingType = BuildingTypes.FIRE_STATION;
@@ -21,10 +22,6 @@ public class FireStation extends Building {
 
 		public boolean isPlaceable() {
 				return hasEnoughSpace() && hasRoadAtLeastOneSide();
-		}
-
-		public boolean isDeletable() {
-				return true;
 		}
 
 		public boolean isConnected() {

@@ -25,10 +25,6 @@ public class Factory extends Building {
 				return hasEnoughSpace(FieldTypes.INDUSTRY) && hasRoadAtLeastOneSide();
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return true;
 		}

@@ -23,15 +23,6 @@ public class Forest extends Building {
 				imageResource = ImageResource.FOREST;
 		}
 
-		public boolean isPlaceable() {
-
-				return hasEnoughSpace();
-		}
-
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return false;
 		}

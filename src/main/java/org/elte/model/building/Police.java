@@ -28,10 +28,6 @@ public class Police extends Building {
 				return hasEnoughSpace() && currentField.getZone().isEmpty() && hasRoadAtLeastOneSide();
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
-
 		public boolean isConnected() {
 				return true;
 		}

@@ -1,5 +1,6 @@
 package org.elte.model;
 
+import java.util.Optional;
 import lombok.Getter;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
@@ -8,6 +9,7 @@ import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
 
 import java.util.Optional;
+import org.elte.view.MainFrame;
 
 @Getter
 public class Game {
