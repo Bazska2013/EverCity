@@ -2,10 +2,12 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class Road extends Building {
 
-		public Road() {
+		public Road(Position position) {
+				this.position = position;
 				buildingType = BuildingTypes.ROAD;
 				price = 20;
 				yearlyFee = 5;
@@ -16,14 +18,6 @@ public class Road extends Building {
 				chanceToFire = 0;
 				burning = false;
 				imageResource = ImageResource.ROAD;
-		}
-
-		public boolean isPlaceable() {
-				return true;
-		}
-
-		public boolean isDeletable() {
-				return true;
 		}
 
 		public boolean isConnected() {
@@ -45,5 +39,9 @@ public class Road extends Building {
 		@Override
 		public boolean isRoad() {
 				return true;
+		}
+
+		public int getTax() {
+				return yearlyFee;
 		}
 }

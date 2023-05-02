@@ -5,6 +5,7 @@ public enum BuildingTypes {
 		ROAD,
 		POLICE,
 		FACTORY,
+		SERVICE_BUILDING,
 		FIRE_STATION,
 		STADIUM,
 		FOREST,

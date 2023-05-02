@@ -11,15 +11,16 @@ public abstract class ImageResource {
 
 		public static final Image GRASS = ResourceLoader.loadImage("grass.png");
 		public static final Image FACTORY = ResourceLoader.loadImage("factory.png");
-		public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
+		public static final Image SERVICE_BUILDING = ResourceLoader.loadImage("service-building.jpg");
 		public static final Image FIRE_STATION = ResourceLoader.loadImage("firestation.png");
+		public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
 		public static final Image STADIUM = ResourceLoader.loadImage("football-stadion.png");
 		public static final Image FOREST = ResourceLoader.loadImage("forest.png");
 		public static final Image HOUSE = ResourceLoader.loadImage("house.png");
 		public static final Image HOUSE_LV2 = ResourceLoader.loadImage("house-v2.png");
 		public static final Image HOUSE_LV3 = ResourceLoader.loadImage("house-v3.png");
 		public static final Image POLICE = ResourceLoader.loadImage("police.png");
-		public static final Image ROAD = ResourceLoader.loadImage("road.png");
+		public static final Image ROAD = ResourceLoader.loadImage("empty-road.png");
 
 		public static final Image ZONE_RESIDENT = ResourceLoader.loadImage("zone_resident.png");
 		public static final Image ZONE_INDUSTRY = ResourceLoader.loadImage("zone_industry.png");
@@ -30,6 +31,7 @@ public abstract class ImageResource {
 		public static Image getImageOfClass(Class<?> clazz) {
 				if (clazz == FireStation.class) return FIRE_STATION;
 				if (clazz == Factory.class) return FACTORY;
+				if (clazz == ServiceBuilding.class) return SERVICE_BUILDING;
 				if (clazz == Stadium.class) return STADIUM;
 				if (clazz == Forest.class) return FOREST;
 				if (clazz == Police.class) return POLICE;

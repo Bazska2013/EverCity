@@ -1,14 +1,17 @@
 package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
+import org.elte.model.enums.FieldTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class Factory extends Building {
 
-		public Factory() {
+		public Factory(Position position) {
+				this.position = position;
 				buildingType = BuildingTypes.FACTORY;
 				price = 10;
-				yearlyFee = 5;
+				yearlyFee = 50;
 				socialImpact = 10;
 				impactRange = 10;
 				width = 2;
@@ -19,11 +22,7 @@ public class Factory extends Building {
 		}
 
 		public boolean isPlaceable() {
-				return true;
-		}
-
-		public boolean isDeletable() {
-				return true;
+				return hasEnoughSpace(FieldTypes.INDUSTRY) && hasRoadAtLeastOneSide();
 		}
 
 		public boolean isConnected() {
@@ -40,5 +39,9 @@ public class Factory extends Building {
 
 		public boolean isEmpty() {
 				return false;
+		}
+
+		public int getTax() {
+				return yearlyFee;
 		}
 }

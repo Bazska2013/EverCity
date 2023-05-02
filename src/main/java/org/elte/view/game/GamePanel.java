@@ -1,127 +1,116 @@
 package org.elte.view.game;
 
+import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import javax.swing.*;
+
+import org.elte.model.Field;
 import org.elte.model.Game;
-import org.elte.model.building.*;
-import org.elte.model.zone.Empty;
-import org.elte.model.zone.Industry;
-import org.elte.model.zone.Resident;
-import org.elte.model.zone.Service;
+import org.elte.model.building.Building;
 import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
-import org.elte.view.MainFrame;
+import org.elte.view.game.gamepanel.FieldInfoBox;
+import org.elte.view.game.gamepanel.GameMouseAdapter;
+import org.elte.view.game.gamepanel.GameMouseMotionListener;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class GamePanel extends JPanel {
-		private static final long serialVersionUID = 1L;
-		private Game game;
-		private Dimension screenSize;
-		Point p;
+  public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.15);
+  public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
+  public static final int FIELD_SIZE =
+      (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
+  private static final long serialVersionUID = 1L;
+  private Game game;
+  private Dimension screenSize;
+  private FieldInfoBox fieldInfoBox;
+  public static GamePanel gamePanel = null;
 
-		public static GamePanel gamePanel = null;
+  public static boolean zoneMode = false;
 
-		public static boolean zoneMode = false;
+  private MouseListener mouseListener;
 
-		private MouseListener listener =
-						new MouseAdapter() {
-								public void mouseClicked(MouseEvent e) {
-										int current_x = (int) Math.floor((e.getX() - MainFrame.START_X) / 32.0);
-										int current_y = (int) Math.floor((e.getY() - MainFrame.START_Y) / 32.0);
+  private MouseMotionListener mouseMotionListener;
 
-										try {
-												if (BuildablePanel.getSelectedFieldZoneType() != null) {
-														switch (BuildablePanel.getSelectedFieldZoneType()) {
-																case EMPTY -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Empty(1));
-																case SERVICE -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Service(1, 2, 3, 4, 5));
-																case INDUSTRY -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Industry(1, 2, 3, 4, 5));
-																case RESIDENT -> game.getField(new Position(current_x, current_y))
-																				.setZone(new Resident(1, 2, 3, 4, 5, null));
-														}
-												}
+  private Position selectedField = null;
 
-												if (BuildablePanel.getSelectedBuildingType() != null) {
-														switch (BuildablePanel.getSelectedBuildingType()) {
-																case ROAD -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new Road());
-																case EMPTY -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new org.elte.model.building.Empty());
-																case FACTORY -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new Factory());
-																case FIRE_STATION -> game.getField(
-																								new Position(current_x, current_y))
-																				.setBuilding(new FireStation());
-																case FOREST -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new Forest());
-																case POLICE -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new Police());
-																case STADIUM -> game.getField(new Position(current_x, current_y))
-																				.setBuilding(new Stadium());
-														}
-												}
+  public GamePanel(FieldInfoBox fieldInfoBox) {
+    this.game = Game.getInstance();
+    this.screenSize = ScreenUtils.getScreenSize();
+    this.fieldInfoBox = fieldInfoBox;
+    this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
+    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox);
+    addMouseListener(mouseListener);
+    addMouseMotionListener(mouseMotionListener);
+    this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
+    this.setVisible(true);
+    gamePanel = this;
+  }
 
-												repaint();
-										} catch (ArrayIndexOutOfBoundsException ex) {
-												System.out.println("Clicked outside of playing area...");
-										}
-								}
-						};
+  protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
-		public GamePanel() {
-				addMouseListener(listener);
-				this.game = Game.getInstance();
-				this.screenSize = ScreenUtils.getScreenSize();
-				this.setBounds(0, 0, screenSize.width, MainFrame.ZONE_BOX_Y - 50);
-				this.setVisible(true);
-				gamePanel = this;
-		}
+    if (!zoneMode) {
+      drawBuildings(g);
+    } else {
+      drawZones(g);
+    }
 
-		protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Graphics2D g2d = (Graphics2D) g;
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+    /** Kirajzolja az információs doboz hátterét. */
+    g.setColor(Color.blue);
+    g.fillRect(screenSize.width - 200, screenSize.height / 2 - 150, 180, 150);
+  }
 
-				/** Kirajzolja a négyzeteket. */
-				g.setColor(Color.black);
-				for (int i = 0; i < Game.getColumns(); i++) {
-						for (int j = 0; j < Game.getRows(); j++) {
-								if (!zoneMode) {
-										g.drawImage(
-														ImageResource.getImageOfClass(
-																		game.getField(new Position(i, j)).getBuilding().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
-														null);
-								} else {
-										g.drawImage(
-														ImageResource.getZoneImageOfClass(
-																		game.getField(new Position(i, j)).getZone().getClass()),
-														i * 32 + MainFrame.START_X,
-														j * 32 + MainFrame.START_Y,
-														Game.getBoxWidth(),
-														Game.getBoxheight(),
-														null);
-								}
-								/** Keret megrajzolása * */
-								g.drawRect(
-												i * 32 + MainFrame.START_X,
-												j * 32 + MainFrame.START_Y,
-												Game.getBoxheight(),
-												Game.getBoxheight());
-						}
-				}
+  private void drawBuildings(Graphics g) {
+    ArrayList<Position> positionsToSkip = new ArrayList<>();
+    for (int i = 0; i < Game.getColumns(); i++) {
+      for (int j = 0; j < Game.getRows(); j++) {
+        Position position = new Position(i, j);
+        if (positionsToSkip.contains(position)) {
+          continue;
+        }
+        Field field = game.getField(position);
+        Building building = field.getBuilding();
+        int x = i * FIELD_SIZE;
+        int y = j * FIELD_SIZE;
+        int width = building.getWidth() * FIELD_SIZE;
+        int height = building.getHeight() * FIELD_SIZE;
+        g.drawImage(ImageResource.getImageOfClass(building.getClass()), x, y, width, height, null);
+        if (fieldInfoBox.getSelectedPosition() != null
+            && fieldInfoBox.getSelectedPosition().equals(position)) {
+          g.setColor(Color.red);
+          g.drawRect(x, y, width - 2, height - 2);
+        }
+        for (int k = 0; k < building.getWidth(); k++) {
+          for (int l = 0; l < building.getHeight(); l++) {
+            positionsToSkip.add(new Position(position.x() + l, position.y() + k));
+          }
+        }
+      }
+    }
+  }
 
-				/** Kirajzolja az információs doboz hátterét. */
-				g.setColor(Color.blue);
-				g.fillRect(screenSize.width - 150, 10, 150, 150);
-		}
+  private void drawZones(Graphics g) {
+    g.setColor(Color.black);
+    for (int i = 0; i < Game.getColumns(); i++) {
+      for (int j = 0; j < Game.getRows(); j++) {
+        g.drawImage(
+            ImageResource.getZoneImageOfClass(
+                game.getField(new Position(i, j)).getZone().getClass()),
+            i * FIELD_SIZE,
+            j * FIELD_SIZE,
+            FIELD_SIZE,
+            FIELD_SIZE,
+            null);
+      }
+    }
+  }
 }

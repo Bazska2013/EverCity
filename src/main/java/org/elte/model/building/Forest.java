@@ -2,12 +2,14 @@ package org.elte.model.building;
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
+import org.elte.utils.Position;
 
 public class Forest extends Building {
 
 		int size;
 
-		public Forest() {
+		public Forest(Position position) {
+				this.position = position;
 				buildingType = BuildingTypes.FOREST;
 				price = 10;
 				yearlyFee = 5;
@@ -19,14 +21,6 @@ public class Forest extends Building {
 				burning = false;
 				this.size = 1;
 				imageResource = ImageResource.FOREST;
-		}
-
-		public boolean isPlaceable() {
-				return true;
-		}
-
-		public boolean isDeletable() {
-				return true;
 		}
 
 		public boolean isConnected() {
@@ -43,5 +37,9 @@ public class Forest extends Building {
 
 		public boolean isEmpty() {
 				return false;
+		}
+
+		public int getTax() {
+				return yearlyFee;
 		}
 }

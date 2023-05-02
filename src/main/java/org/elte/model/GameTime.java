@@ -1,11 +1,10 @@
 package org.elte.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import javax.swing.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ public class GameTime extends Timer {
 		private static final int START_YEAR = 2023;
 
 		public GameTime(ActionListener listener) {
-				super(TimerSpeed.ONE.getValue(), listener);
+				super(TimerSpeed.STOP.getValue(), listener);
 				super.addActionListener(e -> passedDays++);
 				super.setRepeats(true);
 				super.start();
@@ -34,5 +33,16 @@ public class GameTime extends Timer {
 						this.restart();
 				}
 				this.setDelay(timerSpeed.getValue());
+		}
+
+		public LocalDate getDate() {
+				return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays());
+		}
+
+		public boolean overAYear(){
+			if((getPassedDays()%365)==0){
+				return true;
+			}
+			return false;
 		}
 }

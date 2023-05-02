@@ -14,12 +14,19 @@ variables:
     -DinstallAtEnd=true
     -DdeployAtEnd=true
 
-
-image: jelastic/maven:3.8.6-openjdk-20.ea-b24
+image: maven:3.8.5-openjdk-18
 
 cache:
   paths:
     - .m2/repository
+
+.build:
+  stage: build
+  script:
+    - 'mvn $MAVEN_CLI_OPTS compile'
+  except:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 .verify:
   stage: test
@@ -29,6 +36,23 @@ cache:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+.spotless-check:
+  stage: test
+  script:
+    - 'git ls-remote origin'
+    - 'mvn $MAVEN_CLI_OPTS com.diffplug.spotless:spotless-maven-plugin:2.35.0:check'
+  except:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+build:
+  extends:
+    - .build
+
 test:
   extends:
     - .verify
+
+spotless:
+  extends:
+    - .spotless-check
