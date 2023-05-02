@@ -15,10 +15,10 @@ import org.elte.utils.ScreenUtils;
 import org.elte.view.game.gamepanel.FieldInfoBox;
 import org.elte.view.game.gamepanel.GameMouseAdapter;
 import org.elte.view.game.gamepanel.GameMouseMotionListener;
+import org.elte.view.game.gamepanel.InfoBox;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.elte.view.game.gamepanel.InfoBox;
 
 @Getter
 @Setter
