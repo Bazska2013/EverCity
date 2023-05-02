@@ -17,6 +17,7 @@ import org.elte.view.game.TimeButtons;
 import org.elte.view.game.gamepanel.FieldInfoBox;
 
 import lombok.Setter;
+import org.elte.view.game.gamepanel.InfoBox;
 
 @Setter
 public class MainFrame {
@@ -33,6 +34,7 @@ public class MainFrame {
   private final TimeButtons timeButtons;
   private final BuildablePanel buildablePanel;
   private final FieldInfoBox fieldInfoBox;
+  private final InfoBox infoBox;
   private final Game game;
   private int currentYear;
   public static int startingCitizensToAdd = 50;
@@ -68,7 +70,10 @@ public class MainFrame {
     fieldInfoBox = new FieldInfoBox();
     frame.add(fieldInfoBox);
 
-    gamePanel = new GamePanel(fieldInfoBox);
+    infoBox = new InfoBox();
+    frame.add(infoBox);
+
+    gamePanel = new GamePanel(fieldInfoBox, infoBox);
     frame.add(gamePanel);
 
     frame.requestFocus();

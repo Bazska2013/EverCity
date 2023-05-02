@@ -18,6 +18,7 @@ import org.elte.view.game.gamepanel.GameMouseMotionListener;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.view.game.gamepanel.InfoBox;
 
 @Getter
 @Setter
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel {
   private Game game;
   private Dimension screenSize;
   private FieldInfoBox fieldInfoBox;
+  private InfoBox infoBox;
   public static GamePanel gamePanel = null;
 
   public static boolean zoneMode = false;
@@ -40,12 +42,13 @@ public class GamePanel extends JPanel {
 
   private Position selectedField = null;
 
-  public GamePanel(FieldInfoBox fieldInfoBox) {
+  public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox) {
     this.game = Game.getInstance();
     this.screenSize = ScreenUtils.getScreenSize();
     this.fieldInfoBox = fieldInfoBox;
+    this.infoBox = infoBox;
     this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
-    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox);
+    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox);
     addMouseListener(mouseListener);
     addMouseMotionListener(mouseMotionListener);
     this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
