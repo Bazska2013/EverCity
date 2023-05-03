@@ -15,14 +15,9 @@ public class InfoBox extends JPanel {
   private Timer timer;
 
   public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.4);
-  //  public static final int Y = (int) (ScreenUtils.getScreenSize().height*0.6);
   public static final int Y = 0;
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.05);
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.20);
-  //  public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.87);
-  //  public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.3);
-  //  public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.10);
-  //  public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.10);
   private Game game;
   private JLabel type;
   private JLabel message;
@@ -56,8 +51,6 @@ public class InfoBox extends JPanel {
               setVisible(false);
               timer.stop();
             });
-
-    //    reRender("", "");
   }
 
   public void reRender(String type, String message, Color color) {
