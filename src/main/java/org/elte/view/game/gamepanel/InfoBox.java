@@ -12,10 +12,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InfoBox extends JPanel {
-  public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.87);
-  public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.3);
-  public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.10);
-  public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.10);
+  private Timer timer;
+
+  public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.4);
+  //  public static final int Y = (int) (ScreenUtils.getScreenSize().height*0.6);
+  public static final int Y = 0;
+  public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.05);
+  public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.20);
+  //  public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.87);
+  //  public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.3);
+  //  public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.10);
+  //  public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.10);
   private Game game;
   private JLabel type;
   private JLabel message;
@@ -25,15 +32,16 @@ public class InfoBox extends JPanel {
     this.game = Game.getInstance();
     this.setBounds(X, Y, WIDTH, HEIGHT);
     this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-    this.setLayout(new GridLayout(2, 1));
-    this.setBackground(Color.BLUE);
-    this.setVisible(true);
+    this.setLayout(new GridLayout(1, 2));
+    this.setBackground(Color.GRAY);
+    this.setVisible(false);
 
     Font labelFont = new Font("Arial", Font.PLAIN, 12);
 
     type = new JLabel();
     type.setForeground(Color.white);
     type.setFont(labelFont);
+    type.setHorizontalAlignment(0);
     this.add(type);
 
     message = new JLabel();
@@ -41,11 +49,22 @@ public class InfoBox extends JPanel {
     message.setFont(labelFont);
     this.add(message);
 
-    reRender("", "");
+    timer =
+        new Timer(
+            5000,
+            e -> {
+              setVisible(false);
+              timer.stop();
+            });
+
+    //    reRender("", "");
   }
 
-  public void reRender(String type, String message) {
+  public void reRender(String type, String message, Color color) {
+    this.setBackground(color);
     this.type.setText(type);
     this.message.setText(message);
+    setVisible(true);
+    timer.restart();
   }
 }

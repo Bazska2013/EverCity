@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
   private Game game;
   private Dimension screenSize;
   private FieldInfoBox fieldInfoBox;
-  private InfoBox infoBox;
+  public static InfoBox infoBox;
   public static GamePanel gamePanel = null;
 
   public static boolean zoneMode = false;
