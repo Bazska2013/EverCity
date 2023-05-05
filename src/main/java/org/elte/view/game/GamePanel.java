@@ -84,6 +84,9 @@ public class GamePanel extends JPanel {
         int width = building.getWidth() * FIELD_SIZE;
         int height = building.getHeight() * FIELD_SIZE;
         g.drawImage(ImageResource.getImageOfClass(building.getClass()), x, y, width, height, null);
+        if (field.getBuilding().isBurning()) {
+          g.drawImage(ImageResource.FIRE, x, y, width, height, null);
+        }
         if (fieldInfoBox.getSelectedPosition() != null
             && fieldInfoBox.getSelectedPosition().equals(position)) {
           g.setColor(Color.red);
