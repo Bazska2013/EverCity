@@ -5,41 +5,41 @@ import org.elte.utils.Position;
 
 public class Stadium extends Building {
 
-		public Stadium(Position position) {
-				super();
-				this.position = position;
-				buildingType = BuildingTypes.STADIUM;
-				price = 100;
-				yearlyFee = 20;
-				socialImpact = 20;
-				impactRange = 10;
-				width = 2;
-				height = 2;
-				chanceToFire = 1;
-				burning = false;
-		}
+  public Stadium(Position position) {
+    super();
+    this.position = position;
+    buildingType = BuildingTypes.STADIUM;
+    price = 100;
+    yearlyFee = 20;
+    socialImpact = 20;
+    impactRange = 10;
+    width = 2;
+    height = 2;
+    chanceToFire = 0.008;
+    burning = false;
+  }
 
-		public boolean isPlaceable() {
-				return hasEnoughSpace() && hasRoadAtLeastOneSide();
-		}
+  public boolean isPlaceable() {
+    return hasEnoughSpace() && hasRoadAtLeastOneSide();
+  }
 
-		public boolean isConnected() {
-				return true;
-		}
+  public boolean isConnected() {
+    return true;
+  }
 
-		public boolean upgradeable() {
-				return false;
-		}
+  public boolean upgradeable() {
+    return false;
+  }
 
-		public boolean isBurning() {
-				return false;
-		}
+  public boolean isBurning() {
+    return burning;
+  }
 
-		public boolean isEmpty() {
-				return false;
-		}
+  public boolean isEmpty() {
+    return false;
+  }
 
-		public int getTax() {
-				return yearlyFee;
-		}
+  public int getTax() {
+    return yearlyFee;
+  }
 }
