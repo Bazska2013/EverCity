@@ -54,7 +54,11 @@ public class Resident extends Zone {
   }
 
   @Override
-  public int getCitizenNumber() { return citizens.size(); }
+  public int getCitizenNumber() {
+    return citizens.size();
+  }
 
-  public void setCitizens(List<Citizen> citizens) { this.citizens = citizens; }
+  public void setCitizens(List<Citizen> citizens) {
+    this.citizens = citizens;
+  }
 }

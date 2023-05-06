@@ -3,7 +3,6 @@ package org.elte.model.zone;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -40,8 +39,12 @@ public class Service extends Zone {
   }
 
   @Override
-  public int getCitizenNumber() { return workers.size(); }
+  public int getCitizenNumber() {
+    return workers.size();
+  }
 
   @Override
-  public List<Citizen> getWorkers() { return workers; }
+  public List<Citizen> getWorkers() {
+    return workers;
+  }
 }

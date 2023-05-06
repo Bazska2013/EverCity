@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import java.util.List;
+
 import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
@@ -7,8 +9,6 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -47,7 +47,11 @@ public abstract class Zone {
 
   public abstract int getTax();
 
-  public int getCitizenNumber() { return 0; }
+  public int getCitizenNumber() {
+    return 0;
+  }
 
-  public List<Citizen> getWorkers() { return null; }
+  public List<Citizen> getWorkers() {
+    return null;
+  }
 }

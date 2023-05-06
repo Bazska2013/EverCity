@@ -162,7 +162,8 @@ public class Game {
   public Zone findWorkplace(Citizen citizen) {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (fields[i][j].getZone() instanceof Industry || fields[i][j].getZone() instanceof Service){
+        if (fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
           if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
             fields[i][j].getZone().getWorkers().add(citizen);
             return fields[i][j].getZone();
@@ -173,13 +174,13 @@ public class Game {
     return null;
   }
 
-  public void searchWorkLessCitizens(){
+  public void searchWorkLessCitizens() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (fields[i][j].getZone() instanceof Resident){
+        if (fields[i][j].getZone() instanceof Resident) {
           List<Citizen> citizens = ((Resident) fields[i][j].getZone()).getCitizens();
-          for (Citizen c: citizens) {
-            if (c.getWorksAt() == null){
+          for (Citizen c : citizens) {
+            if (c.getWorksAt() == null) {
               c.setWorksAt(findWorkplace(c));
             }
           }
