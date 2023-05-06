@@ -1,5 +1,6 @@
 package org.elte.view.game.gamepanel;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -18,9 +19,12 @@ public class GameMouseAdapter extends MouseAdapter {
   Game game;
   GamePanel gamePanel;
   FieldInfoBox fieldInfoBox;
+  InfoBox infoBox;
 
-  public GameMouseAdapter(Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox) {
+  public GameMouseAdapter(
+      Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox, InfoBox infoBox) {
     this.fieldInfoBox = fieldInfoBox;
+    this.infoBox = infoBox;
     this.game = game;
     this.gamePanel = gamePanel;
   }
@@ -46,6 +50,7 @@ public class GameMouseAdapter extends MouseAdapter {
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {
+      infoBox.reRender("Warning!", "Clicked outside of playing area...", Color.RED);
       System.out.println("Clicked outside of playing area...");
       ex.printStackTrace();
     }
@@ -69,6 +74,8 @@ public class GameMouseAdapter extends MouseAdapter {
       BuildablePanel.setSelectedFieldZoneType(null);
     } else {
       if (!buildingType.isEmpty()) {
+        infoBox.reRender(
+            "Error!", buildingType.getBuildingType().name() + " can't be placed", Color.RED);
         System.out.println(buildingType.getBuildingType().name() + " can't be placed");
       }
     }

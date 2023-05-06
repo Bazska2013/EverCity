@@ -1,5 +1,6 @@
 package org.elte.model;
 
+import java.awt.*;
 import java.util.Optional;
 
 import org.elte.model.building.House;
@@ -7,6 +8,7 @@ import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
+import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
 
@@ -145,6 +147,7 @@ public class Game {
         fees += fields[i][j].getTaxes();
       }
     }
+    GamePanel.infoBox.reRender("Attention!", "Yearly TAX payed", Color.BLUE);
     return fees;
   }
 }
