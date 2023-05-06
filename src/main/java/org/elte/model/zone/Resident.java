@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -21,7 +22,11 @@ public class Resident extends Zone {
 
     if (MainFrame.startingCitizensToAdd > 0) {
       for (int i = 0; i < Math.min(MainFrame.startingCitizensToAdd, capacity); i++) {
-        citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
+        Citizen citizen = new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18);
+        Game game = Game.getInstance();
+        Zone workplace = game.findWorkplace(citizen);
+        citizen.setWorksAt(workplace);
+        citizens.add(citizen);
       }
       MainFrame.startingCitizensToAdd -= citizens.size();
       MainFrame.getInstance().repaintCitizenNumber();
@@ -47,4 +52,9 @@ public class Resident extends Zone {
   public int getTax() {
     return tax * capacity;
   }
+
+  @Override
+  public int getCitizenNumber() { return citizens.size(); }
+
+  public void setCitizens(List<Citizen> citizens) { this.citizens = citizens; }
 }

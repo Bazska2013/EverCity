@@ -28,4 +28,5 @@ public class Empty extends Zone {
   public FieldTypes getZoneType() {
     return FieldTypes.EMPTY;
   }
+
 }

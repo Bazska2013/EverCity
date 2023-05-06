@@ -3,6 +3,7 @@ package org.elte.model.zone;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -37,4 +38,10 @@ public class Industry extends Zone {
   public int getTax() {
     return tax * capacity;
   }
+
+  @Override
+  public int getCitizenNumber() { return workers.size(); }
+
+  @Override
+  public List<Citizen> getWorkers() { return workers; }
 }

@@ -2,10 +2,13 @@ package org.elte.model.zone;
 
 import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,7 +20,7 @@ public abstract class Zone {
   }
 
   protected int price;
-  protected int capacity;
+  protected int capacity = 4;
   protected int hapiness;
   protected int tax;
   protected int level;
@@ -43,4 +46,8 @@ public abstract class Zone {
   public abstract FieldTypes getZoneType();
 
   public abstract int getTax();
+
+  public int getCitizenNumber() { return 0; }
+
+  public List<Citizen> getWorkers() { return null; }
 }
