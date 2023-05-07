@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import org.elte.model.Game;
+import org.elte.model.zone.Resident;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
@@ -27,13 +28,14 @@ public class FieldInfoBox extends JPanel {
   private JLabel positionXLabel;
   private JLabel positionYLabel;
   private JButton button;
+  private JButton upgradeButton;
 
   public FieldInfoBox() {
     super();
     this.game = Game.getInstance();
     this.setBounds(X, Y, WIDTH, HEIGHT);
     this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-    this.setLayout(new GridLayout(5, 1)); // add one more row for the button
+    this.setLayout(new GridLayout(6, 1)); // add one more row for the button
     this.setBackground(Color.gray);
     this.setVisible(true);
 
@@ -63,6 +65,20 @@ public class FieldInfoBox extends JPanel {
     button.setBackground(Color.RED);
     this.add(button);
 
+    upgradeButton = new TextButton("Upgrade");
+    upgradeButton.setBackground(Color.decode("#339157"));
+
+    upgradeButton.addActionListener(
+        e -> {
+          game.getField(selectedPosition).getZone().upgrade();
+          setSelectedPosition(selectedPosition);
+        });
+    button.addActionListener(
+        e -> {
+          game.getField(selectedPosition).getBuilding().delete();
+          setSelectedPosition(selectedPosition);
+        });
+
     reRender();
   }
 
@@ -81,18 +97,21 @@ public class FieldInfoBox extends JPanel {
       positionYLabel.setText(
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
       button.setVisible(true); // enable the button when a position is selected
-      button.addActionListener(
-          e -> {
-            game.getField(selectedPosition).getBuilding().delete();
-            setSelectedPosition(selectedPosition);
-            reRender();
-          });
+      if (game.getField(selectedPosition).getZone() instanceof Resident) {
+        this.add(upgradeButton);
+        this.setLayout(new GridLayout(6, 1));
+        upgradeButton.setVisible(true);
+      } else {
+        this.remove(upgradeButton);
+        this.setLayout(new GridLayout(5, 1));
+      }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
       positionXLabel.setText("");
       positionYLabel.setText("");
       button.setVisible(false); // disable the button when no position is selected
+      upgradeButton.setVisible(false);
     }
   }
 

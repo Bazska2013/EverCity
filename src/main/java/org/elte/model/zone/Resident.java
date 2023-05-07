@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.elte.model.Game;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -60,5 +61,18 @@ public class Resident extends Zone {
 
   public void setCitizens(List<Citizen> citizens) {
     this.citizens = citizens;
+  }
+
+  public void upgrade() {
+    Game game = Game.getInstance();
+    if (this.level == 1) {
+      this.level++;
+      this.capacity *= 2;
+      game.getField(position).getBuilding().setBuildingType(BuildingTypes.HOUSE_2);
+    } else if (this.level == 2) {
+      this.level++;
+      this.capacity *= 2;
+      game.getField(position).getBuilding().setBuildingType(BuildingTypes.HOUSE_3);
+    }
   }
 }
