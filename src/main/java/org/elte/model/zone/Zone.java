@@ -23,7 +23,7 @@ public abstract class Zone {
   protected int capacity = 4;
   protected int hapiness;
   protected int tax;
-  protected int level;
+  protected int level = 1;
 
   public abstract boolean isDeletable();
 
@@ -54,4 +54,6 @@ public abstract class Zone {
   public List<Citizen> getWorkers() {
     return null;
   }
+
+  public void upgrade() {}
 }

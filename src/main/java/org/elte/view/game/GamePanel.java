@@ -9,6 +9,7 @@ import javax.swing.*;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.Building;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
@@ -87,6 +88,12 @@ public class GamePanel extends JPanel {
         int width = building.getWidth() * FIELD_SIZE;
         int height = building.getHeight() * FIELD_SIZE;
         g.drawImage(ImageResource.getImageOfClass(building.getClass()), x, y, width, height, null);
+        if (field.getBuilding().getBuildingType() == BuildingTypes.HOUSE_2) {
+          g.drawImage(ImageResource.HOUSE_LV2, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.HOUSE_3) {
+          g.drawImage(ImageResource.HOUSE_LV3, x, y, width, height, null);
+        }
         if (field.getBuilding().isBurning()) {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }
