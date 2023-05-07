@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
@@ -71,9 +72,6 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
       buildingType.create();
-      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
-      // BuildablePanel.setSelectedBuildingType(null);
-      // BuildablePanel.setSelectedFieldZoneType(null);
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
@@ -98,9 +96,6 @@ public class GameMouseAdapter extends MouseAdapter {
       newZone.create();
       if(newZone instanceof Resident)
         MainFrame.getInstance().repaintCitizenNumber();
-      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
-      // BuildablePanel.setSelectedBuildingType(null);
-      // BuildablePanel.setSelectedFieldZoneType(null);
     }
   }
 }

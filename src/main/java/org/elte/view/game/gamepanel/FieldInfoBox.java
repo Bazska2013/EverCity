@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import org.elte.model.Field;
 import org.elte.model.Game;
+import org.elte.model.building.FireStation;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.zone.Empty;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
@@ -15,6 +17,7 @@ import org.elte.view.common.buttons.TextButton;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.view.game.GamePanel;
 
 @Getter
 @Setter
@@ -25,6 +28,7 @@ public class FieldInfoBox extends JPanel {
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.50);
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.15) - 10;
   private Game game;
+  private GamePanel gamePanel;
   private Position selectedPosition;
   private JLabel zoneTypeLabel;
   private JLabel buildingTypeLabel;
@@ -134,6 +138,10 @@ public class FieldInfoBox extends JPanel {
       deleteButton.setVisible(false); // disable the button when no position is selected
       upgradeButton.setVisible(false);
     }
+  }
+
+  public void setGamePanel(GamePanel gamePanel) {
+    this.gamePanel = gamePanel;
   }
 
   public void setSelectedPosition(Position position) {

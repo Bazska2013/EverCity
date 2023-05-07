@@ -27,7 +27,7 @@ public class MainFrame {
   public static final int TIME_PANEL_SIZE = 30;
   public static final int TIME_PANEL_Y =
       ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
-  private static final int RERENDER_INTERVAL = 500;
+  private static final int RERENDER_INTERVAL = 100;
   public static final String BALANCE_CURRENCY = "$";
   private final JFrame frame;
   private static GamePanel gamePanel;

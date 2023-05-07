@@ -1,5 +1,7 @@
 package org.elte.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class Game {
   static final int columns = 32;
   private int balance = 20000;
   public Field[][] fields;
+  public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
   private final GameTime gameTime;
 
@@ -45,8 +48,9 @@ public class Game {
             e -> {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
-              handleRandomFire();
-              searchUnemployedCitizens();
+              initRandomFire();
+              handleFire();
+              g2d.drawImage(flippedImage, x + GamePanel.FIELD_SIZE, y + GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, null);
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
@@ -101,7 +105,19 @@ public class Game {
             });
   }
 
-  private void handleRandomFire() {
+  private void handleFire() {
+    for (Field[] fieldRow : this.fields) {
+      for (Field field : fieldRow) {
+        if(field.getBuilding().isBurning()) {
+          firetrucks.stream().filter(firetruck -> !firetruck.isMoving() && field.isConnectedWith(firetruck.getPosition())).findFirst().ifPresent(firetruck -> {
+            firetruck.setTarget(field.getPosition());
+            firetruck.start();
+          });
+        }
+      }
+    }
+  }
+  private void initRandomFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
         double chanceToFire = field.getBuilding().getChanceToFire();
@@ -123,6 +139,8 @@ public class Game {
               }
             });
   }
+
+
 
   public Optional<Position> findZonePositionNearStreet(FieldTypes zoneType) {
     for (int i = 0; i < fields.length; i++) {

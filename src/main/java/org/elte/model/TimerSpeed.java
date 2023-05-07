@@ -3,7 +3,7 @@ package org.elte.model;
 public enum TimerSpeed {
 		STOP(-1),
 		ONE(1000),
-		TWO(25);
+		TWO(500);
 
 		final int amount;
 

@@ -42,8 +42,11 @@ public abstract class Building {
 
   public boolean isBurning() {
     return burning;
+  };
+
+  public boolean isFireStation() {
+    return false;
   }
-  ;
 
   public abstract boolean isEmpty();
 

@@ -3,10 +3,14 @@ package org.elte.view.game;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
+import org.elte.model.Direction;
 import org.elte.model.Field;
+import org.elte.model.Firetruck;
 import org.elte.model.Game;
 import org.elte.model.building.Building;
 import org.elte.model.enums.BuildingTypes;
@@ -20,6 +24,7 @@ import org.elte.view.game.gamepanel.InfoBox;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.view.game.vehicles.FiretruckView;
 
 @Getter
 @Setter
@@ -27,7 +32,7 @@ public class GamePanel extends JPanel {
   public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.15);
   public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
   public static final int FIELD_SIZE =
-      (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
+          (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
   private static final long serialVersionUID = 1L;
   private Game game;
   private Dimension screenSize;
@@ -47,6 +52,7 @@ public class GamePanel extends JPanel {
     this.game = Game.getInstance();
     this.screenSize = ScreenUtils.getScreenSize();
     this.fieldInfoBox = fieldInfoBox;
+    fieldInfoBox.setGamePanel(this);
     this.infoBox = infoBox;
     this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
     this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox);
@@ -55,6 +61,7 @@ public class GamePanel extends JPanel {
     this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
     this.setVisible(true);
     gamePanel = this;
+
   }
 
   protected void paintComponent(Graphics g) {
@@ -63,7 +70,8 @@ public class GamePanel extends JPanel {
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
     if (!zoneMode) {
-      drawBuildings(g);
+      drawBuildings(g2d);
+      game.getFiretrucks().forEach(firetruck -> drawFiretruck(g2d, firetruck));
     } else {
       drawZones(g);
     }
@@ -73,7 +81,7 @@ public class GamePanel extends JPanel {
     g.fillRect(screenSize.width - 200, screenSize.height / 2 - 150, 180, 150);
   }
 
-  private void drawBuildings(Graphics g) {
+  private void drawBuildings(Graphics2D g) {
     ArrayList<Position> positionsToSkip = new ArrayList<>();
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
@@ -98,7 +106,7 @@ public class GamePanel extends JPanel {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }
         if (fieldInfoBox.getSelectedPosition() != null
-            && fieldInfoBox.getSelectedPosition().equals(position)) {
+                && fieldInfoBox.getSelectedPosition().equals(position)) {
           g.setColor(Color.red);
           g.drawRect(x, y, width - 2, height - 2);
         }
@@ -116,14 +124,56 @@ public class GamePanel extends JPanel {
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
         g.drawImage(
-            ImageResource.getZoneImageOfClass(
-                game.getField(new Position(i, j)).getZone().getClass()),
-            i * FIELD_SIZE,
-            j * FIELD_SIZE,
-            FIELD_SIZE,
-            FIELD_SIZE,
-            null);
+                ImageResource.getZoneImageOfClass(
+                        game.getField(new Position(i, j)).getZone().getClass()),
+                i * FIELD_SIZE,
+                j * FIELD_SIZE,
+                FIELD_SIZE,
+                FIELD_SIZE,
+                null);
       }
     }
   }
+
+  public void drawFiretruck(Graphics2D g2d, Firetruck firetruck) {
+    double angle = 0; // default angle (no rotation)
+    Direction direction = firetruck.getDirection();
+    int x = firetruck.getPosition().x() * GamePanel.FIELD_SIZE;
+    int y = firetruck.getPosition().y() * GamePanel.FIELD_SIZE;
+    if (direction != null) {
+      switch (direction) {
+        case UP:
+          angle = Math.PI / 2;
+          break;
+        case DOWN:
+          angle = -Math.PI / 2;
+          break;
+        case RIGHT:
+          angle = Math.PI;
+          Image flippedImage = flip((BufferedImage) ImageResource.FIRETRUCK);
+          g2d.drawImage(flippedImage, x + GamePanel.FIELD_SIZE, y + GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, null);
+          break;
+        default:
+          angle = 0;
+          break;
+      }
+      g2d.rotate(angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
+    }
+    if (direction != Direction.RIGHT)
+      g2d.drawImage(ImageResource.FIRETRUCK, x, y, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
+    if (direction != null)
+      g2d.rotate(-angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
+  }
+
+  public static BufferedImage flip(BufferedImage image) {
+    int w = image.getWidth();
+    int h = image.getHeight();
+    BufferedImage flippedImage = new BufferedImage(w, h, image.getType());
+    Graphics2D g = flippedImage.createGraphics();
+    g.drawImage(image, 0, 0, w, h, 0, h, w, 0, null);
+    g.dispose();
+    return flippedImage;
+  }
+
+
 }
