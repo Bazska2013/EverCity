@@ -1,12 +1,18 @@
 package org.elte.model;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Optional;
 
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
 import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Industry;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
+import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
 import org.elte.view.game.GamePanel;
 
@@ -33,6 +39,7 @@ public class Game {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
               handleRandomFire();
+              searchWorkLessCitizens();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
@@ -79,6 +86,7 @@ public class Game {
         double randomNumber = Math.random();
         if (chanceToFire > 0 && randomNumber < chanceToFire) {
           field.getBuilding().setBurning(true);
+          GamePanel.infoBox.reRender("Warning!", "A building is on fire!", Color.ORANGE);
         }
       }
     }
@@ -149,5 +157,36 @@ public class Game {
     }
     GamePanel.infoBox.reRender("Attention!", "Yearly TAX payed", Color.BLUE);
     return fees;
+  }
+
+  public Zone findWorkplace(Citizen citizen) {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
+          if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
+            fields[i][j].getZone().getWorkers().add(citizen);
+            return fields[i][j].getZone();
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  public void searchWorkLessCitizens() {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident) {
+          List<Citizen> citizens = ((Resident) fields[i][j].getZone()).getCitizens();
+          for (Citizen c : citizens) {
+            if (c.getWorksAt() == null) {
+              c.setWorksAt(findWorkplace(c));
+            }
+          }
+          ((Resident) fields[i][j].getZone()).setCitizens(citizens);
+        }
+      }
+    }
   }
 }

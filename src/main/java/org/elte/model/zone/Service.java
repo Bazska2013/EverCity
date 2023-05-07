@@ -37,4 +37,14 @@ public class Service extends Zone {
   public int getTax() {
     return tax * capacity;
   }
+
+  @Override
+  public int getCitizenNumber() {
+    return workers.size();
+  }
+
+  @Override
+  public List<Citizen> getWorkers() {
+    return workers;
+  }
 }
