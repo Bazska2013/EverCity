@@ -7,6 +7,7 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
+import org.elte.view.MainFrame;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public abstract class Building {
 										currentField.setBuilding(this);
 								}
 						}
+					MainFrame.SetBalance(MainFrame.GetBalance()-price);
 				}
 		}
 

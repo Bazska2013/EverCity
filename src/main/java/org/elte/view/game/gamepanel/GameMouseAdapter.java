@@ -66,26 +66,35 @@ public class GameMouseAdapter extends MouseAdapter {
 		private void placeZone(int current_x, int current_y) {
 				switch (BuildablePanel.getSelectedFieldZoneType()) {
 						case EMPTY -> {
-								if (!(game.getField(new Position(current_x, current_y)).getZone() instanceof Empty))
-										game.getField(new Position(current_x, current_y)).setZone(new Empty(1000));
+								if (!(game.getField(new Position(current_x, current_y)).getZone() instanceof Empty)){
+										game.getField(new Position(current_x, current_y)).setZone(new Empty(-2));
+									game.getField(new Position(current_x, current_y)).getZone().cost();
+								}
+
 						}
 						case SERVICE -> {
 								if (!(game.getField(new Position(current_x, current_y)).getZone()
-												instanceof Service))
+												instanceof Service)){
 										game.getField(new Position(current_x, current_y))
 														.setZone(new Service(1, 2, 3, 4, 5));
+									game.getField(new Position(current_x, current_y)).getZone().cost();
+								}
 						}
 						case INDUSTRY -> {
 								if (!(game.getField(new Position(current_x, current_y)).getZone()
-												instanceof Industry))
+												instanceof Industry)){
 										game.getField(new Position(current_x, current_y))
 														.setZone(new Industry(1, 2, 3, 4, 5));
+									game.getField(new Position(current_x, current_y)).getZone().cost();
+								}
 						}
 						case RESIDENT -> {
 								if (!(game.getField(new Position(current_x, current_y)).getZone()
-												instanceof Resident))
+												instanceof Resident)){
 										game.getField(new Position(current_x, current_y))
 														.setZone(new Resident(1, 2, 3, 4, 5, null));
+									game.getField(new Position(current_x, current_y)).getZone().cost();
+								}
 						}
 				}
 		}
