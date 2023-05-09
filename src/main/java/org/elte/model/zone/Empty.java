@@ -1,6 +1,7 @@
 package org.elte.model.zone;
 
 import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
 public class Empty extends Zone {
@@ -28,4 +29,7 @@ public class Empty extends Zone {
   public FieldTypes getZoneType() {
     return FieldTypes.EMPTY;
   }
+
+  @Override
+  public void addCitizen(Citizen citizen) {}
 }

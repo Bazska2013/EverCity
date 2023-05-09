@@ -1,8 +1,10 @@
 package org.elte.model;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
@@ -39,7 +41,7 @@ public class Game {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
               handleRandomFire();
-              searchWorkLessCitizens();
+              searchUnemployedCitizens();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
@@ -159,32 +161,43 @@ public class Game {
     return fees;
   }
 
-  public Zone findWorkplace(Citizen citizen) {
+  public List<Zone> findNotFullWorkplaces() {
+    List<Zone> workplaces = new ArrayList<>();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Industry
             || fields[i][j].getZone() instanceof Service) {
           if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
-            fields[i][j].getZone().getWorkers().add(citizen);
-            return fields[i][j].getZone();
+            workplaces.add(fields[i][j].getZone());
           }
         }
       }
     }
-    return null;
+    return workplaces;
   }
 
-  public void searchWorkLessCitizens() {
+  public void searchUnemployedCitizens() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Resident) {
           List<Citizen> citizens = ((Resident) fields[i][j].getZone()).getCitizens();
-          for (Citizen c : citizens) {
-            if (c.getWorksAt() == null) {
-              c.setWorksAt(findWorkplace(c));
+          List<Zone> workplaces = findNotFullWorkplaces();
+          Random rand = new Random();
+          if (workplaces.size() != 0) {
+            for (Citizen c : citizens) {
+              if (c.getWorksAt() == null) {
+                while (true) {
+                  int rand_w = rand.nextInt(workplaces.size());
+                  if (workplaces.get(rand_w).getCitizenNumber()
+                      < workplaces.get(rand_w).getCapacity()) {
+                    c.setWorksAt(workplaces.get(rand_w));
+                    workplaces.get(rand_w).addCitizen(c);
+                    break;
+                  }
+                }
+              }
             }
           }
-          ((Resident) fields[i][j].getZone()).setCitizens(citizens);
         }
       }
     }

@@ -56,4 +56,6 @@ public abstract class Zone {
   }
 
   public void upgrade() {}
+
+  public abstract void addCitizen(Citizen citizen);
 }

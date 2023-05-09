@@ -27,6 +27,7 @@ public class FieldInfoBox extends JPanel {
   private JLabel buildingTypeLabel;
   private JLabel positionXLabel;
   private JLabel positionYLabel;
+  private JLabel citizenNumber;
   private JButton button;
   private JButton upgradeButton;
 
@@ -35,7 +36,7 @@ public class FieldInfoBox extends JPanel {
     this.game = Game.getInstance();
     this.setBounds(X, Y, WIDTH, HEIGHT);
     this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-    this.setLayout(new GridLayout(6, 1)); // add one more row for the button
+    this.setLayout(new GridLayout(7, 1)); // add one more row for the button
     this.setBackground(Color.gray);
     this.setVisible(true);
 
@@ -60,6 +61,11 @@ public class FieldInfoBox extends JPanel {
     positionYLabel.setForeground(Color.white);
     positionYLabel.setFont(labelFont);
     this.add(positionYLabel);
+
+    citizenNumber = new JLabel();
+    citizenNumber.setForeground(Color.white);
+    citizenNumber.setFont(labelFont);
+    this.add(citizenNumber);
 
     button = new TextButton("Delete");
     button.setBackground(Color.RED);
@@ -96,20 +102,23 @@ public class FieldInfoBox extends JPanel {
           Localization.getProp().getProperty("zone_position_x") + " " + selectedPosition.x());
       positionYLabel.setText(
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
+      citizenNumber.setText(
+          "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
       button.setVisible(true); // enable the button when a position is selected
       if (game.getField(selectedPosition).getZone() instanceof Resident) {
         this.add(upgradeButton);
-        this.setLayout(new GridLayout(6, 1));
+        this.setLayout(new GridLayout(7, 1));
         upgradeButton.setVisible(true);
       } else {
         this.remove(upgradeButton);
-        this.setLayout(new GridLayout(5, 1));
+        this.setLayout(new GridLayout(6, 1));
       }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
       positionXLabel.setText("");
       positionYLabel.setText("");
+      citizenNumber.setText("");
       button.setVisible(false); // disable the button when no position is selected
       upgradeButton.setVisible(false);
     }
