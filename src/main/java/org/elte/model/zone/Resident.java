@@ -23,11 +23,7 @@ public class Resident extends Zone {
 
     if (MainFrame.startingCitizensToAdd > 0) {
       for (int i = 0; i < Math.min(MainFrame.startingCitizensToAdd, capacity); i++) {
-        Citizen citizen = new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18);
-        Game game = Game.getInstance();
-        Zone workplace = game.findWorkplace(citizen);
-        citizen.setWorksAt(workplace);
-        citizens.add(citizen);
+        citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
       }
       MainFrame.startingCitizensToAdd -= citizens.size();
       MainFrame.getInstance().repaintCitizenNumber();
@@ -74,5 +70,9 @@ public class Resident extends Zone {
       this.capacity *= 2;
       game.getField(position).getBuilding().setBuildingType(BuildingTypes.HOUSE_3);
     }
+  }
+
+  public void addCitizen(Citizen citizen) {
+    citizens.add(citizen);
   }
 }

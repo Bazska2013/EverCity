@@ -47,4 +47,9 @@ public class Industry extends Zone {
   public List<Citizen> getWorkers() {
     return workers;
   }
+
+  @Override
+  public void addCitizen(Citizen citizen) {
+    workers.add(citizen);
+  }
 }
