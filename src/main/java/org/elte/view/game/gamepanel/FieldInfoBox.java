@@ -3,8 +3,11 @@ package org.elte.view.game.gamepanel;
 import java.awt.*;
 import javax.swing.*;
 
+import org.elte.model.Field;
 import org.elte.model.Game;
+import org.elte.model.zone.Empty;
 import org.elte.model.zone.Resident;
+import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
@@ -28,7 +31,7 @@ public class FieldInfoBox extends JPanel {
   private JLabel positionXLabel;
   private JLabel positionYLabel;
   private JLabel citizenNumber;
-  private JButton button;
+  private JButton deleteButton;
   private JButton upgradeButton;
 
   public FieldInfoBox() {
@@ -67,9 +70,9 @@ public class FieldInfoBox extends JPanel {
     citizenNumber.setFont(labelFont);
     this.add(citizenNumber);
 
-    button = new TextButton("Delete");
-    button.setBackground(Color.RED);
-    this.add(button);
+    deleteButton = new TextButton("Delete");
+    deleteButton.setBackground(Color.RED);
+    this.add(deleteButton);
 
     upgradeButton = new TextButton("Upgrade");
     upgradeButton.setBackground(Color.decode("#339157"));
@@ -79,7 +82,7 @@ public class FieldInfoBox extends JPanel {
           game.getField(selectedPosition).getZone().upgrade();
           setSelectedPosition(selectedPosition);
         });
-    button.addActionListener(
+    deleteButton.addActionListener(
         e -> {
           game.getField(selectedPosition).getBuilding().delete();
           setSelectedPosition(selectedPosition);
@@ -104,12 +107,21 @@ public class FieldInfoBox extends JPanel {
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
       citizenNumber.setText(
           "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
-      button.setVisible(true); // enable the button when a position is selected
-      if (game.getField(selectedPosition).getZone() instanceof Resident) {
+      deleteButton.setVisible(true); // enable the button when a position is selected
+
+      Field selectedField = game.getField(selectedPosition);
+
+      if (selectedField.getZone() instanceof Resident) {
+        this.add(deleteButton);
         this.add(upgradeButton);
         this.setLayout(new GridLayout(7, 1));
         upgradeButton.setVisible(true);
+      } else if (selectedField.getZone() instanceof Empty && selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+        this.remove(deleteButton);
+        this.remove(upgradeButton);
+        this.setLayout(new GridLayout(5, 1));
       } else {
+        this.add(deleteButton);
         this.remove(upgradeButton);
         this.setLayout(new GridLayout(6, 1));
       }
@@ -119,7 +131,7 @@ public class FieldInfoBox extends JPanel {
       positionXLabel.setText("");
       positionYLabel.setText("");
       citizenNumber.setText("");
-      button.setVisible(false); // disable the button when no position is selected
+      deleteButton.setVisible(false); // disable the button when no position is selected
       upgradeButton.setVisible(false);
     }
   }
