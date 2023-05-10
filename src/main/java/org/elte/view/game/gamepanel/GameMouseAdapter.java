@@ -81,6 +81,10 @@ public class GameMouseAdapter extends MouseAdapter {
         System.out.println(buildingType.getBuildingType().name() + " can't be placed");
       }
     }
+
+    if(buildingType instanceof Road)
+      field.setZone(new org.elte.model.zone.Road(position));
+
   }
 
   private void placeZone(Position position) {

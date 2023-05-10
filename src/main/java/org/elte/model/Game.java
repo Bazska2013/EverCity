@@ -36,7 +36,9 @@ public class Game {
   private Game() {
     fields = new Field[rows][columns];
     fillFields();
+    fields[0][2].setZone(new org.elte.model.zone.Road(new Position(2, 0)));
     fields[0][2].setBuilding(new Road(new Position(2, 0)));
+    fields[1][2].setZone(new org.elte.model.zone.Road(new Position(2, 1)));
     fields[1][2].setBuilding(new Road(new Position(2, 1)));
     gameTime =
         new GameTime(

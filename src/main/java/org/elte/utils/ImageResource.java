@@ -22,6 +22,7 @@ public abstract class ImageResource {
   public static final Image POLICE = ResourceLoader.loadImage("police.png");
   public static final Image ROAD = ResourceLoader.loadImage("empty-road.png");
 
+  public static final Image ZONE_ROAD = ResourceLoader.loadImage("empty-road.png");
   public static final Image ZONE_RESIDENT = ResourceLoader.loadImage("zone_resident.png");
   public static final Image ZONE_INDUSTRY = ResourceLoader.loadImage("zone_industry.png");
   public static final Image ZONE_SERVICE = ResourceLoader.loadImage("zone_service.png");
@@ -43,6 +44,7 @@ public abstract class ImageResource {
   }
 
   public static Image getZoneImageOfClass(Class<?> clazz) {
+    if (clazz == org.elte.model.zone.Road.class) return ZONE_ROAD;
     if (clazz == Industry.class) return ZONE_INDUSTRY;
     if (clazz == Resident.class) return ZONE_RESIDENT;
     if (clazz == Service.class) return ZONE_SERVICE;
