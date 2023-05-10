@@ -68,7 +68,10 @@ public class Game {
   public void fillFields() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
+        Random rand = new Random();
         fields[i][j] = new Field(new Position(j, i));
+        if(Math.floorMod(rand.nextInt(), 100) < 5)
+          fields[i][j].setBuilding(new Forest(new Position(j, i)));
       }
     }
   }
@@ -216,5 +219,9 @@ public class Game {
         }
       }
     }
+  }
+
+  public void resetGame() {
+    INSTANCE = new Game();
   }
 }
