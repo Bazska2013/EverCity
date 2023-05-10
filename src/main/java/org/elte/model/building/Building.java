@@ -11,6 +11,7 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.view.MainFrame;
 
 @Getter
 @Setter
@@ -152,6 +153,7 @@ public abstract class Building {
               Field currentField = game.getField(pos);
               currentField.setBuilding(new Empty(pos));
             });
+        game.getField(position).setBuilding((new Empty(position)));
       }
     } else {
       Game game = Game.getInstance();
@@ -160,6 +162,7 @@ public abstract class Building {
             Field currentField = game.getField(pos);
             currentField.setBuilding(new Empty(pos));
           });
+      game.getField(position).setBuilding((new Empty(position)));
     }
   }
 
