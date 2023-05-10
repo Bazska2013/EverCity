@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import org.elte.model.building.Forest;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
@@ -47,9 +48,21 @@ public class Game {
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
+                increaseForestImpacts();
               }
             });
     gameTime.setTimerSpeed(TimerSpeed.ONE);
+  }
+
+  private void increaseForestImpacts() {
+    for (Field[] fieldRow : this.fields) {
+      for (Field field : fieldRow) {
+        if(field.getBuilding() instanceof Forest) {
+          Forest forest = (Forest) field.getBuilding();
+          forest.setSize(forest.getSize() + 1);
+        }
+      }
+    }
   }
 
   public void fillFields() {

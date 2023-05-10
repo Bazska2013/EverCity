@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -35,5 +37,13 @@ public class Forest extends Building {
 
   public int getTax() {
     return yearlyFee;
+  }
+
+  public int getSize() {
+    return size;
+  }
+
+  public void setSize(int size) {
+    this.size = Math.min(10, size);
   }
 }
