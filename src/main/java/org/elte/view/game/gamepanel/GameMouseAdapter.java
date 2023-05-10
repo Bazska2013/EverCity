@@ -12,6 +12,7 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
+import org.elte.view.MainFrame;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 
@@ -70,8 +71,9 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
       buildingType.create();
-      BuildablePanel.setSelectedBuildingType(null);
-      BuildablePanel.setSelectedFieldZoneType(null);
+      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
+      // BuildablePanel.setSelectedBuildingType(null);
+      // BuildablePanel.setSelectedFieldZoneType(null);
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
@@ -90,8 +92,11 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (newZone != null && newZone.isPlaceable()) {
       newZone.create();
-      BuildablePanel.setSelectedBuildingType(null);
-      BuildablePanel.setSelectedFieldZoneType(null);
+      if(newZone instanceof Resident)
+        MainFrame.getInstance().repaintCitizenNumber();
+      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
+      // BuildablePanel.setSelectedBuildingType(null);
+      // BuildablePanel.setSelectedFieldZoneType(null);
     }
   }
 }

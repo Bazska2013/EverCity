@@ -137,6 +137,7 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
+          game.setBalance(game.getBalance()-price);
         }
       }
     }

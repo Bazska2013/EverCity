@@ -19,12 +19,14 @@ import org.elte.utils.Position;
 import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Game {
   private static Game INSTANCE = null;
-  static int rows = 16;
-  static int columns = 32;
+  static final int rows = 16;
+  static final int columns = 32;
   private int balance = 20000;
   public Field[][] fields;
   // int balance;

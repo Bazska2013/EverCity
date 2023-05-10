@@ -26,7 +26,6 @@ public class Resident extends Zone {
         citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
       }
       MainFrame.startingCitizensToAdd -= citizens.size();
-      MainFrame.getInstance().repaintCitizenNumber();
     }
   }
 
