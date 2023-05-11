@@ -1,7 +1,8 @@
 package org.elte.view.game.vehicles;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import java.awt.*;
+import javax.swing.*;
+
 import org.elte.model.Direction;
 import org.elte.model.Firetruck;
 import org.elte.model.Game;
@@ -9,10 +10,8 @@ import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.view.game.GamePanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -28,7 +27,8 @@ public class FiretruckView extends JPanel {
     int x = position.x() * GamePanel.FIELD_SIZE;
     int y = position.y() * GamePanel.FIELD_SIZE;
     this.setVisible(true);
-    this.setBounds(0, 0, GamePanel.FIELD_SIZE * Game.getColumns(), GamePanel.FIELD_SIZE * Game.getRows());
+    this.setBounds(
+        0, 0, GamePanel.FIELD_SIZE * Game.getColumns(), GamePanel.FIELD_SIZE * Game.getRows());
     System.out.println(this.getBounds());
   }
 
@@ -57,10 +57,8 @@ public class FiretruckView extends JPanel {
       g2d.rotate(angle, GamePanel.FIELD_SIZE / 2, GamePanel.FIELD_SIZE / 2);
     }
     g2d.drawImage(ImageResource.FIRETRUCK, 0, 0, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
-    if (direction != null)
-      g2d.rotate(-angle, GamePanel.FIELD_SIZE / 2, GamePanel.FIELD_SIZE / 2);
+    if (direction != null) g2d.rotate(-angle, GamePanel.FIELD_SIZE / 2, GamePanel.FIELD_SIZE / 2);
 
     // set the bounds of the component
   }
-
 }

@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.building.*;
-import org.elte.model.enums.BuildingTypes;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
@@ -80,9 +79,7 @@ public class GameMouseAdapter extends MouseAdapter {
       }
     }
 
-    if(buildingType instanceof Road)
-      field.setZone(new org.elte.model.zone.Road(position));
-
+    if (buildingType instanceof Road) field.setZone(new org.elte.model.zone.Road(position));
   }
 
   private void placeZone(Position position) {
@@ -94,8 +91,7 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (newZone != null && newZone.isPlaceable()) {
       newZone.create();
-      if(newZone instanceof Resident)
-        MainFrame.getInstance().repaintCitizenNumber();
+      if (newZone instanceof Resident) MainFrame.getInstance().repaintCitizenNumber();
     }
   }
 }

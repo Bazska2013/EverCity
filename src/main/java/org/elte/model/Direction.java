@@ -3,7 +3,10 @@ package org.elte.model;
 import org.elte.utils.Position;
 
 public enum Direction {
-  UP, DOWN, LEFT, RIGHT;
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT;
 
   public static Direction getDirection(Position from, Position to) {
     int dx = to.x() - from.x();

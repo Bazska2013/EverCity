@@ -108,10 +108,11 @@ public class MainFrame {
     // menu.setIcon(new ImageIcon(icon));
     JMenuItem newGame = new JMenuItem(Localization.getProp().getProperty("new_game_text"));
     gameOptions.add(newGame);
-    newGame.addActionListener(e -> {
-      game.resetGame();
-      gamePanel.repaint();
-    });
+    newGame.addActionListener(
+        e -> {
+          game.resetGame();
+          gamePanel.repaint();
+        });
 
     JMenu languageSelectorMenuItem =
         new JMenu(Localization.getProp().getProperty("language_title"));

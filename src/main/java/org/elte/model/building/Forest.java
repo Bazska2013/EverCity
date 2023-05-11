@@ -1,7 +1,5 @@
 package org.elte.model.building;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 

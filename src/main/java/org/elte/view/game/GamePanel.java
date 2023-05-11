@@ -5,7 +5,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 
 import org.elte.model.Direction;
@@ -24,7 +23,6 @@ import org.elte.view.game.gamepanel.InfoBox;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.elte.view.game.vehicles.FiretruckView;
 
 @Getter
 @Setter
@@ -32,7 +30,7 @@ public class GamePanel extends JPanel {
   public static final int X = (int) (ScreenUtils.getScreenSize().width * 0.15);
   public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.05);
   public static final int FIELD_SIZE =
-          (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
+      (int) (ScreenUtils.getScreenSize().width * 0.70) / Game.getColumns();
   private static final long serialVersionUID = 1L;
   private Game game;
   private Dimension screenSize;
@@ -61,7 +59,6 @@ public class GamePanel extends JPanel {
     this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
     this.setVisible(true);
     gamePanel = this;
-
   }
 
   protected void paintComponent(Graphics g) {
@@ -106,7 +103,7 @@ public class GamePanel extends JPanel {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }
         if (fieldInfoBox.getSelectedPosition() != null
-                && fieldInfoBox.getSelectedPosition().equals(position)) {
+            && fieldInfoBox.getSelectedPosition().equals(position)) {
           g.setColor(Color.red);
           g.drawRect(x, y, width - 2, height - 2);
         }
@@ -124,13 +121,13 @@ public class GamePanel extends JPanel {
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
         g.drawImage(
-                ImageResource.getZoneImageOfClass(
-                        game.getField(new Position(i, j)).getZone().getClass()),
-                i * FIELD_SIZE,
-                j * FIELD_SIZE,
-                FIELD_SIZE,
-                FIELD_SIZE,
-                null);
+            ImageResource.getZoneImageOfClass(
+                game.getField(new Position(i, j)).getZone().getClass()),
+            i * FIELD_SIZE,
+            j * FIELD_SIZE,
+            FIELD_SIZE,
+            FIELD_SIZE,
+            null);
       }
     }
   }
@@ -151,7 +148,13 @@ public class GamePanel extends JPanel {
         case RIGHT:
           angle = Math.PI;
           Image flippedImage = flip((BufferedImage) ImageResource.FIRETRUCK);
-          g2d.drawImage(flippedImage, x + GamePanel.FIELD_SIZE, y + GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, null);
+          g2d.drawImage(
+              flippedImage,
+              x + GamePanel.FIELD_SIZE,
+              y + GamePanel.FIELD_SIZE,
+              -GamePanel.FIELD_SIZE,
+              -GamePanel.FIELD_SIZE,
+              null);
           break;
         default:
           angle = 0;
@@ -160,9 +163,9 @@ public class GamePanel extends JPanel {
       g2d.rotate(angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
     }
     if (direction != Direction.RIGHT)
-      g2d.drawImage(ImageResource.FIRETRUCK, x, y, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
-    if (direction != null)
-      g2d.rotate(-angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
+      g2d.drawImage(
+          ImageResource.FIRETRUCK, x, y, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
+    if (direction != null) g2d.rotate(-angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
   }
 
   public static BufferedImage flip(BufferedImage image) {
@@ -174,6 +177,4 @@ public class GamePanel extends JPanel {
     g.dispose();
     return flippedImage;
   }
-
-
 }

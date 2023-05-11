@@ -1,7 +1,5 @@
 package org.elte.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,7 @@ public class Game {
               tryToPlaceServiceBuilding();
               initRandomFire();
               handleFire();
-              g2d.drawImage(flippedImage, x + GamePanel.FIELD_SIZE, y + GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, -GamePanel.FIELD_SIZE, null);
+              searchUnemployedCitizens();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
@@ -63,7 +61,7 @@ public class Game {
   private void increaseForestImpacts() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
-        if(field.getBuilding() instanceof Forest) {
+        if (field.getBuilding() instanceof Forest) {
           Forest forest = (Forest) field.getBuilding();
           forest.setSize(forest.getSize() + 1);
         }
@@ -76,7 +74,7 @@ public class Game {
       for (int j = 0; j < columns; j++) {
         Random rand = new Random();
         fields[i][j] = new Field(new Position(j, i));
-        if(Math.floorMod(rand.nextInt(), 100) < 5)
+        if (Math.floorMod(rand.nextInt(), 100) < 5)
           fields[i][j].setBuilding(new Forest(new Position(j, i)));
       }
     }
@@ -108,15 +106,22 @@ public class Game {
   private void handleFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
-        if(field.getBuilding().isBurning()) {
-          firetrucks.stream().filter(firetruck -> !firetruck.isMoving() && field.isConnectedWith(firetruck.getPosition())).findFirst().ifPresent(firetruck -> {
-            firetruck.setTarget(field.getPosition());
-            firetruck.start();
-          });
+        if (field.getBuilding().isBurning()) {
+          firetrucks.stream()
+              .filter(
+                  firetruck ->
+                      !firetruck.isMoving() && field.isConnectedWith(firetruck.getPosition()))
+              .findFirst()
+              .ifPresent(
+                  firetruck -> {
+                    firetruck.setTarget(field.getPosition());
+                    firetruck.start();
+                  });
         }
       }
     }
   }
+
   private void initRandomFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
@@ -139,8 +144,6 @@ public class Game {
               }
             });
   }
-
-
 
   public Optional<Position> findZonePositionNearStreet(FieldTypes zoneType) {
     for (int i = 0; i < fields.length; i++) {

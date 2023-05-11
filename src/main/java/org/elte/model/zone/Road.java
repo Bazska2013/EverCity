@@ -6,32 +6,30 @@ import org.elte.utils.Position;
 
 public class Road extends Zone {
 
-    public Road(Position position) {
-        super(position);
-    }
+  public Road(Position position) {
+    super(position);
+  }
 
-    @Override
-    public boolean isDeletable() {
-        return false;
-    }
+  @Override
+  public boolean isDeletable() {
+    return false;
+  }
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
 
-    @Override
-    public FieldTypes getZoneType() {
-        return FieldTypes.ROAD;
-    }
+  @Override
+  public FieldTypes getZoneType() {
+    return FieldTypes.ROAD;
+  }
 
-    @Override
-    public int getTax() {
-        return 0;
-    }
+  @Override
+  public int getTax() {
+    return 0;
+  }
 
-    @Override
-    public void addCitizen(Citizen citizen) {
-
-    }
+  @Override
+  public void addCitizen(Citizen citizen) {}
 }

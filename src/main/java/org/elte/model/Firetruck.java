@@ -1,15 +1,12 @@
 package org.elte.model;
 
-import lombok.*;
-import org.elte.model.building.FireStation;
-import org.elte.utils.BFSRunner;
-import org.elte.utils.Position;
-import org.elte.view.game.GamePanel;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import javax.swing.*;
+
+import org.elte.model.building.FireStation;
+import org.elte.utils.Position;
+
+import lombok.*;
 
 @Getter
 @Setter
@@ -50,33 +47,36 @@ public class Firetruck {
   public void start() {
     moving = true;
     Position start = position;
-    Timer timer = new Timer(Game.getInstance().getGameTime().getDelay() / SPEED, e -> {
-      ((Timer) e.getSource()).setDelay(Game.getInstance().getGameTime().getDelay() / SPEED);
-      if(!Game.getInstance().getGameTime().isRunning()){
-        return;
-      }
-      if (road == null || road.isEmpty()) {
-        if (position.equals(target)) {
-          // reached target, start return trip to starting position
-          target = start;
-          road = Game.getInstance().getField(position).getRoadToField(target);
-          Game.getInstance().getField(position).getBuilding().setBurning(false);
-        }
-      } else {
-        Position nextPosition = road.remove(0);
-        direction = Direction.getDirection(position, nextPosition);
-        position = nextPosition;
-        if (road.isEmpty()) {
-          if(target == start){
-            ((Timer) e.getSource()).stop();
-            direction = Direction.LEFT;
-            moving = false;
-            road = null;
-            target = null;
-          }
-        }
-      }
-    });
+    Timer timer =
+        new Timer(
+            Game.getInstance().getGameTime().getDelay() / SPEED,
+            e -> {
+              ((Timer) e.getSource()).setDelay(Game.getInstance().getGameTime().getDelay() / SPEED);
+              if (!Game.getInstance().getGameTime().isRunning()) {
+                return;
+              }
+              if (road == null || road.isEmpty()) {
+                if (position.equals(target)) {
+                  // reached target, start return trip to starting position
+                  target = start;
+                  road = Game.getInstance().getField(position).getRoadToField(target);
+                  Game.getInstance().getField(position).getBuilding().setBurning(false);
+                }
+              } else {
+                Position nextPosition = road.remove(0);
+                direction = Direction.getDirection(position, nextPosition);
+                position = nextPosition;
+                if (road.isEmpty()) {
+                  if (target == start) {
+                    ((Timer) e.getSource()).stop();
+                    direction = Direction.LEFT;
+                    moving = false;
+                    road = null;
+                    target = null;
+                  }
+                }
+              }
+            });
     timer.start();
   }
 
