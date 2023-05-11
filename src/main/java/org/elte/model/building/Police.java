@@ -15,7 +15,7 @@ public class Police extends Building {
     impactRange = 30;
     width = 1;
     height = 1;
-    chanceToFire = 0.005;
+    chanceToFire = 0.0005;
     burning = false;
   }
 
@@ -40,5 +40,10 @@ public class Police extends Building {
 
   public int getTax() {
     return yearlyFee;
+  }
+
+  @Override
+  public boolean canBurn() {
+    return true;
   }
 }

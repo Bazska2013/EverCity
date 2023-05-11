@@ -16,7 +16,7 @@ public class Forest extends Building {
     impactRange = 5;
     width = 1;
     height = 1;
-    chanceToFire = 0.001;
+    chanceToFire = 0.0001;
     burning = false;
     this.size = 1;
   }
