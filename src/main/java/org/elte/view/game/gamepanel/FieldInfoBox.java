@@ -7,11 +7,11 @@ import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.zone.Empty;
 import org.elte.model.zone.Resident;
-import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
 import org.elte.view.common.buttons.TextButton;
+import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +25,7 @@ public class FieldInfoBox extends JPanel {
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.50);
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.15) - 10;
   private Game game;
+  private GamePanel gamePanel;
   private Position selectedPosition;
   private JLabel zoneTypeLabel;
   private JLabel buildingTypeLabel;
@@ -116,7 +117,8 @@ public class FieldInfoBox extends JPanel {
         this.add(upgradeButton);
         this.setLayout(new GridLayout(7, 1));
         upgradeButton.setVisible(true);
-      } else if (selectedField.getZone() instanceof Empty && selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+      } else if (selectedField.getZone() instanceof Empty
+          && selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
         this.remove(deleteButton);
         this.remove(upgradeButton);
         this.setLayout(new GridLayout(5, 1));
@@ -134,6 +136,10 @@ public class FieldInfoBox extends JPanel {
       deleteButton.setVisible(false); // disable the button when no position is selected
       upgradeButton.setVisible(false);
     }
+  }
+
+  public void setGamePanel(GamePanel gamePanel) {
+    this.gamePanel = gamePanel;
   }
 
   public void setSelectedPosition(Position position) {

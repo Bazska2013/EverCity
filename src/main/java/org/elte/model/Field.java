@@ -87,6 +87,31 @@ public class Field {
     return BFSRunner.traverse(graph, current.getPosition(), target.getPosition());
   }
 
+  public List<Position> getRoadToField(Position position) {
+    Game game = Game.getInstance();
+    Field current = this;
+    Field target = game.getField(position);
+    HashMap<Position, List<Position>> graph = BFSRunner.buildRoadGraph(game.fields);
+    List<Field> currentRoadNeighbors =
+        current.getNeighbors().stream().filter(field -> field.getBuilding().isRoad()).toList();
+    currentRoadNeighbors.forEach(
+        field -> {
+          graph.get(field.getPosition()).add(current.getPosition());
+        });
+    graph.put(
+        current.getPosition(), currentRoadNeighbors.stream().map(Field::getPosition).toList());
+
+    List<Field> targetRoadNeighbors =
+        target.getNeighbors().stream().filter(field -> field.getBuilding().isRoad()).toList();
+    targetRoadNeighbors.forEach(
+        field -> {
+          graph.get(field.getPosition()).add(target.getPosition());
+        });
+    graph.put(target.getPosition(), targetRoadNeighbors.stream().map(Field::getPosition).toList());
+
+    return BFSRunner.getRoad(graph, current.getPosition(), target.getPosition());
+  }
+
   public boolean isConnectedWithOneOf(List<Position> positions) {
     return positions.stream().anyMatch(this::isConnectedWith);
   }

@@ -30,6 +30,7 @@ public class Game {
   static final int columns = 32;
   private int balance = 20000;
   public Field[][] fields;
+  public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
   private final GameTime gameTime;
 
@@ -45,7 +46,8 @@ public class Game {
             e -> {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
-              handleRandomFire();
+              initRandomFire();
+              handleFire();
               searchUnemployedCitizens();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
@@ -59,7 +61,7 @@ public class Game {
   private void increaseForestImpacts() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
-        if(field.getBuilding() instanceof Forest) {
+        if (field.getBuilding() instanceof Forest) {
           Forest forest = (Forest) field.getBuilding();
           forest.setSize(forest.getSize() + 1);
         }
@@ -72,7 +74,7 @@ public class Game {
       for (int j = 0; j < columns; j++) {
         Random rand = new Random();
         fields[i][j] = new Field(new Position(j, i));
-        if(Math.floorMod(rand.nextInt(), 100) < 5)
+        if (Math.floorMod(rand.nextInt(), 100) < 5)
           fields[i][j].setBuilding(new Forest(new Position(j, i)));
       }
     }
@@ -101,7 +103,26 @@ public class Game {
             });
   }
 
-  private void handleRandomFire() {
+  private void handleFire() {
+    for (Field[] fieldRow : this.fields) {
+      for (Field field : fieldRow) {
+        if (field.getBuilding().isBurning()) {
+          firetrucks.stream()
+              .filter(
+                  firetruck ->
+                      !firetruck.isMoving() && field.isConnectedWith(firetruck.getPosition()))
+              .findFirst()
+              .ifPresent(
+                  firetruck -> {
+                    firetruck.setTarget(field.getPosition());
+                    firetruck.start();
+                  });
+        }
+      }
+    }
+  }
+
+  private void initRandomFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
         double chanceToFire = field.getBuilding().getChanceToFire();

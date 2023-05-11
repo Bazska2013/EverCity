@@ -11,7 +11,6 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.elte.view.MainFrame;
 
 @Getter
 @Setter
@@ -44,6 +43,10 @@ public abstract class Building {
     return burning;
   }
   ;
+
+  public boolean isFireStation() {
+    return false;
+  }
 
   public abstract boolean isEmpty();
 
@@ -138,7 +141,7 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
-          game.setBalance(game.getBalance()-price);
+          game.setBalance(game.getBalance() - price);
         }
       }
     }
