@@ -27,7 +27,7 @@ public class MainFrame {
   public static final int TIME_PANEL_SIZE = 30;
   public static final int TIME_PANEL_Y =
       ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
-  private static final int RERENDER_INTERVAL = 500;
+  private static final int RERENDER_INTERVAL = 100;
   public static final String BALANCE_CURRENCY = "$";
   private final JFrame frame;
   private static GamePanel gamePanel;
@@ -108,10 +108,11 @@ public class MainFrame {
     // menu.setIcon(new ImageIcon(icon));
     JMenuItem newGame = new JMenuItem(Localization.getProp().getProperty("new_game_text"));
     gameOptions.add(newGame);
-    newGame.addActionListener(e -> {
-      game.resetGame();
-      gamePanel.repaint();
-    });
+    newGame.addActionListener(
+        e -> {
+          game.resetGame();
+          gamePanel.repaint();
+        });
 
     JMenu languageSelectorMenuItem =
         new JMenu(Localization.getProp().getProperty("language_title"));

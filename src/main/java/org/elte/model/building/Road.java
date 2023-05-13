@@ -1,6 +1,5 @@
 package org.elte.model.building;
 
-import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -13,6 +12,7 @@ public class Road extends Building {
     yearlyFee = 5;
     socialImpact = 0;
     impactRange = 0;
+    chanceToFire = 0;
     width = 1;
     height = 1;
   }

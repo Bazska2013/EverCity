@@ -72,9 +72,6 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
       buildingType.create();
-      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
-      // BuildablePanel.setSelectedBuildingType(null);
-      // BuildablePanel.setSelectedFieldZoneType(null);
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
@@ -87,9 +84,7 @@ public class GameMouseAdapter extends MouseAdapter {
       }
     }
 
-    if(buildingType instanceof Road)
-      field.setZone(new org.elte.model.zone.Road(position));
-
+    if (buildingType instanceof Road) field.setZone(new org.elte.model.zone.Road(position));
   }
 
   private void placeZone(Position position) {
@@ -101,11 +96,7 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (newZone != null && newZone.isPlaceable()) {
       newZone.create();
-      if(newZone instanceof Resident)
-        MainFrame.getInstance().repaintCitizenNumber();
-      // Az alábbi két sor drasztikusan rontja a játékélményét a felhasználónak!
-      // BuildablePanel.setSelectedBuildingType(null);
-      // BuildablePanel.setSelectedFieldZoneType(null);
+      if (newZone instanceof Resident) MainFrame.getInstance().repaintCitizenNumber();
     }
   }
 }

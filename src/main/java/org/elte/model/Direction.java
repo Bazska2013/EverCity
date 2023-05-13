@@ -1,5 +1,26 @@
 package org.elte.model;
 
+import org.elte.utils.Position;
+
 public enum Direction {
-  LEFT, RIGHT, UP, DOWN
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT;
+
+  public static Direction getDirection(Position from, Position to) {
+    int dx = to.x() - from.x();
+    int dy = to.y() - from.y();
+    if (dx == 0 && dy == 0) {
+      // from and to are the same position
+      return null;
+    }
+    if (Math.abs(dx) > Math.abs(dy)) {
+      // horizontal movement
+      return dx > 0 ? RIGHT : LEFT;
+    } else {
+      // vertical movement
+      return dy > 0 ? DOWN : UP;
+    }
+  }
 }

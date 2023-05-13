@@ -1,7 +1,5 @@
 package org.elte.model.building;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -18,7 +16,7 @@ public class Forest extends Building {
     impactRange = 3;
     width = 1;
     height = 1;
-    chanceToFire = 0.001;
+    chanceToFire = 0.0001;
     burning = false;
     this.size = 1;
   }
