@@ -17,12 +17,13 @@ import lombok.Setter;
 public abstract class Building {
   Position position;
   int price = 0;
+  int health = 100;
   int yearlyFee;
   int socialImpact = 0;
   int impactRange = 0;
   int width = 1;
   int height = 1;
-  double chanceToFire = 0.01;
+  double chanceToFire = 0;
   boolean burning = false;
   BuildingTypes buildingType;
   ArrayList<Position> fieldPositions = new ArrayList<>();
@@ -32,7 +33,7 @@ public abstract class Building {
   }
 
   public boolean canBurn() {
-    return true;
+    return chanceToFire > 0;
   }
 
   public abstract boolean isConnected();
