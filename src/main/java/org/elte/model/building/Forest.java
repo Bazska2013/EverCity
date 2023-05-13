@@ -15,7 +15,7 @@ public class Forest extends Building {
     price = 10;
     yearlyFee = 5;
     socialImpact = 10;
-    impactRange = 5;
+    impactRange = 3;
     width = 1;
     height = 1;
     chanceToFire = 0.001;

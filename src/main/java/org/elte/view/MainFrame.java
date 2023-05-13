@@ -123,6 +123,7 @@ public class MainFrame {
           Localization.reloadProp();
           frame.setJMenuBar(createMenuBar());
           frame.repaint();
+          buildablePanel.regenerateBuildablePanel();
         });
     JMenuItem englishLanguageSelectorItem =
         new JMenuItem(Localization.getProp().getProperty("english"));
@@ -132,6 +133,7 @@ public class MainFrame {
           Localization.reloadProp();
           frame.setJMenuBar(createMenuBar());
           frame.repaint();
+          buildablePanel.regenerateBuildablePanel();
         });
     languageSelectorMenuItem.add(hungarianLanguageSelectorItem);
     languageSelectorMenuItem.add(englishLanguageSelectorItem);

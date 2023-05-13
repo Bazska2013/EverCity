@@ -12,6 +12,7 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
+import org.elte.view.Localization;
 import org.elte.view.MainFrame;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
@@ -77,7 +78,11 @@ public class GameMouseAdapter extends MouseAdapter {
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
-            "Error!", buildingType.getBuildingType().name() + " can't be placed", Color.RED);
+                Localization.getProp().getProperty("error"),
+                String.format(Localization.getProp().getProperty("cant_be_placed"),
+                        Localization.getProp().getProperty(buildingType.getBuildingType().name().toLowerCase())),
+                        Color.RED
+                );
         System.out.println(buildingType.getBuildingType().name() + " can't be placed");
       }
     }

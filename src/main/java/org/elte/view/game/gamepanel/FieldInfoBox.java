@@ -86,6 +86,7 @@ public class FieldInfoBox extends JPanel {
         e -> {
           game.getField(selectedPosition).getBuilding().delete();
           setSelectedPosition(selectedPosition);
+          game.getField(selectedPosition).setZone(new Empty(selectedPosition));
         });
 
     reRender();
