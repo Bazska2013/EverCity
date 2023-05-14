@@ -6,7 +6,6 @@ import javax.swing.*;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.zone.Empty;
-import org.elte.model.zone.Resident;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;

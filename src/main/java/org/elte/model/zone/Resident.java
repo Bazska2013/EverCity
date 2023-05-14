@@ -2,14 +2,12 @@ package org.elte.model.zone;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
-import org.elte.view.MainFrame;
 
 import lombok.Getter;
 

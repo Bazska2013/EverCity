@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import org.elte.model.building.Forest;
 import org.elte.model.building.Factory;
+import org.elte.model.building.Forest;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
@@ -296,12 +296,13 @@ public class Game {
     balance -= amount;
   }
 
-  public boolean everythingStillConnected(){
+  public boolean everythingStillConnected() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (fields[i][j].getZone() instanceof Resident && fields[i][j].getBuilding() instanceof House){
+        if (fields[i][j].getZone() instanceof Resident
+            && fields[i][j].getBuilding() instanceof House) {
           for (Citizen c : ((Resident) fields[i][j].getZone()).getCitizens()) {
-            if (c.getWorksAt() != null){
+            if (c.getWorksAt() != null) {
               if (!fields[i][j].isConnectedWith(c.getWorksAt().getPosition())) {
                 return false;
               }

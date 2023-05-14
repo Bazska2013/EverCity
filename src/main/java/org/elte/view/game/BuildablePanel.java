@@ -30,7 +30,7 @@ public class BuildablePanel extends JPanel {
 
   private void buildBuildablePanel() {
     this.setBounds(
-            0, MainFrame.ZONE_BOX_Y, ScreenUtils.getScreenSize().width, MainFrame.ZONE_BOX_SIZE);
+        0, MainFrame.ZONE_BOX_Y, ScreenUtils.getScreenSize().width, MainFrame.ZONE_BOX_SIZE);
     this.setBackground(Color.GRAY);
 
     zoneButtons = createZoneTypeSelectionButtons();
@@ -40,14 +40,14 @@ public class BuildablePanel extends JPanel {
     toggleButton.setBorder(BorderFactory.createEmptyBorder());
     toggleButton.setContentAreaFilled(false);
     toggleButton.addActionListener(
-            new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent e) {
-                GamePanel.zoneMode = !GamePanel.zoneMode;
-                switchButtons();
-                GamePanel.gamePanel.repaint();
-              }
-            });
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            GamePanel.zoneMode = !GamePanel.zoneMode;
+            switchButtons();
+            GamePanel.gamePanel.repaint();
+          }
+        });
 
     add(toggleButton);
     addButtonsToComponent(zoneButtons);
@@ -82,25 +82,54 @@ public class BuildablePanel extends JPanel {
   }
 
   private JButton[] createBuildingTypeSelectionButtons() {
-    JButton roadButton = createBuildingTypeSelectionButton(ImageResource.ROAD, BuildingTypes.ROAD, "road", BuildingPrices.ROAD.getPriceOfBuilding());
+    JButton roadButton =
+        createBuildingTypeSelectionButton(
+            ImageResource.ROAD,
+            BuildingTypes.ROAD,
+            "road",
+            BuildingPrices.ROAD.getPriceOfBuilding());
     roadButton.setToolTipText(Localization.getProp().getProperty("road"));
     JButton emptyBuildingButton =
-        createBuildingTypeSelectionButton(ImageResource.GRASS, BuildingTypes.EMPTY, "grass", BuildingPrices.EMPTY.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.GRASS,
+            BuildingTypes.EMPTY,
+            "grass",
+            BuildingPrices.EMPTY.getPriceOfBuilding());
     emptyBuildingButton.setToolTipText(Localization.getProp().getProperty("grass"));
     JButton factoryButton =
-        createBuildingTypeSelectionButton(ImageResource.FACTORY, BuildingTypes.FACTORY, "factory", BuildingPrices.FACTORY.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.FACTORY,
+            BuildingTypes.FACTORY,
+            "factory",
+            BuildingPrices.FACTORY.getPriceOfBuilding());
     factoryButton.setToolTipText(Localization.getProp().getProperty("factory"));
     JButton fireStationButton =
-        createBuildingTypeSelectionButton(ImageResource.FIRE_STATION, BuildingTypes.FIRE_STATION, "fire_station", BuildingPrices.FIRE_STATION.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.FIRE_STATION,
+            BuildingTypes.FIRE_STATION,
+            "fire_station",
+            BuildingPrices.FIRE_STATION.getPriceOfBuilding());
     fireStationButton.setToolTipText(Localization.getProp().getProperty("fire_station"));
     JButton forestButton =
-        createBuildingTypeSelectionButton(ImageResource.FOREST, BuildingTypes.FOREST, "forest", BuildingPrices.FOREST.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.FOREST,
+            BuildingTypes.FOREST,
+            "forest",
+            BuildingPrices.FOREST.getPriceOfBuilding());
     forestButton.setToolTipText(Localization.getProp().getProperty("forest"));
     JButton policeButton =
-        createBuildingTypeSelectionButton(ImageResource.POLICE, BuildingTypes.POLICE, "police", BuildingPrices.POLICE.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.POLICE,
+            BuildingTypes.POLICE,
+            "police",
+            BuildingPrices.POLICE.getPriceOfBuilding());
     policeButton.setToolTipText(Localization.getProp().getProperty("police"));
     JButton stadiumButton =
-        createBuildingTypeSelectionButton(ImageResource.STADIUM, BuildingTypes.STADIUM, "stadium", BuildingPrices.STADIUM.getPriceOfBuilding());
+        createBuildingTypeSelectionButton(
+            ImageResource.STADIUM,
+            BuildingTypes.STADIUM,
+            "stadium",
+            BuildingPrices.STADIUM.getPriceOfBuilding());
     stadiumButton.setToolTipText(Localization.getProp().getProperty("stadium"));
     return new JButton[] {
       roadButton,
@@ -127,26 +156,32 @@ public class BuildablePanel extends JPanel {
     return button;
   }
 
-  private JButton createBuildingTypeSelectionButton(Image image, BuildingTypes buildingType, String localizationString, int price) {
+  private JButton createBuildingTypeSelectionButton(
+      Image image, BuildingTypes buildingType, String localizationString, int price) {
 
-    String text = "<html><table style='width:80px'><tr><td style='text-align:center'>" + Localization.getProp().getProperty(localizationString) + "</td></tr><tr><td style='text-align:center'>" + price + " $</td></tr></table></html>";
-    JButton button = new JButton(text, new ImageIcon(image))
-    {
-      @Override
-      public void doLayout() {
-        super.doLayout();
-        int preferedWidth = getPreferredSize().width;
-        int actualWidth = getSize().width;
-        if(preferedWidth != actualWidth){
-          int gap = getIconTextGap() + actualWidth - preferedWidth;
-          gap = Math.max(gap, UIManager.getInt("Button.iconTextGap"));
-          setIconTextGap(gap);
-        }
-      }
-    };
+    String text =
+        "<html><table style='width:80px'><tr><td style='text-align:center'>"
+            + Localization.getProp().getProperty(localizationString)
+            + "</td></tr><tr><td style='text-align:center'>"
+            + price
+            + " $</td></tr></table></html>";
+    JButton button =
+        new JButton(text, new ImageIcon(image)) {
+          @Override
+          public void doLayout() {
+            super.doLayout();
+            int preferedWidth = getPreferredSize().width;
+            int actualWidth = getSize().width;
+            if (preferedWidth != actualWidth) {
+              int gap = getIconTextGap() + actualWidth - preferedWidth;
+              gap = Math.max(gap, UIManager.getInt("Button.iconTextGap"));
+              setIconTextGap(gap);
+            }
+          }
+        };
     button.setVerticalTextPosition(SwingConstants.BOTTOM);
     button.setHorizontalTextPosition(SwingConstants.CENTER);
-    //button.setBorder(BorderFactory.createEmptyBorder());
+    // button.setBorder(BorderFactory.createEmptyBorder());
     button.setContentAreaFilled(true);
     button.setBackground(Color.LIGHT_GRAY);
     button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
