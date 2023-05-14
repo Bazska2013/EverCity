@@ -113,13 +113,12 @@ public class FieldInfoBox extends JPanel {
 
       Field selectedField = game.getField(selectedPosition);
 
-      if (selectedField.getZone() instanceof Resident) {
+      if (!(selectedField.getZone() instanceof Empty)) {
         this.add(deleteButton);
         this.add(upgradeButton);
         this.setLayout(new GridLayout(7, 1));
         upgradeButton.setVisible(true);
-      } else if (selectedField.getZone() instanceof org.elte.model.zone.Empty
-          && selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
         this.remove(deleteButton);
         this.remove(upgradeButton);
         this.setLayout(new GridLayout(5, 1));
