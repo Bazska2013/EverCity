@@ -18,15 +18,12 @@ public class Resident extends Zone {
 
   public Resident(Position position) {
     super(position);
-    this.capacity = 4;
+    price = 10;
+    capacity = 4;
+    hapiness = 50;
+    tax = 5;
+    level = 1;
 
-    //    if (MainFrame.startingCitizensToAdd > 0) {
-    //      for (int i = 0; i < Math.min(MainFrame.startingCitizensToAdd, capacity); i++) {
-    //        citizens.add(new Citizen(this, null, Math.floorMod(new Random().nextInt(), 43) + 18));
-    //      }
-    //      MainFrame.startingCitizensToAdd -= citizens.size();
-    //      MainFrame.getInstance().repaintCitizenNumber();
-    //    }
   }
 
   @Override

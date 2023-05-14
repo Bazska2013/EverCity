@@ -18,7 +18,11 @@ public class Industry extends Zone {
 
   public Industry(Position position) {
     super(position);
-    this.capacity = 8;
+    price = 15;
+    capacity = 8;
+    hapiness = 50;
+    tax = 5;
+    level = 1;
   }
 
   @Override

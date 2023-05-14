@@ -18,7 +18,11 @@ public class Service extends Zone {
 
   public Service(Position position) {
     super(position);
-    this.capacity = 4;
+    price = 15;
+    capacity = 4;
+    hapiness = 50;
+    tax = 5;
+    level = 1;
   }
 
   @Override

@@ -8,6 +8,9 @@ public class Road extends Zone {
 
   public Road(Position position) {
     super(position);
+    price = 5;
+    capacity = 4;
+    tax = 5;
   }
 
   @Override
