@@ -247,7 +247,7 @@ public class Game {
           List<Citizen> citizens = ((Resident) fields[i][j].getZone()).getCitizens();
           List<Zone> workplaces = findNotFullWorkplaces();
           Random rand = new Random();
-          if (workplaces.size() != 0) {
+          if (workplaces.size() != 0 && citizens != null) {
             for (Citizen c : citizens) {
               if (c.getWorksAt() == null) {
                 while (true) {

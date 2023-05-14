@@ -206,8 +206,12 @@ public class MainFrame {
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
         if (game.getField(new Position(i, j)).getZone() instanceof Resident) {
-          citizenNumber +=
-              ((Resident) game.getField(new Position(i, j)).getZone()).getCitizens().size();
+          if (((Resident) game.getField(new Position(i, j)).getZone()).getCitizens() != null) {
+            citizenNumber +=
+                ((Resident) game.getField(new Position(i, j)).getZone()).getCitizens().size();
+          } else {
+            citizenNumber += 0;
+          }
         }
       }
     }

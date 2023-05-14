@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.elte.model.building.Building;
 import org.elte.model.building.Empty;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
 import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
@@ -114,5 +116,27 @@ public class Field {
 
   public boolean isConnectedWithOneOf(List<Position> positions) {
     return positions.stream().anyMatch(this::isConnectedWith);
+  }
+
+  public void removeCitizens() {
+    if (this.zone instanceof Resident) {
+      List<Citizen> citizens = ((Resident) this.zone).getCitizens();
+      for (Citizen c : citizens) {
+        Zone worksAt = c.getWorksAt();
+        List<Citizen> workers = worksAt.getWorkers();
+        workers.remove(c);
+        c.setWorksAt(null);
+        this.zone.setWorkers(workers);
+      }
+      citizens.removeAll(((Resident) this.zone).getCitizens());
+      ((Resident) this.zone).setCitizens(citizens);
+    } else {
+      List<Citizen> workers = this.zone.getWorkers();
+      for (Citizen c : workers) {
+        c.setWorksAt(null);
+      }
+      workers.removeAll(this.zone.getWorkers());
+      this.zone.setWorkers(workers);
+    }
   }
 }

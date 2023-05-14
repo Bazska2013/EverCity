@@ -8,6 +8,7 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
+import org.elte.view.MainFrame;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -149,9 +150,9 @@ public abstract class Building {
   }
 
   public void delete() {
+    Game game = Game.getInstance();
     if (isRoad()) {
       if (!hasBuildingAtLeastOneSide()) {
-        Game game = Game.getInstance();
         fieldPositions.forEach(
             pos -> {
               Field currentField = game.getField(pos);
@@ -167,8 +168,20 @@ public abstract class Building {
           game.getField(position).setBuilding((new Road(position)));
         }
       }
+    } else if (!(game.getField(position).getZone() instanceof org.elte.model.zone.Empty)) {
+      fieldPositions.forEach(
+          pos -> {
+            Field currentField = game.getField(pos);
+            currentField.removeCitizens();
+            currentField.setBuilding(new Empty(pos));
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.repaintCitizenNumber();
+          });
+      game.getField(position).removeCitizens();
+      MainFrame mainFrame = MainFrame.getInstance();
+      mainFrame.repaintCitizenNumber();
+      game.getField(position).setBuilding((new Empty(position)));
     } else {
-      Game game = Game.getInstance();
       fieldPositions.forEach(
           pos -> {
             Field currentField = game.getField(pos);

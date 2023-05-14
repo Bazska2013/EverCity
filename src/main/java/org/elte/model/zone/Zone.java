@@ -58,4 +58,8 @@ public abstract class Zone {
   public void upgrade() {}
 
   public abstract void addCitizen(Citizen citizen);
+
+  public void removeWorker(Citizen c) {}
+
+  public void setWorkers(List<Citizen> citizens) {}
 }

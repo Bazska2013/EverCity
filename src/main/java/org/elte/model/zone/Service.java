@@ -43,12 +43,25 @@ public class Service extends Zone {
 
   @Override
   public int getCitizenNumber() {
-    return workers.size();
+    if (workers != null) {
+      return workers.size();
+    }
+    return 0;
   }
 
   @Override
   public List<Citizen> getWorkers() {
     return workers;
+  }
+
+  public void removeWorker(Citizen c) {
+    if (workers != null) {
+      workers.remove(c);
+    }
+  }
+
+  public void setWorkers(List<Citizen> citizens) {
+    workers = citizens;
   }
 
   public void upgrade() {

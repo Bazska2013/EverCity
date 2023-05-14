@@ -6,6 +6,7 @@ import javax.swing.*;
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.zone.Empty;
+import org.elte.model.zone.Road;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
@@ -112,20 +113,43 @@ public class FieldInfoBox extends JPanel {
 
       Field selectedField = game.getField(selectedPosition);
 
-      if (!(selectedField.getZone() instanceof Empty)) {
-        this.add(deleteButton);
-        this.add(upgradeButton);
-        this.setLayout(new GridLayout(7, 1));
-        upgradeButton.setVisible(true);
-      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
-        this.remove(deleteButton);
-        this.remove(upgradeButton);
-        this.setLayout(new GridLayout(5, 1));
+      if (selectedField.getZone() instanceof Empty || selectedField.getZone() instanceof Road) {
+        if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+          this.remove(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(5, 1));
+        } else {
+          this.add(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(6, 1));
+        }
       } else {
-        this.add(deleteButton);
-        this.remove(upgradeButton);
-        this.setLayout(new GridLayout(6, 1));
+        if (!(selectedField.getBuilding() instanceof org.elte.model.building.Empty)) {
+          this.add(upgradeButton);
+          this.add(deleteButton);
+          this.setLayout(new GridLayout(7, 1));
+          upgradeButton.setVisible(true);
+        } else {
+          this.remove(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(5, 1));
+        }
       }
+
+      //      if (!(selectedField.getZone() instanceof Empty)) {
+      //        this.add(deleteButton);
+      //        this.add(upgradeButton);
+      //        this.setLayout(new GridLayout(7, 1));
+      //        upgradeButton.setVisible(true);
+      //      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+      //        this.remove(deleteButton);
+      //        this.remove(upgradeButton);
+      //        this.setLayout(new GridLayout(5, 1));
+      //      } else {
+      //        this.add(deleteButton);
+      //        this.remove(upgradeButton);
+      //        this.setLayout(new GridLayout(6, 1));
+      //      }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
