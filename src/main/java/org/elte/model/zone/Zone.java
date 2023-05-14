@@ -20,7 +20,7 @@ public abstract class Zone {
   }
 
   protected int price;
-  protected int capacity = 4;
+  protected int capacity;
   protected int hapiness;
   protected int tax;
   protected int level = 1;

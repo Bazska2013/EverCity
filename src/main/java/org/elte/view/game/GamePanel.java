@@ -94,6 +94,18 @@ public class GamePanel extends JPanel {
         if (field.getBuilding().getBuildingType() == BuildingTypes.HOUSE_3) {
           g.drawImage(ImageResource.HOUSE_LV3, x, y, width, height, null);
         }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.SERVICE_2) {
+          g.drawImage(ImageResource.SERVICE_2, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.SERVICE_3) {
+          g.drawImage(ImageResource.SERVICE_3, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.INDUSTRY_2) {
+          g.drawImage(ImageResource.INDUSTRY_2, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.INDUSTRY_3) {
+          g.drawImage(ImageResource.INDUSTRY_3, x, y, width, height, null);
+        }
         if (field.getBuilding().isBurning()) {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }

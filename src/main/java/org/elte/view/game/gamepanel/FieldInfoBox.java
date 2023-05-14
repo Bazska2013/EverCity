@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import org.elte.model.Game;
-import org.elte.model.zone.Resident;
+import org.elte.model.zone.Empty;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
@@ -105,7 +105,7 @@ public class FieldInfoBox extends JPanel {
       citizenNumber.setText(
           "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
       button.setVisible(true); // enable the button when a position is selected
-      if (game.getField(selectedPosition).getZone() instanceof Resident) {
+      if (!(game.getField(selectedPosition).getZone() instanceof Empty)) {
         this.add(upgradeButton);
         this.setLayout(new GridLayout(7, 1));
         upgradeButton.setVisible(true);

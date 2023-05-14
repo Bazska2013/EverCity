@@ -11,7 +11,16 @@ public abstract class ImageResource {
 
   public static final Image GRASS = ResourceLoader.loadImage("grass.png");
   public static final Image FACTORY = ResourceLoader.loadImage("factory.png");
+
+  public static final Image INDUSTRY_2 = ResourceLoader.loadImage("factory_lvl2.png");
+  public static final Image INDUSTRY_3 = ResourceLoader.loadImage("factory_lvl3.png");
+  public static final Image INDUSTRY_4 = ResourceLoader.loadImage("factory_lvl4.png");
+  public static final Image INDUSTRY_5 = ResourceLoader.loadImage("factory_lvl5.png");
   public static final Image SERVICE_BUILDING = ResourceLoader.loadImage("service-building.jpg");
+  public static final Image SERVICE_2 = ResourceLoader.loadImage("service_building_lvl2.png");
+  public static final Image SERVICE_3 = ResourceLoader.loadImage("service_building_lvl3.png");
+  public static final Image SERVICE_4 = ResourceLoader.loadImage("service_building_lvl4.png");
+  public static final Image SERVICE_5 = ResourceLoader.loadImage("service_building_lvl5.png");
   public static final Image FIRE_STATION = ResourceLoader.loadImage("firestation.png");
   public static final Image FIRETRUCK = ResourceLoader.loadImage("firetruck.png");
   public static final Image STADIUM = ResourceLoader.loadImage("football-stadion.png");

@@ -3,6 +3,8 @@ package org.elte.model.zone;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.elte.model.Game;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -16,6 +18,7 @@ public class Industry extends Zone {
 
   public Industry(Position position) {
     super(position);
+    this.capacity = 8;
   }
 
   @Override
@@ -46,6 +49,21 @@ public class Industry extends Zone {
   @Override
   public List<Citizen> getWorkers() {
     return workers;
+  }
+
+  public void upgrade() {
+    Game game = Game.getInstance();
+    if (this.level == 1) {
+      game.pay(300);
+      this.level++;
+      this.capacity *= 2;
+      game.getField(position).getBuilding().setBuildingType(BuildingTypes.INDUSTRY_2);
+    } else if (this.level == 2) {
+      game.pay(600);
+      this.level++;
+      this.capacity *= 2;
+      game.getField(position).getBuilding().setBuildingType(BuildingTypes.INDUSTRY_3);
+    }
   }
 
   @Override

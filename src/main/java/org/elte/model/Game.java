@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import org.elte.model.building.Factory;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
 import org.elte.model.building.ServiceBuilding;
@@ -16,6 +17,7 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
+import org.elte.view.MainFrame;
 import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
@@ -40,8 +42,9 @@ public class Game {
             e -> {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
-              handleRandomFire();
+              //              handleRandomFire();
               searchUnemployedCitizens();
+              searchPlaceToLive();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
@@ -165,8 +168,10 @@ public class Game {
     List<Zone> workplaces = new ArrayList<>();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (fields[i][j].getZone() instanceof Industry
-            || fields[i][j].getZone() instanceof Service) {
+        if ((fields[i][j].getZone() instanceof Industry
+                || fields[i][j].getZone() instanceof Service)
+            && (fields[i][j].getBuilding() instanceof Factory
+                || fields[i][j].getBuilding() instanceof ServiceBuilding)) {
           if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
             workplaces.add(fields[i][j].getZone());
           }
@@ -201,5 +206,30 @@ public class Game {
         }
       }
     }
+  }
+
+  public void searchPlaceToLive() {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident
+            && fields[i][j].getBuilding() instanceof House) {
+          if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
+            fields[i][j]
+                .getZone()
+                .addCitizen(
+                    new Citizen(
+                        fields[i][j].getZone(),
+                        null,
+                        Math.floorMod(new Random().nextInt(), 43) + 18));
+            MainFrame mainframe = MainFrame.getInstance();
+            mainframe.repaintCitizenNumber();
+          }
+        }
+      }
+    }
+  }
+
+  public void pay(int amount) {
+    balance -= amount;
   }
 }
