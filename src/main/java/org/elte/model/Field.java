@@ -123,10 +123,12 @@ public class Field {
       List<Citizen> citizens = ((Resident) this.zone).getCitizens();
       for (Citizen c : citizens) {
         Zone worksAt = c.getWorksAt();
-        List<Citizen> workers = worksAt.getWorkers();
-        workers.remove(c);
-        c.setWorksAt(null);
-        this.zone.setWorkers(workers);
+        if (worksAt != null){
+          List<Citizen> workers = worksAt.getWorkers();
+          workers.remove(c);
+          c.setWorksAt(null);
+          this.zone.setWorkers(workers);
+        }
       }
       citizens.removeAll(((Resident) this.zone).getCitizens());
       ((Resident) this.zone).setCitizens(citizens);
