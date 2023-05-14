@@ -75,11 +75,12 @@ public class GameMouseAdapter extends MouseAdapter {
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
-                Localization.getProp().getProperty("error"),
-                String.format(Localization.getProp().getProperty("cant_be_placed"),
-                        Localization.getProp().getProperty(buildingType.getBuildingType().name().toLowerCase())),
-                        Color.RED
-                );
+            Localization.getProp().getProperty("error"),
+            String.format(
+                Localization.getProp().getProperty("cant_be_placed"),
+                Localization.getProp()
+                    .getProperty(buildingType.getBuildingType().name().toLowerCase())),
+            Color.RED);
         System.out.println(buildingType.getBuildingType().name() + " can't be placed");
       }
     }
