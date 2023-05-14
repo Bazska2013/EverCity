@@ -295,4 +295,21 @@ public class Game {
   public void pay(int amount) {
     balance -= amount;
   }
+
+  public boolean everythingStillConnected(){
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident && fields[i][j].getBuilding() instanceof House){
+          for (Citizen c : ((Resident) fields[i][j].getZone()).getCitizens()) {
+            if (c.getWorksAt() != null){
+              if (!fields[i][j].isConnectedWith(c.getWorksAt().getPosition())) {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    }
+    return true;
+  }
 }

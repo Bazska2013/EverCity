@@ -158,6 +158,14 @@ public abstract class Building {
               currentField.setBuilding(new Empty(pos));
             });
         game.getField(position).setBuilding((new Empty(position)));
+        if (!game.everythingStillConnected()){
+          fieldPositions.forEach(
+                  pos -> {
+                    Field currentField = game.getField(pos);
+                    currentField.setBuilding(new Road(pos));
+                  });
+          game.getField(position).setBuilding((new Road(position)));
+        }
       }
     } else {
       Game game = Game.getInstance();
