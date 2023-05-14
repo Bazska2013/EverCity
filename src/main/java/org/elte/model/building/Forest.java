@@ -13,10 +13,10 @@ public class Forest extends Building {
     price = 10;
     yearlyFee = 5;
     socialImpact = 10;
-    impactRange = 5;
+    impactRange = 3;
     width = 1;
     height = 1;
-    chanceToFire = 0.001;
+    chanceToFire = 0.0001;
     burning = false;
     this.size = 1;
   }
@@ -35,5 +35,13 @@ public class Forest extends Building {
 
   public int getTax() {
     return yearlyFee;
+  }
+
+  public int getSize() {
+    return size;
+  }
+
+  public void setSize(int size) {
+    this.size = Math.min(10, size);
   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import org.elte.model.building.Forest;
 import org.elte.model.building.Factory;
 import org.elte.model.building.House;
 import org.elte.model.building.Road;
@@ -21,42 +22,64 @@ import org.elte.view.MainFrame;
 import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Game {
+  private static final double CHANCE_TO_FIRE_NEIGHBOURS = 0.05;
   private static Game INSTANCE = null;
-  static int rows = 16;
-  static int columns = 32;
+  static final int rows = 16;
+  static final int columns = 32;
   private int balance = 20000;
   public Field[][] fields;
+  public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
   private final GameTime gameTime;
 
   private Game() {
     fields = new Field[rows][columns];
     fillFields();
+    fields[0][2].setZone(new org.elte.model.zone.Road(new Position(2, 0)));
     fields[0][2].setBuilding(new Road(new Position(2, 0)));
+    fields[1][2].setZone(new org.elte.model.zone.Road(new Position(2, 1)));
     fields[1][2].setBuilding(new Road(new Position(2, 1)));
     gameTime =
         new GameTime(
             e -> {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
-              //              handleRandomFire();
+              initRandomFire();
+              handleFire();
               searchUnemployedCitizens();
               searchPlaceToLive();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 balance -= yearlyFee();
+                increaseForestImpacts();
               }
             });
     gameTime.setTimerSpeed(TimerSpeed.ONE);
   }
 
+  private void increaseForestImpacts() {
+    for (Field[] fieldRow : this.fields) {
+      for (Field field : fieldRow) {
+        if (field.getBuilding() instanceof Forest) {
+          Forest forest = (Forest) field.getBuilding();
+          forest.setSize(forest.getSize() + 1);
+        }
+      }
+    }
+  }
+
   public void fillFields() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
+        Random rand = new Random();
         fields[i][j] = new Field(new Position(j, i));
+        if (Math.floorMod(rand.nextInt(), 100) < 5)
+          fields[i][j].setBuilding(new Forest(new Position(j, i)));
       }
     }
   }
@@ -84,12 +107,48 @@ public class Game {
             });
   }
 
-  private void handleRandomFire() {
+  private void handleFire() {
+    for (Field[] fieldRow : this.fields) {
+      for (Field field : fieldRow) {
+        if (field.getBuilding().isBurning()) {
+
+          firetrucks.stream()
+              .filter(
+                  firetruck ->
+                      !firetruck.isMoving() && field.isConnectedWith(firetruck.getPosition()))
+              .findFirst()
+              .ifPresent(
+                  firetruck -> {
+                    firetruck.setTarget(field.getPosition());
+                    firetruck.start();
+                  });
+          field.getBuilding().setHealth(field.getBuilding().getHealth() - 1);
+          List<Field> connectedFields = field.getNeighbors();
+          for (Field connectedField : connectedFields) {
+
+            if (!connectedField.getBuilding().isBurning()
+                && connectedField.getBuilding().canBurn()) {
+              if (Math.random() < CHANCE_TO_FIRE_NEIGHBOURS) {
+                connectedField.getBuilding().setBurning(true);
+                GamePanel.infoBox.reRender("Warning!", "A building is on fire!", Color.ORANGE);
+              }
+            }
+          }
+          if (field.getBuilding().getHealth() < 1) {
+            field.getBuilding().delete();
+            GamePanel.infoBox.reRender("Warning!", "A building burned down!", Color.RED);
+          }
+        }
+      }
+    }
+  }
+
+  private void initRandomFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
         double chanceToFire = field.getBuilding().getChanceToFire();
         double randomNumber = Math.random();
-        if (chanceToFire > 0 && randomNumber < chanceToFire) {
+        if (field.getBuilding().canBurn() && randomNumber < chanceToFire) {
           field.getBuilding().setBurning(true);
           GamePanel.infoBox.reRender("Warning!", "A building is on fire!", Color.ORANGE);
         }
@@ -206,6 +265,10 @@ public class Game {
         }
       }
     }
+  }
+
+  public void resetGame() {
+    INSTANCE = new Game();
   }
 
   public void searchPlaceToLive() {
