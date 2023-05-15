@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.Firetruck;
 import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
@@ -14,7 +16,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class FireStation extends Building {
+public class FireStation extends Building implements Serializable {
   /** A tűzoltóállomás tűzoltóautója. */
   Firetruck firetruck;
   /**

@@ -1,12 +1,14 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
 /**
  * A Road osztály az utakat reprezentálja a játékban. Ez az osztály a Building osztályból származik.
  */
-public class Road extends Building {
+public class Road extends Building implements Serializable {
   /**
    * A Road osztály konstruktora.
    *

@@ -1,9 +1,12 @@
 package org.elte.model.enums;
+
+import java.io.Serializable;
+
 /**
  * Enum osztály, amely az épület típusokat tartalmazza. Az enum értékei az egyes épületek típusait
  * reprezentálják.
  */
-public enum BuildingTypes {
+public enum BuildingTypes implements Serializable {
   EMPTY,
   ROAD,
   POLICE,

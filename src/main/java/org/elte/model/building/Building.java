@@ -1,6 +1,7 @@
 package org.elte.model.building;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.elte.model.Field;
@@ -13,11 +14,13 @@ import org.elte.view.MainFrame;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-/** Az absztrakt Building osztály reprezentál egy épületet a játékban. */
-public abstract class Building {
+@ToString
+/** Az absztrakt Building osztály reprezentál egy épületet */
+public abstract class Building implements Serializable {
   /** Az épület pozíciója. */
   Position position;
   /** Az ár, amelyet fizetni kell az épület létrehozásához. */

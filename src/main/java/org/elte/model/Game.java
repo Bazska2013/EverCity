@@ -124,6 +124,8 @@ public class Game implements Serializable {
    * @return a játékmező a megadott pozíció alapján, vagy null, ha a pozíció null
    */
   public Field getField(Position position) {
+    if (position.x() > columns - 1 || position.y() > rows - 1) return null;
+    if (position.x() < 0 || position.y() < 0) return null;
     if (position != null) return fields[position.y()][position.x()];
     return null;
   }
@@ -530,6 +532,29 @@ public class Game implements Serializable {
    */
   public void pay(int amount) {
     balance -= amount;
+  }
+
+  public void loadGame(File file) {
+    if (!file.exists()) return;
+    try {
+      FileInputStream fileIn = new FileInputStream(file);
+      ObjectInputStream in = new ObjectInputStream(fileIn);
+      INSTANCE = (Game) in.readObject();
+      gameTime.setPassedDays(INSTANCE.getGameTime().getPassedDays());
+      this.fields = INSTANCE.getFields();
+      this.firetrucks = INSTANCE.firetrucks;
+      this.balance = INSTANCE.balance;
+      in.close();
+      fileIn.close();
+      System.out.println(INSTANCE);
+    } catch (IOException i) {
+      i.printStackTrace();
+      return;
+    } catch (ClassNotFoundException c) {
+      System.out.println("Game class not found");
+      c.printStackTrace();
+      return;
+    }
   }
   /**
    * Ellenőrzi, hogy minden még mindig összeköttetésben van-e a játékban. Az ellenőrzés során a

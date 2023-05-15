@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.Field;
 import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
@@ -9,7 +11,7 @@ import org.elte.utils.Position;
  * A Police osztály a rendőrség épületét reprezentálja a játékban. Ez az osztály a Building
  * osztályból származik.
  */
-public class Police extends Building {
+public class Police extends Building implements Serializable {
   /**
    * A Police osztály konstruktora.
    *

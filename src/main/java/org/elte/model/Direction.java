@@ -1,9 +1,11 @@
 package org.elte.model;
 
+import java.io.Serializable;
+
 import org.elte.utils.Position;
 
 /** A mozgás irányát reprezentáló felsorolási típus. */
-public enum Direction {
+public enum Direction implements Serializable {
   UP,
   DOWN,
   LEFT,

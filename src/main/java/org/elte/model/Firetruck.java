@@ -1,5 +1,6 @@
 package org.elte.model;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.swing.*;
 
@@ -12,7 +13,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Firetruck {
+public class Firetruck implements Serializable {
   /** A tűzoltóautó sebessége. */
   public static final int SPEED = 5; // pixels per game time tick
   /** A tűzoltóállomás amihez tartozik a tűzoltóautó. */

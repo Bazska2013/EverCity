@@ -1,5 +1,7 @@
 package org.elte.model.zone;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
@@ -9,7 +11,7 @@ import org.elte.utils.Position;
  * Resident/Service/Industry/Road zóna. Ez az osztály a Zone osztályból származik, és implementálja
  * az absztrakt metódusokat.
  */
-public class Empty extends Zone {
+public class Empty extends Zone implements Serializable {
   /**
    * A Empty osztály konstruktora.
    *

@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -7,7 +9,7 @@ import org.elte.utils.Position;
  * A Empty osztály az üres épületeket reprezentálja a játékban. Ez az osztály a Building osztályból
  * származik.
  */
-public class Empty extends Building {
+public class Empty extends Building implements Serializable {
   /**
    * A Empty osztály konstruktora.
    *

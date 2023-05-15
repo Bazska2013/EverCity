@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -7,7 +9,7 @@ import org.elte.utils.Position;
  * A House osztály az erdőket reprezentálja a játékban. Ez az osztály a Building osztályból
  * származik.
  */
-public class House extends Building {
+public class House extends Building implements Serializable {
   /**
    * A House osztály konstruktora.
    *

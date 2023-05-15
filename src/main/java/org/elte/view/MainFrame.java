@@ -3,6 +3,9 @@ package org.elte.view;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 import javax.swing.*;
 
@@ -42,6 +45,7 @@ public class MainFrame {
   private final ResidentInfoBox residentInfoBox;
   private final InfoBox infoBox;
   private final Game game;
+  private String gameName = "unnamed-game";
   private int currentYear;
   public static int startingCitizensToAdd = 50;
   JMenu timeMenu;
@@ -56,7 +60,8 @@ public class MainFrame {
   private BalanceInfoBox balanceInfoBox;
   private boolean balanceMenuPressed = false;
   /** Privát konstruktor, amely inicializálja a főablakot és a játékot. */
-  private MainFrame() {
+  private MainFrame(String gameName) {
+    this.gameName = gameName;
     frame = new JFrame("EverCity");
     screenSize = ScreenUtils.getScreenSize();
     game = Game.getInstance();
@@ -114,13 +119,13 @@ public class MainFrame {
    */
   public static MainFrame getInstance() {
     if (instance == null) {
-      instance = new MainFrame();
+      instance = new MainFrame("unnamed-game");
     }
     return instance;
   }
   /** Új példány létrehozása a főablakból. */
-  public static void newInstance() {
-    instance = new MainFrame();
+  public static void newInstance(String gameName) {
+    instance = new MainFrame(gameName);
   }
   /**
    * A menüsor létrehozása.
@@ -164,6 +169,22 @@ public class MainFrame {
     languageSelectorMenuItem.add(hungarianLanguageSelectorItem);
     languageSelectorMenuItem.add(englishLanguageSelectorItem);
     gameOptions.add(languageSelectorMenuItem);
+
+    JMenuItem saveGame = new JMenuItem(Localization.getProp().getProperty("save_game_text"));
+    saveGame.addActionListener(
+        e -> {
+          try {
+            FileOutputStream fileOutputStream =
+                new FileOutputStream(MainMenu.SAVES_FOLDER_PATH + gameName + ".ser");
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(game);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+          } catch (IOException ioException) {
+            ioException.printStackTrace();
+          }
+        });
+    gameOptions.add(saveGame);
 
     JMenuItem exitMenuItem = new JMenuItem(Localization.getProp().getProperty("exit_text"));
     exitMenuItem.addActionListener(ae -> System.exit(0));

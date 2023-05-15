@@ -1,6 +1,9 @@
 package org.elte.model;
+
+import java.io.Serializable;
+
 /** Az időzítő sebességét reprezentáló felsorolás típus. */
-public enum TimerSpeed {
+public enum TimerSpeed implements Serializable {
   STOP(-1),
   ONE(1000),
   TWO(50);
