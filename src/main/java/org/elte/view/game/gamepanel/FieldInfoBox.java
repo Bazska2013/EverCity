@@ -3,11 +3,15 @@ package org.elte.view.game.gamepanel;
 import java.awt.*;
 import javax.swing.*;
 
+import org.elte.model.Field;
 import org.elte.model.Game;
+import org.elte.model.zone.Empty;
+import org.elte.model.zone.Road;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
 import org.elte.view.common.buttons.TextButton;
+import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,19 +25,22 @@ public class FieldInfoBox extends JPanel {
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.50);
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.15) - 10;
   private Game game;
+  private GamePanel gamePanel;
   private Position selectedPosition;
   private JLabel zoneTypeLabel;
   private JLabel buildingTypeLabel;
   private JLabel positionXLabel;
   private JLabel positionYLabel;
-  private JButton button;
+  private JLabel citizenNumber;
+  private JButton deleteButton;
+  private JButton upgradeButton;
 
   public FieldInfoBox() {
     super();
     this.game = Game.getInstance();
     this.setBounds(X, Y, WIDTH, HEIGHT);
     this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-    this.setLayout(new GridLayout(5, 1)); // add one more row for the button
+    this.setLayout(new GridLayout(7, 1)); // add one more row for the button
     this.setBackground(Color.gray);
     this.setVisible(true);
 
@@ -59,9 +66,29 @@ public class FieldInfoBox extends JPanel {
     positionYLabel.setFont(labelFont);
     this.add(positionYLabel);
 
-    button = new TextButton("Delete");
-    button.setBackground(Color.RED);
-    this.add(button);
+    citizenNumber = new JLabel();
+    citizenNumber.setForeground(Color.white);
+    citizenNumber.setFont(labelFont);
+    this.add(citizenNumber);
+
+    deleteButton = new TextButton("Delete");
+    deleteButton.setBackground(Color.RED);
+    this.add(deleteButton);
+
+    upgradeButton = new TextButton("Upgrade");
+    upgradeButton.setBackground(Color.decode("#339157"));
+
+    upgradeButton.addActionListener(
+        e -> {
+          game.getField(selectedPosition).getZone().upgrade();
+          setSelectedPosition(selectedPosition);
+        });
+    deleteButton.addActionListener(
+        e -> {
+          game.getField(selectedPosition).getBuilding().delete();
+          setSelectedPosition(selectedPosition);
+          game.getField(selectedPosition).setZone(new Empty(selectedPosition));
+        });
 
     reRender();
   }
@@ -80,20 +107,62 @@ public class FieldInfoBox extends JPanel {
           Localization.getProp().getProperty("zone_position_x") + " " + selectedPosition.x());
       positionYLabel.setText(
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
-      button.setVisible(true); // enable the button when a position is selected
-      button.addActionListener(
-          e -> {
-            game.getField(selectedPosition).getBuilding().delete();
-            setSelectedPosition(selectedPosition);
-            reRender();
-          });
+      citizenNumber.setText(
+          "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
+      deleteButton.setVisible(true); // enable the button when a position is selected
+
+      Field selectedField = game.getField(selectedPosition);
+
+      if (selectedField.getZone() instanceof Empty || selectedField.getZone() instanceof Road) {
+        if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+          this.remove(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(5, 1));
+        } else {
+          this.add(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(6, 1));
+        }
+      } else {
+        if (!(selectedField.getBuilding() instanceof org.elte.model.building.Empty)) {
+          this.add(upgradeButton);
+          this.add(deleteButton);
+          this.setLayout(new GridLayout(7, 1));
+          upgradeButton.setVisible(true);
+        } else {
+          this.remove(deleteButton);
+          this.remove(upgradeButton);
+          this.setLayout(new GridLayout(5, 1));
+        }
+      }
+
+      //      if (!(selectedField.getZone() instanceof Empty)) {
+      //        this.add(deleteButton);
+      //        this.add(upgradeButton);
+      //        this.setLayout(new GridLayout(7, 1));
+      //        upgradeButton.setVisible(true);
+      //      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
+      //        this.remove(deleteButton);
+      //        this.remove(upgradeButton);
+      //        this.setLayout(new GridLayout(5, 1));
+      //      } else {
+      //        this.add(deleteButton);
+      //        this.remove(upgradeButton);
+      //        this.setLayout(new GridLayout(6, 1));
+      //      }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
       positionXLabel.setText("");
       positionYLabel.setText("");
-      button.setVisible(false); // disable the button when no position is selected
+      citizenNumber.setText("");
+      deleteButton.setVisible(false); // disable the button when no position is selected
+      upgradeButton.setVisible(false);
     }
+  }
+
+  public void setGamePanel(GamePanel gamePanel) {
+    this.gamePanel = gamePanel;
   }
 
   public void setSelectedPosition(Position position) {

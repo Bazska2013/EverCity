@@ -1,5 +1,6 @@
 package org.elte.view.game.gamepanel;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -11,6 +12,8 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
+import org.elte.view.Localization;
+import org.elte.view.MainFrame;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 
@@ -18,9 +21,12 @@ public class GameMouseAdapter extends MouseAdapter {
   Game game;
   GamePanel gamePanel;
   FieldInfoBox fieldInfoBox;
+  InfoBox infoBox;
 
-  public GameMouseAdapter(Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox) {
+  public GameMouseAdapter(
+      Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox, InfoBox infoBox) {
     this.fieldInfoBox = fieldInfoBox;
+    this.infoBox = infoBox;
     this.game = game;
     this.gamePanel = gamePanel;
   }
@@ -46,6 +52,7 @@ public class GameMouseAdapter extends MouseAdapter {
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {
+      infoBox.reRender("Warning!", "Clicked outside of playing area...", Color.RED);
       System.out.println("Clicked outside of playing area...");
       ex.printStackTrace();
     }
@@ -65,13 +72,20 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
       buildingType.create();
-      BuildablePanel.setSelectedBuildingType(null);
-      BuildablePanel.setSelectedFieldZoneType(null);
     } else {
       if (!buildingType.isEmpty()) {
+        infoBox.reRender(
+            Localization.getProp().getProperty("error"),
+            String.format(
+                Localization.getProp().getProperty("cant_be_placed"),
+                Localization.getProp()
+                    .getProperty(buildingType.getBuildingType().name().toLowerCase())),
+            Color.RED);
         System.out.println(buildingType.getBuildingType().name() + " can't be placed");
       }
     }
+
+    if (buildingType instanceof Road) field.setZone(new org.elte.model.zone.Road(position));
   }
 
   private void placeZone(Position position) {
@@ -83,8 +97,7 @@ public class GameMouseAdapter extends MouseAdapter {
     }
     if (newZone != null && newZone.isPlaceable()) {
       newZone.create();
-      BuildablePanel.setSelectedBuildingType(null);
-      BuildablePanel.setSelectedFieldZoneType(null);
+      if (newZone instanceof Resident) MainFrame.getInstance().repaintCitizenNumber();
     }
   }
 }

@@ -1,46 +1,85 @@
 package org.elte.model.building;
 
+import org.elte.model.Firetruck;
+import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
-import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class FireStation extends Building {
 
-		public FireStation(Position position) {
-				this.position = position;
-				buildingType = BuildingTypes.FIRE_STATION;
-				price = 30;
-				yearlyFee = 10;
-				socialImpact = 5;
-				impactRange = 30;
-				width = 1;
-				height = 1;
-				chanceToFire = 0;
-				burning = false;
-				imageResource = ImageResource.FIRE_STATION;
-		}
+  Firetruck firetruck;
 
-		public boolean isPlaceable() {
-				return hasEnoughSpace() && hasRoadAtLeastOneSide();
-		}
+  public FireStation(Position position) {
+    this.position = position;
+    buildingType = BuildingTypes.FIRE_STATION;
+    price = 30;
+    yearlyFee = 10;
+    socialImpact = 5;
+    impactRange = 30;
+    width = 1;
+    height = 1;
+    chanceToFire = 0;
+    burning = false;
+  }
 
-		public boolean isConnected() {
-				return true;
-		}
+  public boolean isPlaceable() {
+    return hasEnoughSpace() && hasRoadAtLeastOneSide();
+  }
 
-		public boolean upgradeable() {
-				return true;
-		}
+  @Override
+  public boolean isConnected() {
+    return false;
+  }
 
-		public boolean isBurning() {
-				return false;
-		}
+  public boolean upgradeable() {
+    return true;
+  }
 
-		public boolean isEmpty() {
-				return false;
-		}
+  public boolean isBurning() {
+    return false;
+  }
 
-		public int getTax() {
-				return yearlyFee;
-		}
+  @Override
+  public boolean isFireStation() {
+    return true;
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
+  @Override
+  public void delete() {
+    super.delete();
+    Game.getInstance().getFiretrucks().remove(firetruck);
+    // List<FiretruckView> oldFiretruckViews = GamePanel.gamePanel.getFiretruckViews();
+    // FiretruckView oldFiretruckView = oldFiretruckViews.stream().filter(item ->
+    // item.getFiretruck().equals(firetruck)).findFirst().get();
+    // GamePanel.gamePanel.remove(oldFiretruckView);
+    // GamePanel.gamePanel.setFiretruckViews(oldFiretruckViews.stream().filter(item ->
+    // !item.getFiretruck().equals(firetruck)).collect(Collectors.toList()));
+    // System.out.println(Game.getInstance().getFiretrucks());
+  }
+
+  @Override
+  public void create() {
+    if (this.isPlaceable()) {
+      super.create();
+      firetruck = new Firetruck(this);
+      Game.getInstance().getFiretrucks().add(firetruck);
+      // FiretruckView firetruckView = new FiretruckView(firetruck);
+      // GamePanel.gamePanel.add(firetruckView);
+      // GamePanel.gamePanel.getFiretruckViews().add(firetruckView);
+    }
+  }
+
+  public int getTax() {
+    return yearlyFee;
+  }
 }

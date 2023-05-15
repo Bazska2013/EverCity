@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 import javax.swing.*;
 
+import org.elte.model.enums.BuildingPrices;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.ImageResource;
@@ -15,15 +16,19 @@ import org.elte.view.MainFrame;
 
 public class BuildablePanel extends JPanel {
 
-  private final JButton[] zoneButtons;
-  private final JButton[] buildingButtons;
-  private final JButton toggleButton;
+  private JButton[] zoneButtons;
+  private JButton[] buildingButtons;
+  private JButton toggleButton;
 
   private static FieldTypes selectedFieldZoneType = null;
   private static BuildingTypes selectedBuildingType = null;
 
   public BuildablePanel() {
     super();
+    buildBuildablePanel();
+  }
+
+  private void buildBuildablePanel() {
     this.setBounds(
         0, MainFrame.ZONE_BOX_Y, ScreenUtils.getScreenSize().width, MainFrame.ZONE_BOX_SIZE);
     this.setBackground(Color.GRAY);
@@ -50,6 +55,14 @@ public class BuildablePanel extends JPanel {
     switchButtons();
   }
 
+  public void regenerateBuildablePanel() {
+    this.removeAll();
+    this.buildingButtons = null;
+    this.zoneButtons = null;
+    this.toggleButton = null;
+    buildBuildablePanel();
+  }
+
   private JButton[] createZoneTypeSelectionButtons() {
     JButton residentZoneButton =
         createZoneTypeSelectionButton(ImageResource.ZONE_RESIDENT, FieldTypes.RESIDENT);
@@ -69,25 +82,54 @@ public class BuildablePanel extends JPanel {
   }
 
   private JButton[] createBuildingTypeSelectionButtons() {
-    JButton roadButton = createBuildingTypeSelectionButton(ImageResource.ROAD, BuildingTypes.ROAD);
+    JButton roadButton =
+        createBuildingTypeSelectionButton(
+            ImageResource.ROAD,
+            BuildingTypes.ROAD,
+            "road",
+            BuildingPrices.ROAD.getPriceOfBuilding());
     roadButton.setToolTipText(Localization.getProp().getProperty("road"));
     JButton emptyBuildingButton =
-        createBuildingTypeSelectionButton(ImageResource.GRASS, BuildingTypes.EMPTY);
+        createBuildingTypeSelectionButton(
+            ImageResource.GRASS,
+            BuildingTypes.EMPTY,
+            "grass",
+            BuildingPrices.EMPTY.getPriceOfBuilding());
     emptyBuildingButton.setToolTipText(Localization.getProp().getProperty("grass"));
     JButton factoryButton =
-        createBuildingTypeSelectionButton(ImageResource.FACTORY, BuildingTypes.FACTORY);
+        createBuildingTypeSelectionButton(
+            ImageResource.FACTORY,
+            BuildingTypes.FACTORY,
+            "factory",
+            BuildingPrices.FACTORY.getPriceOfBuilding());
     factoryButton.setToolTipText(Localization.getProp().getProperty("factory"));
     JButton fireStationButton =
-        createBuildingTypeSelectionButton(ImageResource.FIRE_STATION, BuildingTypes.FIRE_STATION);
+        createBuildingTypeSelectionButton(
+            ImageResource.FIRE_STATION,
+            BuildingTypes.FIRE_STATION,
+            "fire_station",
+            BuildingPrices.FIRE_STATION.getPriceOfBuilding());
     fireStationButton.setToolTipText(Localization.getProp().getProperty("fire_station"));
     JButton forestButton =
-        createBuildingTypeSelectionButton(ImageResource.FOREST, BuildingTypes.FOREST);
+        createBuildingTypeSelectionButton(
+            ImageResource.FOREST,
+            BuildingTypes.FOREST,
+            "forest",
+            BuildingPrices.FOREST.getPriceOfBuilding());
     forestButton.setToolTipText(Localization.getProp().getProperty("forest"));
     JButton policeButton =
-        createBuildingTypeSelectionButton(ImageResource.POLICE, BuildingTypes.POLICE);
+        createBuildingTypeSelectionButton(
+            ImageResource.POLICE,
+            BuildingTypes.POLICE,
+            "police",
+            BuildingPrices.POLICE.getPriceOfBuilding());
     policeButton.setToolTipText(Localization.getProp().getProperty("police"));
     JButton stadiumButton =
-        createBuildingTypeSelectionButton(ImageResource.STADIUM, BuildingTypes.STADIUM);
+        createBuildingTypeSelectionButton(
+            ImageResource.STADIUM,
+            BuildingTypes.STADIUM,
+            "stadium",
+            BuildingPrices.STADIUM.getPriceOfBuilding());
     stadiumButton.setToolTipText(Localization.getProp().getProperty("stadium"));
     return new JButton[] {
       roadButton,
@@ -114,10 +156,35 @@ public class BuildablePanel extends JPanel {
     return button;
   }
 
-  private JButton createBuildingTypeSelectionButton(Image image, BuildingTypes buildingType) {
-    JButton button = new JButton(new ImageIcon(image));
-    button.setBorder(BorderFactory.createEmptyBorder());
-    button.setContentAreaFilled(false);
+  private JButton createBuildingTypeSelectionButton(
+      Image image, BuildingTypes buildingType, String localizationString, int price) {
+
+    String text =
+        "<html><table style='width:80px'><tr><td style='text-align:center'>"
+            + Localization.getProp().getProperty(localizationString)
+            + "</td></tr><tr><td style='text-align:center'>"
+            + price
+            + " $</td></tr></table></html>";
+    JButton button =
+        new JButton(text, new ImageIcon(image)) {
+          @Override
+          public void doLayout() {
+            super.doLayout();
+            int preferedWidth = getPreferredSize().width;
+            int actualWidth = getSize().width;
+            if (preferedWidth != actualWidth) {
+              int gap = getIconTextGap() + actualWidth - preferedWidth;
+              gap = Math.max(gap, UIManager.getInt("Button.iconTextGap"));
+              setIconTextGap(gap);
+            }
+          }
+        };
+    button.setVerticalTextPosition(SwingConstants.BOTTOM);
+    button.setHorizontalTextPosition(SwingConstants.CENTER);
+    // button.setBorder(BorderFactory.createEmptyBorder());
+    button.setContentAreaFilled(true);
+    button.setBackground(Color.LIGHT_GRAY);
+    button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
     button.addActionListener(
         new ActionListener() {
           @Override
@@ -129,7 +196,7 @@ public class BuildablePanel extends JPanel {
   }
 
   private void addButtonsToComponent(JButton[] buttons) {
-    Arrays.stream(buttons).forEach(this::add);
+    Arrays.stream(buttons).forEach(jButton -> this.add(jButton, BorderLayout.CENTER));
   }
 
   private void showButtons(JButton[] buttons) {
@@ -169,13 +236,14 @@ public class BuildablePanel extends JPanel {
   private void handleBuildingTypeSelectionButton(JButton button, BuildingTypes buildingType) {
     if (selectedBuildingType != buildingType) {
       resetBuildingTypeSelectionButtons();
+      button.setBackground(Color.decode("#ADD8E6"));
       button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
-      button.setContentAreaFilled(true);
       selectedBuildingType = buildingType;
     } else {
       button.setBorder(BorderFactory.createEmptyBorder());
-      button.setContentAreaFilled(false);
       selectedBuildingType = null;
+      button.setBackground(Color.LIGHT_GRAY);
+      button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
     }
   }
 
@@ -194,7 +262,8 @@ public class BuildablePanel extends JPanel {
 
   public void resetBuildingTypeSelectionButton(JButton button) {
     button.setBorder(BorderFactory.createEmptyBorder());
-    button.setContentAreaFilled(false);
+    button.setBackground(Color.LIGHT_GRAY);
+    button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
   }
 
   public static FieldTypes getSelectedFieldZoneType() {

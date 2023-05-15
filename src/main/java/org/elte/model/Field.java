@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.elte.model.building.Building;
 import org.elte.model.building.Empty;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
 import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
@@ -87,7 +89,56 @@ public class Field {
     return BFSRunner.traverse(graph, current.getPosition(), target.getPosition());
   }
 
+  public List<Position> getRoadToField(Position position) {
+    Game game = Game.getInstance();
+    Field current = this;
+    Field target = game.getField(position);
+    HashMap<Position, List<Position>> graph = BFSRunner.buildRoadGraph(game.fields);
+    List<Field> currentRoadNeighbors =
+        current.getNeighbors().stream().filter(field -> field.getBuilding().isRoad()).toList();
+    currentRoadNeighbors.forEach(
+        field -> {
+          graph.get(field.getPosition()).add(current.getPosition());
+        });
+    graph.put(
+        current.getPosition(), currentRoadNeighbors.stream().map(Field::getPosition).toList());
+
+    List<Field> targetRoadNeighbors =
+        target.getNeighbors().stream().filter(field -> field.getBuilding().isRoad()).toList();
+    targetRoadNeighbors.forEach(
+        field -> {
+          graph.get(field.getPosition()).add(target.getPosition());
+        });
+    graph.put(target.getPosition(), targetRoadNeighbors.stream().map(Field::getPosition).toList());
+
+    return BFSRunner.getRoad(graph, current.getPosition(), target.getPosition());
+  }
+
   public boolean isConnectedWithOneOf(List<Position> positions) {
     return positions.stream().anyMatch(this::isConnectedWith);
+  }
+
+  public void removeCitizens() {
+    if (this.zone instanceof Resident) {
+      List<Citizen> citizens = ((Resident) this.zone).getCitizens();
+      for (Citizen c : citizens) {
+        Zone worksAt = c.getWorksAt();
+        if (worksAt != null){
+          List<Citizen> workers = worksAt.getWorkers();
+          workers.remove(c);
+          c.setWorksAt(null);
+          this.zone.setWorkers(workers);
+        }
+      }
+      citizens.removeAll(((Resident) this.zone).getCitizens());
+      ((Resident) this.zone).setCitizens(citizens);
+    } else {
+      List<Citizen> workers = this.zone.getWorkers();
+      for (Citizen c : workers) {
+        c.setWorksAt(null);
+      }
+      workers.removeAll(this.zone.getWorkers());
+      this.zone.setWorkers(workers);
+    }
   }
 }

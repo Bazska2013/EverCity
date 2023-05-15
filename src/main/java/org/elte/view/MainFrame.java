@@ -15,6 +15,7 @@ import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
 import org.elte.view.game.gamepanel.FieldInfoBox;
+import org.elte.view.game.gamepanel.InfoBox;
 
 import lombok.Setter;
 
@@ -26,13 +27,14 @@ public class MainFrame {
   public static final int TIME_PANEL_SIZE = 30;
   public static final int TIME_PANEL_Y =
       ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
-  private static final int RERENDER_INTERVAL = 500;
+  private static final int RERENDER_INTERVAL = 100;
   public static final String BALANCE_CURRENCY = "$";
   private final JFrame frame;
   private static GamePanel gamePanel;
   private final TimeButtons timeButtons;
   private final BuildablePanel buildablePanel;
   private final FieldInfoBox fieldInfoBox;
+  private final InfoBox infoBox;
   private final Game game;
   private int currentYear;
   public static int startingCitizensToAdd = 50;
@@ -68,7 +70,10 @@ public class MainFrame {
     fieldInfoBox = new FieldInfoBox();
     frame.add(fieldInfoBox);
 
-    gamePanel = new GamePanel(fieldInfoBox);
+    infoBox = new InfoBox();
+    frame.add(infoBox);
+
+    gamePanel = new GamePanel(fieldInfoBox, infoBox);
     frame.add(gamePanel);
 
     frame.requestFocus();
@@ -103,6 +108,11 @@ public class MainFrame {
     // menu.setIcon(new ImageIcon(icon));
     JMenuItem newGame = new JMenuItem(Localization.getProp().getProperty("new_game_text"));
     gameOptions.add(newGame);
+    newGame.addActionListener(
+        e -> {
+          game.resetGame();
+          gamePanel.repaint();
+        });
 
     JMenu languageSelectorMenuItem =
         new JMenu(Localization.getProp().getProperty("language_title"));
@@ -114,6 +124,7 @@ public class MainFrame {
           Localization.reloadProp();
           frame.setJMenuBar(createMenuBar());
           frame.repaint();
+          buildablePanel.regenerateBuildablePanel();
         });
     JMenuItem englishLanguageSelectorItem =
         new JMenuItem(Localization.getProp().getProperty("english"));
@@ -123,6 +134,7 @@ public class MainFrame {
           Localization.reloadProp();
           frame.setJMenuBar(createMenuBar());
           frame.repaint();
+          buildablePanel.regenerateBuildablePanel();
         });
     languageSelectorMenuItem.add(hungarianLanguageSelectorItem);
     languageSelectorMenuItem.add(englishLanguageSelectorItem);
@@ -194,8 +206,12 @@ public class MainFrame {
     for (int i = 0; i < Game.getColumns(); i++) {
       for (int j = 0; j < Game.getRows(); j++) {
         if (game.getField(new Position(i, j)).getZone() instanceof Resident) {
-          citizenNumber +=
-              ((Resident) game.getField(new Position(i, j)).getZone()).getCitizens().size();
+          if (((Resident) game.getField(new Position(i, j)).getZone()).getCitizens() != null) {
+            citizenNumber +=
+                ((Resident) game.getField(new Position(i, j)).getZone()).getCitizens().size();
+          } else {
+            citizenNumber += 0;
+          }
         }
       }
     }

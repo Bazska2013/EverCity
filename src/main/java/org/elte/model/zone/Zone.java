@@ -1,7 +1,10 @@
 package org.elte.model.zone;
 
+import java.util.List;
+
 import org.elte.model.Game;
 import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
 import lombok.Getter;
@@ -20,7 +23,7 @@ public abstract class Zone {
   protected int capacity;
   protected int hapiness;
   protected int tax;
-  protected int level;
+  protected int level = 1;
 
   public abstract boolean isDeletable();
 
@@ -43,4 +46,20 @@ public abstract class Zone {
   public abstract FieldTypes getZoneType();
 
   public abstract int getTax();
+
+  public int getCitizenNumber() {
+    return 0;
+  }
+
+  public List<Citizen> getWorkers() {
+    return null;
+  }
+
+  public void upgrade() {}
+
+  public abstract void addCitizen(Citizen citizen);
+
+  public void removeWorker(Citizen c) {}
+
+  public void setWorkers(List<Citizen> citizens) {}
 }
