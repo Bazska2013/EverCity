@@ -19,7 +19,7 @@ public abstract class Zone {
     this.position = position;
   }
 
-  protected int price=10;
+  protected int price = 10;
   protected int capacity = 4;
   protected int hapiness;
   protected int tax;

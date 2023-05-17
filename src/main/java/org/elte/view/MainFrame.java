@@ -167,7 +167,7 @@ public class MainFrame {
     return menuBar;
   }
 
-  private void updateTimer() {
+  private void updateTimer() { // emberek újraéledése
     timeMenu.setText(game.getGameTime().toString());
     if (game.getGameTime().getDate().getYear() > currentYear) {
       Random rand = new Random();

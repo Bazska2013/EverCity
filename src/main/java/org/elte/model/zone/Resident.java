@@ -23,7 +23,6 @@ public class Resident extends Zone {
     hapiness = 50;
     tax = 5;
     level = 1;
-
   }
 
   @Override
