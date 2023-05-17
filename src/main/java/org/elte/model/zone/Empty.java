@@ -8,6 +8,7 @@ public class Empty extends Zone {
 
   public Empty(Position position) {
     super(position);
+    price = -6;
   }
 
   @Override

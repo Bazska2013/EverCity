@@ -123,7 +123,7 @@ public class Field {
       List<Citizen> citizens = ((Resident) this.zone).getCitizens();
       for (Citizen c : citizens) {
         Zone worksAt = c.getWorksAt();
-        if (worksAt != null){
+        if (worksAt != null) {
           List<Citizen> workers = worksAt.getWorkers();
           workers.remove(c);
           c.setWorksAt(null);

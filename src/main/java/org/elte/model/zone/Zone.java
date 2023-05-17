@@ -19,8 +19,8 @@ public abstract class Zone {
     this.position = position;
   }
 
-  protected int price;
-  protected int capacity;
+  protected int price = 10;
+  protected int capacity = 4;
   protected int hapiness;
   protected int tax;
   protected int level = 1;
@@ -37,6 +37,7 @@ public abstract class Zone {
     if (isPlaceable()) {
       Game game = Game.getInstance();
       game.getField(this.position).setZone(this);
+      game.setBalance(game.getBalance() - price);
     }
   }
   ;
