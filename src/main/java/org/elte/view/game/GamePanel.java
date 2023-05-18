@@ -16,10 +16,7 @@ import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
-import org.elte.view.game.gamepanel.FieldInfoBox;
-import org.elte.view.game.gamepanel.GameMouseAdapter;
-import org.elte.view.game.gamepanel.GameMouseMotionListener;
-import org.elte.view.game.gamepanel.InfoBox;
+import org.elte.view.game.gamepanel.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +32,7 @@ public class GamePanel extends JPanel {
   private Game game;
   private Dimension screenSize;
   private FieldInfoBox fieldInfoBox;
+  private ResidentInfoBox residentInfoBox;
   public static InfoBox infoBox;
   public static GamePanel gamePanel = null;
 
@@ -46,14 +44,16 @@ public class GamePanel extends JPanel {
 
   private Position selectedField = null;
 
-  public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox) {
+  public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox, ResidentInfoBox residentInfoBox) {
     this.game = Game.getInstance();
     this.screenSize = ScreenUtils.getScreenSize();
     this.fieldInfoBox = fieldInfoBox;
     fieldInfoBox.setGamePanel(this);
+    this.residentInfoBox = residentInfoBox;
+    residentInfoBox.setGamePanel(this);
     this.infoBox = infoBox;
     this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
-    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox);
+    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox, residentInfoBox);
     addMouseListener(mouseListener);
     addMouseMotionListener(mouseMotionListener);
     this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());

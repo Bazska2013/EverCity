@@ -21,11 +21,13 @@ public class GameMouseAdapter extends MouseAdapter {
   Game game;
   GamePanel gamePanel;
   FieldInfoBox fieldInfoBox;
+  ResidentInfoBox residentInfoBox;
   InfoBox infoBox;
 
   public GameMouseAdapter(
-      Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox, InfoBox infoBox) {
+      Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox, InfoBox infoBox, ResidentInfoBox residentInfoBox) {
     this.fieldInfoBox = fieldInfoBox;
+    this.residentInfoBox = residentInfoBox;
     this.infoBox = infoBox;
     this.game = game;
     this.gamePanel = gamePanel;
@@ -39,6 +41,7 @@ public class GameMouseAdapter extends MouseAdapter {
 
     try {
       fieldInfoBox.setSelectedPosition(null);
+      residentInfoBox.setSelectedPosition(null);
       Position currentPosition = new Position(current_x, current_y);
       if (BuildablePanel.getSelectedFieldZoneType() != null) {
         placeZone(currentPosition);
@@ -49,6 +52,7 @@ public class GameMouseAdapter extends MouseAdapter {
         return;
       }
       fieldInfoBox.setSelectedPosition(currentPosition);
+      residentInfoBox.setSelectedPosition(currentPosition);
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {
