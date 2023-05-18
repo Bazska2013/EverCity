@@ -16,6 +16,7 @@ import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
 import org.elte.view.game.gamepanel.FieldInfoBox;
 import org.elte.view.game.gamepanel.InfoBox;
+import org.elte.view.game.gamepanel.ResidentInfoBox;
 
 import lombok.Setter;
 
@@ -34,6 +35,7 @@ public class MainFrame {
   private final TimeButtons timeButtons;
   private final BuildablePanel buildablePanel;
   private final FieldInfoBox fieldInfoBox;
+  private final ResidentInfoBox residentInfoBox;
   private final InfoBox infoBox;
   private final Game game;
   private int currentYear;
@@ -70,10 +72,13 @@ public class MainFrame {
     fieldInfoBox = new FieldInfoBox();
     frame.add(fieldInfoBox);
 
+    residentInfoBox = new ResidentInfoBox();
+    frame.add(residentInfoBox);
+
     infoBox = new InfoBox();
     frame.add(infoBox);
 
-    gamePanel = new GamePanel(fieldInfoBox, infoBox);
+    gamePanel = new GamePanel(fieldInfoBox, infoBox, residentInfoBox);
     frame.add(gamePanel);
 
     frame.requestFocus();

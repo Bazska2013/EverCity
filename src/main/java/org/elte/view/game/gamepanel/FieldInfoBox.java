@@ -135,21 +135,6 @@ public class FieldInfoBox extends JPanel {
           this.setLayout(new GridLayout(5, 1));
         }
       }
-
-      //      if (!(selectedField.getZone() instanceof Empty)) {
-      //        this.add(deleteButton);
-      //        this.add(upgradeButton);
-      //        this.setLayout(new GridLayout(7, 1));
-      //        upgradeButton.setVisible(true);
-      //      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
-      //        this.remove(deleteButton);
-      //        this.remove(upgradeButton);
-      //        this.setLayout(new GridLayout(5, 1));
-      //      } else {
-      //        this.add(deleteButton);
-      //        this.remove(upgradeButton);
-      //        this.setLayout(new GridLayout(6, 1));
-      //      }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
