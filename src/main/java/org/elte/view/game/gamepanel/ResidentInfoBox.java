@@ -8,6 +8,7 @@ import org.elte.model.Game;
 import org.elte.model.building.House;
 import org.elte.model.people.Citizen;
 import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.game.GamePanel;
@@ -61,9 +62,30 @@ public class ResidentInfoBox extends JPanel {
           JLabel age = setLabelProperties("Age: ", Integer.toString(c.getAge()));
           contentPanel.add(age);
           if (c.getWorksAt() != null) {
-            JLabel worksAt = setLabelProperties("Works at: ", c.getWorksAt().toString());
+            String workplace;
+            if (c.getWorksAt() instanceof Service) {
+              workplace =
+                  "a Service building ("
+                      + c.getWorksAt().getPosition().x()
+                      + ","
+                      + c.getWorksAt().getPosition().y()
+                      + ")";
+            } else {
+              workplace =
+                  "a Factory building ("
+                      + c.getWorksAt().getPosition().x()
+                      + ","
+                      + c.getWorksAt().getPosition().y()
+                      + ")";
+            }
+            JLabel worksAt = setLabelProperties("Works at ", workplace);
             contentPanel.add(worksAt);
           }
+          JLabel income = setLabelProperties("Earns ", c.getIncome() + "$");
+          contentPanel.add(income);
+          JLabel satisfaction =
+              setLabelProperties("Satisfaction level: ", c.getSatisfaction() + "%");
+          contentPanel.add(satisfaction);
           JLabel retired = setLabelProperties("Is retired: ", Boolean.toString(c.isRetired()));
           contentPanel.add(retired);
           i++;
