@@ -16,9 +16,9 @@ import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
 import org.elte.view.game.gamepanel.FieldInfoBox;
 import org.elte.view.game.gamepanel.InfoBox;
+import org.elte.view.game.gamepanel.ResidentInfoBox;
 
 import lombok.Setter;
-import org.elte.view.game.gamepanel.ResidentInfoBox;
 
 @Setter
 public class MainFrame {

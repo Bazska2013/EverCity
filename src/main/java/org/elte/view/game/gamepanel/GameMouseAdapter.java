@@ -25,7 +25,11 @@ public class GameMouseAdapter extends MouseAdapter {
   InfoBox infoBox;
 
   public GameMouseAdapter(
-      Game game, GamePanel gamePanel, FieldInfoBox fieldInfoBox, InfoBox infoBox, ResidentInfoBox residentInfoBox) {
+      Game game,
+      GamePanel gamePanel,
+      FieldInfoBox fieldInfoBox,
+      InfoBox infoBox,
+      ResidentInfoBox residentInfoBox) {
     this.fieldInfoBox = fieldInfoBox;
     this.residentInfoBox = residentInfoBox;
     this.infoBox = infoBox;
