@@ -6,6 +6,10 @@ import org.elte.model.zone.Zone;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Zone;
+import java.util.Random;
+
 
 /** A Citizen osztály egy polgárt reprezentál a játékban. */
 @Getter
@@ -32,20 +36,25 @@ public class Citizen {
    * @param age a polgár életkora
    */
   public Citizen(Zone livesAt, Zone worksAt, int age) {
+    Random rand = new Random();
     this.livestAt = livesAt;
     this.worksAt = worksAt;
     this.age = age;
     satisfaction = 50;
-    income = 0;
+    income = rand.nextInt(30);
   }
+
+
   /** Ha egy polgár elhalálozik, az adatait alaphelyzetbe állítja. */
-  public void resetCitizen() {
+  public void resetCitizen(Resident r) {
     System.out.println("Citizen resetted...");
     satisfaction = 50;
     income = 0;
     age = 18;
     isRetired = false;
+    livestAt=r;
   }
+
   /**
    * Megadja, hogy a polgár nyugdíjas-e.
    *

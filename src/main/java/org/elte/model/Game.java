@@ -40,6 +40,7 @@ public class Game implements Serializable {
   private int mood = 50;
   public Field[][] fields;
   public List<Firetruck> firetrucks = new ArrayList<>();
+  public List<Resident> residents = new ArrayList<>();
   // int balance;
   private final GameTime gameTime;
   public ArrayList<String> allCosts = new ArrayList<>();
@@ -267,6 +268,7 @@ public class Game implements Serializable {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         fees += fields[i][j].getFees();
+        fees += fields[i][j].getRetiredPay();
       }
     }
     return fees;
@@ -552,4 +554,26 @@ public class Game implements Serializable {
     }
     return true;
   }
+
+  public void makeResidents(){
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if(fields[i][j].getZone() instanceof Resident){
+          residents.add((Resident) fields[i][j].getZone());
+        }
+      }
+    }
+  }
+
+  public Resident getRandomResident(){
+    makeResidents();
+    Random rand = new Random();
+    Resident r = residents.get(rand.nextInt(residents.size()));
+    while(r.getCitizens().size()<r.getCapacity()){
+      r = residents.get(rand.nextInt(residents.size()));
+    }
+    return r;
+  }
+
+
 }

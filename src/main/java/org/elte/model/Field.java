@@ -10,6 +10,7 @@ import org.elte.model.people.Citizen;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
+import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
 import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
@@ -62,6 +63,12 @@ public class Field {
    */
   public int getFees() {
     return building.getTax();
+  }
+  public int getRetiredPay(){
+    if(zone instanceof Resident){
+      return ((Resident) zone).getRetiredPay();
+    }
+    return 0;
   }
   /**
    * Visszaadja a mező szomszédait.
