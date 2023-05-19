@@ -71,11 +71,11 @@ public class FieldInfoBox extends JPanel {
     citizenNumber.setFont(labelFont);
     this.add(citizenNumber);
 
-    deleteButton = new TextButton("Delete");
+    deleteButton = new TextButton(Localization.getProp().getProperty("delete"));
     deleteButton.setBackground(Color.RED);
     this.add(deleteButton);
 
-    upgradeButton = new TextButton("Upgrade");
+    upgradeButton = new TextButton(Localization.getProp().getProperty("upgrade"));
     upgradeButton.setBackground(Color.decode("#339157"));
 
     upgradeButton.addActionListener(
@@ -108,7 +108,9 @@ public class FieldInfoBox extends JPanel {
       positionYLabel.setText(
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
       citizenNumber.setText(
-          "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
+          Localization.getProp().getProperty("number_of_citizens")
+              + ": "
+              + game.getField(selectedPosition).getZone().getCitizenNumber());
       deleteButton.setVisible(true); // enable the button when a position is selected
 
       Field selectedField = game.getField(selectedPosition);
