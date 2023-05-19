@@ -75,4 +75,21 @@ public class Resident extends Zone {
   public void addCitizen(Citizen citizen) {
     citizens.add(citizen);
   }
+
+  @Override
+  public void changeHappiness(int changes) {
+    int ch = 0;
+    if (tax >= 10) {
+      ch -= 5;
+    } else if (tax <= 5) {
+      ch += 5;
+    }
+    for (Citizen c : citizens) {
+      ch += c.workHomeDistance();
+    }
+    Game game = Game.getInstance();
+    ch -= game.balanceAffect();
+    ch += Game.indServBalance();
+    hapiness = (50 + (ch + changes));
+  }
 }

@@ -144,6 +144,12 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
+          game.setBalance(game.getBalance() - price);
+        }
+      }
+      for (int i = position.x() - impactRange; i <= position.x() + impactRange; i++) {
+        for (int j = position.y() - impactRange; j <= position.y() + impactRange; j++) {
+          game.getField(new Position(i, j)).getImpactedBy().add(this);
         }
       }
       game.setBalance(game.getBalance() - price);

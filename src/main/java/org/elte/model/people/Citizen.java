@@ -1,5 +1,7 @@
 package org.elte.model.people;
 
+import java.awt.geom.Point2D;
+
 import org.elte.model.zone.Zone;
 
 import lombok.Getter;
@@ -39,5 +41,20 @@ public class Citizen {
     if (age > 65) {
       isRetired = true;
     }
+  }
+
+  public int workHomeDistance() {
+    double distance =
+        Point2D.distance(
+            worksAt.getPosition().x(),
+            worksAt.getPosition().y(),
+            livestAt.getPosition().x(),
+            livestAt.getPosition().y());
+    if (distance >= 6) {
+      return -5;
+    } else if (distance <= 3) {
+      return 5;
+    }
+    return 0;
   }
 }
