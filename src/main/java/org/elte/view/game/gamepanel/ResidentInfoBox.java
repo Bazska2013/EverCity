@@ -11,6 +11,7 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
+import org.elte.view.Localization;
 import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
@@ -51,7 +52,7 @@ public class ResidentInfoBox extends JPanel {
         contentPanel.setBackground(Color.gray);
         int i = 1;
         JLabel citizens = new JLabel();
-        citizens.setText("Residents:");
+        citizens.setText(Localization.getProp().getProperty("residents") + ":");
         citizens.setFont(new Font("Arial", Font.BOLD, 20));
         citizens.setForeground(Color.WHITE);
         contentPanel.add(citizens);
@@ -59,34 +60,45 @@ public class ResidentInfoBox extends JPanel {
           JLabel number = new JLabel();
           number.setText(Integer.toString(i) + ":");
           contentPanel.add(number);
-          JLabel age = setLabelProperties("Age: ", Integer.toString(c.getAge()));
+          JLabel age =
+              setLabelProperties(
+                  Localization.getProp().getProperty("age") + ": ", Integer.toString(c.getAge()));
           contentPanel.add(age);
           if (c.getWorksAt() != null) {
             String workplace;
             if (c.getWorksAt() instanceof Service) {
               workplace =
-                  "a Service building ("
+                  Localization.getProp().getProperty("service_zone")
+                      + " ("
                       + c.getWorksAt().getPosition().x()
                       + ","
                       + c.getWorksAt().getPosition().y()
                       + ")";
             } else {
               workplace =
-                  "a Factory building ("
+                  Localization.getProp().getProperty("industry_zone")
+                      + " ("
                       + c.getWorksAt().getPosition().x()
                       + ","
                       + c.getWorksAt().getPosition().y()
                       + ")";
             }
-            JLabel worksAt = setLabelProperties("Works at ", workplace);
+            JLabel worksAt =
+                setLabelProperties(Localization.getProp().getProperty("worksat") + ": ", workplace);
             contentPanel.add(worksAt);
           }
-          JLabel income = setLabelProperties("Earns ", c.getIncome() + "$");
+          JLabel income =
+              setLabelProperties(
+                  Localization.getProp().getProperty("earns") + " ", c.getIncome() + "$");
           contentPanel.add(income);
           JLabel satisfaction =
-              setLabelProperties("Satisfaction level: ", c.getSatisfaction() + "%");
+              setLabelProperties(
+                  Localization.getProp().getProperty("mood") + ": ", c.getSatisfaction() + "%");
           contentPanel.add(satisfaction);
-          JLabel retired = setLabelProperties("Is retired: ", Boolean.toString(c.isRetired()));
+          JLabel retired =
+              setLabelProperties(
+                  Localization.getProp().getProperty("retired") + ": ",
+                  Localization.getProp().getProperty(Boolean.toString(c.isRetired())));
           contentPanel.add(retired);
           i++;
         }
