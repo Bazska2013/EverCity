@@ -24,6 +24,7 @@ public class FireStation extends Building {
     width = 1;
     height = 1;
     chanceToFire = 0;
+    chanceToCollapse = 0.005;
     burning = false;
   }
 

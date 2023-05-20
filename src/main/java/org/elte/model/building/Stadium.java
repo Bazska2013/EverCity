@@ -16,6 +16,7 @@ public class Stadium extends Building {
     width = 2;
     height = 2;
     chanceToFire = 0.0005;
+    chanceToCollapse = 0.05;
     burning = false;
   }
 

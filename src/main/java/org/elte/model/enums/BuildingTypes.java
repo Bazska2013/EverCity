@@ -15,5 +15,6 @@ public enum BuildingTypes {
   FOREST,
   HOUSE_1,
   HOUSE_2,
-  HOUSE_3;
+  HOUSE_3,
+  RUBBLE;
 }

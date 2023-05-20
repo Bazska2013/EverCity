@@ -7,7 +7,9 @@ import java.util.List;
 import org.elte.model.building.Building;
 import org.elte.model.building.Empty;
 import org.elte.model.people.Citizen;
+import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
@@ -52,13 +54,13 @@ public class Field {
     if (y > 0) {
       neighbors.add(game.getField(new Position(x, y - 1)));
     }
-    if (y < cols - 1) {
+    if (y < rows - 1) {
       neighbors.add(game.getField(new Position(x, y + 1)));
     }
     if (x > 0) {
       neighbors.add(game.getField(new Position(x - 1, y)));
     }
-    if (x < rows - 1) {
+    if (x < cols - 1) {
       neighbors.add(game.getField(new Position(x + 1, y)));
     }
     return neighbors;
@@ -132,7 +134,7 @@ public class Field {
       }
       citizens.removeAll(((Resident) this.zone).getCitizens());
       ((Resident) this.zone).setCitizens(citizens);
-    } else {
+    } else if (this.zone instanceof Industry || this.zone instanceof Service) {
       List<Citizen> workers = this.zone.getWorkers();
       for (Citizen c : workers) {
         c.setWorksAt(null);

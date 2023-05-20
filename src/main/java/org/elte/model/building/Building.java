@@ -25,6 +25,8 @@ public abstract class Building {
   int width = 1;
   int height = 1;
   double chanceToFire = 0;
+
+  double chanceToCollapse = 0;
   boolean burning = false;
   BuildingTypes buildingType;
   ArrayList<Position> fieldPositions = new ArrayList<>();
@@ -44,7 +46,6 @@ public abstract class Building {
   public boolean isBurning() {
     return burning;
   }
-  ;
 
   public boolean isFireStation() {
     return false;
@@ -143,14 +144,24 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
-          game.setBalance(game.getBalance() - price);
         }
       }
+      game.setBalance(game.getBalance() - price);
     }
   }
 
   public void delete() {
     Game game = Game.getInstance();
+    Building building = game.getField(position).getBuilding();
+
+    if(building instanceof Rubble) {
+      Game.getInstance().setBalance(Game.getInstance().getBalance() - 5);
+    } else if(building instanceof Police || building instanceof Stadium) {
+      Game.getInstance().setBalance(Game.getInstance().getBalance() + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+    } else {
+        Game.getInstance().setBalance(Game.getInstance().getBalance() - Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+    }
+
     if (isRoad()) {
       if (!hasBuildingAtLeastOneSide()) {
         fieldPositions.forEach(

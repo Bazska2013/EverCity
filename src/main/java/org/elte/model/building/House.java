@@ -9,6 +9,7 @@ public class House extends Building {
     this.position = position;
     buildingType = BuildingTypes.HOUSE_1;
     chanceToFire = 0.0005;
+    chanceToCollapse = 0.05;
   }
 
   @Override

@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import org.elte.model.building.Factory;
-import org.elte.model.building.Forest;
-import org.elte.model.building.House;
-import org.elte.model.building.Road;
-import org.elte.model.building.ServiceBuilding;
+import org.elte.model.building.*;
+import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.model.zone.Industry;
@@ -50,6 +47,7 @@ public class Game {
               tryToPlaceCitizenHouse();
               tryToPlaceServiceBuilding();
               initRandomFire();
+              initEarthQuake();
               handleFire();
               searchUnemployedCitizens();
               searchPlaceToLive();
@@ -269,6 +267,37 @@ public class Game {
 
   public void resetGame() {
     INSTANCE = new Game();
+  }
+
+  public void initEarthQuake() {
+    Game game = Game.getInstance();
+    Random rand = new Random();
+    int number = rand.nextInt(0, 1000);
+    int house_counter = 0;
+    if(number < 50){
+      for (Field[] fieldRow : this.fields) {
+        for (Field field : fieldRow) {
+          double chanceToCollapse = field.getBuilding().getChanceToCollapse();
+          double randomNumber = Math.random();
+          if (randomNumber < chanceToCollapse) {
+            field.getBuilding().getFieldPositions().forEach(
+                    pos -> {
+                      Field currentField = game.getField(pos);
+                      currentField.removeCitizens();
+                      currentField.setBuilding(new Rubble(pos));
+                      MainFrame mainFrame = MainFrame.getInstance();
+                      mainFrame.repaintCitizenNumber();
+                    });
+            game.getField(field.getPosition()).removeCitizens();
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.repaintCitizenNumber();
+            game.getField(field.getPosition()).setBuilding((new Rubble(field.getPosition())));
+            house_counter++;
+          }
+        }
+      }
+      GamePanel.infoBox.reRender("Earthquake!", house_counter + " house collapsed.", Color.RED);
+    }
   }
 
   public void searchPlaceToLive() {

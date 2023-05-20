@@ -40,6 +40,8 @@ public abstract class ImageResource {
 
   public static final Image FIRE = ResourceLoader.loadImage("fire.png");
 
+  public static final Image RUBBLE = ResourceLoader.loadImage("rubble.png");
+
   public static Image getImageOfClass(Class<?> clazz) {
     if (clazz == FireStation.class) return FIRE_STATION;
     if (clazz == Factory.class) return FACTORY;
@@ -49,6 +51,7 @@ public abstract class ImageResource {
     if (clazz == Police.class) return POLICE;
     if (clazz == Road.class) return ROAD;
     if (clazz == House.class) return HOUSE;
+    if (clazz == Rubble.class) return RUBBLE;
     return GRASS;
   }
 

@@ -16,6 +16,7 @@ public class Factory extends Building {
     width = 2;
     height = 2;
     chanceToFire = 0.002;
+    chanceToCollapse = 0.02;
     burning = false;
   }
 

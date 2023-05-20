@@ -17,6 +17,7 @@ public class Forest extends Building {
     width = 1;
     height = 1;
     chanceToFire = 0.0001;
+    chanceToCollapse = 0;
     burning = false;
     this.size = 1;
   }

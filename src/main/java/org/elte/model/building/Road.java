@@ -13,6 +13,7 @@ public class Road extends Building {
     socialImpact = 0;
     impactRange = 0;
     chanceToFire = 0;
+    chanceToCollapse = 0;
     width = 1;
     height = 1;
   }

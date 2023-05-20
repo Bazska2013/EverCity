@@ -15,6 +15,7 @@ public class Empty extends Building {
     width = 1;
     height = 1;
     chanceToFire = 0;
+    chanceToCollapse = 0;
     burning = false;
   }
 

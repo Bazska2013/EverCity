@@ -16,6 +16,7 @@ public class Police extends Building {
     width = 1;
     height = 1;
     chanceToFire = 0.0005;
+    chanceToCollapse = 0.05;
     burning = false;
   }
 
