@@ -52,7 +52,6 @@ public abstract class Zone {
   }
   ;
   /** Létrehozza a zónát, ha lehelyezhető. */
-
   public void create(String s) {
     if (isPlaceable()) {
       Game game = Game.getInstance();
