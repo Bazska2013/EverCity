@@ -68,9 +68,9 @@ public class FireStation extends Building {
   }
 
   @Override
-  public void create() {
+  public void create(String s) {
     if (this.isPlaceable()) {
-      super.create();
+      super.create("Tűzoltóság");
       firetruck = new Firetruck(this);
       Game.getInstance().getFiretrucks().add(firetruck);
       // FiretruckView firetruckView = new FiretruckView(firetruck);

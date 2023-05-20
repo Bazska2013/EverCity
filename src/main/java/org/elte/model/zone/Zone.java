@@ -33,11 +33,12 @@ public abstract class Zone {
   }
   ;
 
-  public void create() {
+  public void create(String s) {
     if (isPlaceable()) {
       Game game = Game.getInstance();
       game.getField(this.position).setZone(this);
       game.setBalance(game.getBalance() - price);
+      game.getAllCosts().add(s + " díja: " + price + "$");
     }
   }
   ;

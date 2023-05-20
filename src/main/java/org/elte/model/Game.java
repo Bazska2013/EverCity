@@ -1,10 +1,8 @@
 package org.elte.model;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import org.elte.model.building.Factory;
 import org.elte.model.building.Forest;
@@ -36,6 +34,7 @@ public class Game {
   public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
   private final GameTime gameTime;
+  public ArrayList<String> allCosts = new ArrayList<>();
 
   private Game() {
     fields = new Field[rows][columns];
@@ -55,8 +54,11 @@ public class Game {
               searchPlaceToLive();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
+                allCosts.add("Éves adó: " + yearlyTax() + "$");
                 balance -= yearlyFee();
+                allCosts.add("Éves fenttartási díjak: " + yearlyFee() + "$");
                 increaseForestImpacts();
+                System.out.println(allCosts.toString());
               }
             });
     gameTime.setTimerSpeed(TimerSpeed.ONE);
