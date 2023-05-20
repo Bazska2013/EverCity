@@ -79,13 +79,13 @@ public class GameMouseAdapter extends MouseAdapter {
       case STADIUM -> buildingType = new Stadium(position);
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
-      if (buildingType instanceof Road) buildingType.create("Út");
-      if (buildingType instanceof Empty) buildingType.create("Zóna törlés");
-      if (buildingType instanceof Factory) buildingType.create("Gyár");
-      if (buildingType instanceof FireStation) buildingType.create("Tűzoltóság");
-      if (buildingType instanceof Forest) buildingType.create("Erdő");
-      if (buildingType instanceof Police) buildingType.create("Rendőrség");
-      if (buildingType instanceof Stadium) buildingType.create("Stadion");
+      if (buildingType instanceof Road) buildingType.create("road");
+      if (buildingType instanceof Empty) buildingType.create("zone_deleting");
+      if (buildingType instanceof Factory) buildingType.create("factory");
+      if (buildingType instanceof FireStation) buildingType.create("fire_station");
+      if (buildingType instanceof Forest) buildingType.create("forest");
+      if (buildingType instanceof Police) buildingType.create("police");
+      if (buildingType instanceof Stadium) buildingType.create("stadium");
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(

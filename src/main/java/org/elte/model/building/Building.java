@@ -144,7 +144,7 @@ public abstract class Building {
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
           game.setBalance(game.getBalance() - price);
-          game.getAllCosts().add(s + " díja: " + price + "$");
+          game.getAllCosts().add(s + "," + price);
         }
       }
     }

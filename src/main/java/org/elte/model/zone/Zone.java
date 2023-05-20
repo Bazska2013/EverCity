@@ -38,7 +38,7 @@ public abstract class Zone {
       Game game = Game.getInstance();
       game.getField(this.position).setZone(this);
       game.setBalance(game.getBalance() - price);
-      game.getAllCosts().add(s + " díja: " + price + "$");
+      game.getAllCosts().add(s + "," + price);
     }
   }
   ;

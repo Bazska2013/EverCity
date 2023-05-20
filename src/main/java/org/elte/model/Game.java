@@ -54,9 +54,9 @@ public class Game {
               searchPlaceToLive();
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
-                allCosts.add("Éves adó: " + yearlyTax() + "$");
+                allCosts.add("evesado" + "," + yearlyTax());
                 balance -= yearlyFee();
-                allCosts.add("Éves fenttartási díjak: " + yearlyFee() + "$");
+                allCosts.add("evesfentdij" + "," + yearlyFee());
                 increaseForestImpacts();
                 System.out.println(allCosts.toString());
               }
