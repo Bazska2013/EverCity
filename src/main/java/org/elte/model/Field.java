@@ -134,8 +134,10 @@ public class Field {
       ((Resident) this.zone).setCitizens(citizens);
     } else {
       List<Citizen> workers = this.zone.getWorkers();
-      for (Citizen c : workers) {
-        c.setWorksAt(null);
+      if (workers != null) {
+        for (Citizen c : workers) {
+          c.setWorksAt(null);
+        }
       }
       workers.removeAll(this.zone.getWorkers());
       this.zone.setWorkers(workers);
