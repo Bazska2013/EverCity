@@ -11,11 +11,19 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 
+/**
+ * A Resident osztály egy lakó zónát reprezentálja a játékban. Ez az osztály a Zone osztályból
+ * származik, és implementálja az absztrakt metódusokat.
+ */
 @Getter
 public class Resident extends Zone {
-
+  /** A zónán élő polgárok listája. */
   protected List<Citizen> citizens = new ArrayList<>();
-
+  /**
+   * A Resident osztály konstruktora.
+   *
+   * @param position a zóna pozíciója
+   */
   public Resident(Position position) {
     super(position);
     price = 10;
@@ -24,27 +32,47 @@ public class Resident extends Zone {
     tax = 5;
     level = 1;
   }
-
+  /**
+   * Ellenőrzi, hogy a zóna törölhető-e.
+   *
+   * @return true, ha a zóna törölhető, egyébként false
+   */
   @Override
   public boolean isDeletable() {
     return false;
   }
-
+  /**
+   * Ellenőrzi, hogy a zóna üres-e.
+   *
+   * @return true, ha a zóna üres, egyébként false
+   */
   @Override
   public boolean isEmpty() {
     return false;
   }
-
+  /**
+   * Visszaadja a zóna típusát.
+   *
+   * @return a zóna típusa
+   */
   @Override
   public FieldTypes getZoneType() {
     return FieldTypes.RESIDENT;
   }
-
+  /**
+   * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.
+   *
+   * @return a zónára vonatkozó adó
+   */
   @Override
   public int getTax() {
     return tax * capacity;
   }
-
+  /**
+   * Visszaadja a zónán lakó polgárok számát.
+   *
+   * @return a zónán dolgozó polgárok száma
+   */
   @Override
   public int getCitizenNumber() {
     if (citizens != null) {
@@ -52,11 +80,18 @@ public class Resident extends Zone {
     }
     return 0;
   }
-
+  /**
+   * A zónában élő polgárok beállítása.
+   *
+   * @param citizens a zónán élő polgárok listája
+   */
   public void setCitizens(List<Citizen> citizens) {
     this.citizens = citizens;
   }
-
+  /**
+   * A zóna fejlesztése. 2-es szint: 100$-ba kerül és megduplázza a kapacitást. 3-as szint: 200$-ba
+   * kerül és mégegyszer a kétszeresére növeli a kapacitást.
+   */
   public void upgrade() {
     Game game = Game.getInstance();
     if (this.level == 1) {
@@ -71,7 +106,11 @@ public class Resident extends Zone {
       game.getField(position).getBuilding().setBuildingType(BuildingTypes.HOUSE_3);
     }
   }
-
+  /**
+   * Egy polgár hozzáadása a zónához.
+   *
+   * @param citizen a hozzáadandó polgár
+   */
   public void addCitizen(Citizen citizen) {
     citizens.add(citizen);
   }
