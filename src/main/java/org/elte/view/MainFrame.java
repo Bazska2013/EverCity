@@ -1,6 +1,8 @@
 package org.elte.view;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 import javax.swing.*;
 
@@ -14,6 +16,7 @@ import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
+import org.elte.view.game.gamepanel.BalanceInfoBox;
 import org.elte.view.game.gamepanel.FieldInfoBox;
 import org.elte.view.game.gamepanel.InfoBox;
 import org.elte.view.game.gamepanel.ResidentInfoBox;
@@ -48,6 +51,9 @@ public class MainFrame {
   private JMenu balanceMenu;
   private JMenu populationBar;
 
+  private BalanceInfoBox balanceInfoBox;
+  private boolean balanceMenuPressed = false;
+
   private MainFrame() {
     frame = new JFrame("EverCity");
     screenSize = ScreenUtils.getScreenSize();
@@ -77,6 +83,9 @@ public class MainFrame {
 
     infoBox = new InfoBox();
     frame.add(infoBox);
+
+    balanceInfoBox = new BalanceInfoBox();
+    frame.add(balanceInfoBox);
 
     gamePanel = new GamePanel(fieldInfoBox, infoBox, residentInfoBox);
     frame.add(gamePanel);
@@ -153,6 +162,20 @@ public class MainFrame {
 
     menuBar.add(Box.createHorizontalStrut(30));
     this.balanceMenu = new JMenu();
+    balanceMenu.setEnabled(true);
+    balanceMenu.addMouseListener(
+        new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (balanceMenuPressed) {
+              balanceInfoBox.hideInfoBox();
+              balanceMenuPressed = false;
+            } else {
+              balanceInfoBox.reRender();
+              balanceMenuPressed = true;
+            }
+          }
+        });
     menuBar.add(this.balanceMenu);
 
     this.populationBar = new JMenu(Localization.getProp().getProperty("population") + " " + 0);
@@ -162,7 +185,6 @@ public class MainFrame {
     menuBar.add(Box.createHorizontalStrut(50));
 
     JMenu moodLevel = new JMenu(Localization.getProp().getProperty("mood_level_text"));
-    balanceMenu.setEnabled(false);
     menuBar.add(moodLevel);
 
     menuBar.add(Box.createHorizontalGlue());

@@ -79,7 +79,13 @@ public class GameMouseAdapter extends MouseAdapter {
       case STADIUM -> buildingType = new Stadium(position);
     }
     if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
-      buildingType.create();
+      if (buildingType instanceof Road) buildingType.create("road");
+      if (buildingType instanceof Empty) buildingType.create("zone_deleting");
+      if (buildingType instanceof Factory) buildingType.create("factory");
+      if (buildingType instanceof FireStation) buildingType.create("fire_station");
+      if (buildingType instanceof Forest) buildingType.create("forest");
+      if (buildingType instanceof Police) buildingType.create("police");
+      if (buildingType instanceof Stadium) buildingType.create("stadium");
     } else {
       if (!buildingType.isEmpty()) {
         infoBox.reRender(
@@ -104,8 +110,12 @@ public class GameMouseAdapter extends MouseAdapter {
       case RESIDENT -> newZone = new Resident(position);
     }
     if (newZone != null && newZone.isPlaceable()) {
-      newZone.create();
-      if (newZone instanceof Resident) MainFrame.getInstance().repaintCitizenNumber();
+      if (newZone instanceof Resident) {
+        MainFrame.getInstance().repaintCitizenNumber();
+        newZone.create("Lakó zóna");
+      }
+      if (newZone instanceof Industry) newZone.create("Ipari zóna");
+      if (newZone instanceof Service) newZone.create("Szolgáltatási zóna");
     }
   }
 }
