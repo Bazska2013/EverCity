@@ -1,7 +1,11 @@
 package org.elte.model;
 
 import java.awt.*;
+import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.elte.model.building.*;
@@ -18,15 +22,20 @@ import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class Game {
+@ToString
+public class Game implements Serializable {
+
+  @Serial private static final long serialVersionUID = 6529685098267757690L;
   private static final double CHANCE_TO_FIRE_NEIGHBOURS = 0.05;
   private static Game INSTANCE = null;
+  public static int STARTING_MONEY = 20000;
   static final int rows = 16;
   static final int columns = 32;
-  private int balance = 20000;
+  private int balance = STARTING_MONEY;
   private int mood = 50;
   public Field[][] fields;
   public List<Firetruck> firetrucks = new ArrayList<>();
