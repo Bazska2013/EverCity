@@ -19,6 +19,7 @@
 ### A játék működése
 
 > - A játék megnyitásakor a következő képernyő fogad, ahol tudunk új játékot kezdeni, betölteni egy korábbi mentést, vagy kilpni a játékból.
+
 ![image.png](./image.png)
 > 
 > - Ha rákattintunk egy zónára bal oldalon láthatjuk az információkat róla.
@@ -26,9 +27,11 @@
 ![image-1.png](./image-1.png)
 > 
 > - A 'TOGGLE' gombra kattintva tudunk váltani, hogy zónát vagy épületet szeretnénk lehelyezni.
+
 ![image-2.png](./image-2.png)
 > 
 > - Ha kiválasztunk egy zónát vagy épületet, arra kattintva kiválasztjük azt, majd rákattintva a négyzetre ahova szeretnénk letenni lehelyeződik oda.
+
 ![image-3.png](./image-3.png)
 > 
 > - A 'Menü' pontban a 'Nyelv'/'Language' menüpont alatt tudjuk váltani, hogy angol vagy magyar nyelven jelenjenek meg az információk a játékról.
@@ -36,10 +39,14 @@
 ![image-4.png](./image-4.png)![image-5.png](./image-5.png)
 > 
 > - A játéktábla alatti '||' gombra kattintva meg tudjuk állítani az időt, '>>' gombra kattintva fel tudjuk gyorsítani az időt, '>' gombra kattintva pedig vissza tudjuk állítani az alap gyorsaságra az időt.
+
 ![image-6.png](./image-6.png)![image-7.png](./image-7.png)![image-8.png](./image-8.png)
  - Egy lakóépületre kattintva a képernyő jobb oldalán megjelenik egy görgethető felsorolás az abban az épületben lakók adatairól.
+
  ![image-9.png](./image-9.png)
   - A képernyő alján különböző épületek találhatóak, ezekre kattintva helyezhetjük le a játéktáblára őket.
-  ![image-10.png](./image-10.png)
-   - Egy lakó/szolgáltatási/ipari épületre kattintva bal oldalt az információs ablakban megjelenik egy fejlesztés gomb, erre kattintva fejleszthető az adott épület
+
+![image-10.png](./image-10.png)
+   - Egy lakó/szolgáltatási/ipari épületre kattintva bal oldalt az információs ablakban megjelenik egy fejlesztés gomb, erre kattintva fejleszthető az adott épület.
+   
 ![image-12.png](./image-12.png)
