@@ -135,7 +135,7 @@ public abstract class Building {
     return false;
   }
 
-  public void create() {
+  public void create(String s) {
     if (isPlaceable()) {
       Game game = Game.getInstance();
       for (int i = 0; i < this.height; i++) {
@@ -154,12 +154,18 @@ public abstract class Building {
     Game game = Game.getInstance();
     Building building = game.getField(position).getBuilding();
 
-    if(building instanceof Rubble) {
+    if (building instanceof Rubble) {
       Game.getInstance().setBalance(Game.getInstance().getBalance() - 5);
-    } else if(building instanceof Police || building instanceof Stadium) {
-      Game.getInstance().setBalance(Game.getInstance().getBalance() + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+    } else if (building instanceof Police || building instanceof Stadium) {
+      Game.getInstance()
+          .setBalance(
+              Game.getInstance().getBalance()
+                  + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
     } else {
-        Game.getInstance().setBalance(Game.getInstance().getBalance() - Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+      Game.getInstance()
+          .setBalance(
+              Game.getInstance().getBalance()
+                  - Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
     }
 
     if (isRoad()) {

@@ -5,7 +5,6 @@ import java.util.*;
 import java.util.List;
 
 import org.elte.model.building.*;
-import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.model.zone.Industry;
@@ -300,13 +299,16 @@ public class Game {
     Random rand = new Random();
     int number = rand.nextInt(0, 1000);
     int house_counter = 0;
-    if(number < 50){
+    if (number < 50) {
       for (Field[] fieldRow : this.fields) {
         for (Field field : fieldRow) {
           double chanceToCollapse = field.getBuilding().getChanceToCollapse();
           double randomNumber = Math.random();
           if (randomNumber < chanceToCollapse) {
-            field.getBuilding().getFieldPositions().forEach(
+            field
+                .getBuilding()
+                .getFieldPositions()
+                .forEach(
                     pos -> {
                       Field currentField = game.getField(pos);
                       currentField.removeCitizens();
@@ -322,7 +324,10 @@ public class Game {
           }
         }
       }
-      GamePanel.infoBox.reRender("Earthquake!", house_counter + " house collapsed.", Color.RED);
+      GamePanel.infoBox.reRender(
+          Localization.getProp().getProperty("earthquake"),
+          house_counter + " " + Localization.getProp().getProperty("house_collapsed"),
+          Color.RED);
     }
   }
 
