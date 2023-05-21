@@ -9,7 +9,7 @@ public class Forest extends Building {
 
   public Forest(Position position) {
     this.position = position;
-    buildingType = BuildingTypes.FOREST;
+    buildingType = BuildingTypes.FOREST1;
     price = 10;
     yearlyFee = 5;
     socialImpact = 10;
@@ -44,5 +44,32 @@ public class Forest extends Building {
 
   public void setSize(int size) {
     this.size = Math.min(10, size);
+    if (this.size == 2) {
+      this.buildingType = BuildingTypes.FOREST2;
+    }
+    if (this.size == 3) {
+      this.buildingType = BuildingTypes.FOREST3;
+    }
+    if (this.size == 4) {
+      this.buildingType = BuildingTypes.FOREST4;
+    }
+    if (this.size == 5) {
+      this.buildingType = BuildingTypes.FOREST5;
+    }
+    if (this.size == 6) {
+      this.buildingType = BuildingTypes.FOREST6;
+    }
+    if (this.size == 7) {
+      this.buildingType = BuildingTypes.FOREST7;
+    }
+    if (this.size == 8) {
+      this.buildingType = BuildingTypes.FOREST8;
+    }
+    if (this.size == 9) {
+      this.buildingType = BuildingTypes.FOREST9;
+    }
+    if (this.size == 10) {
+      this.buildingType = BuildingTypes.FOREST10;
+    }
   }
 }

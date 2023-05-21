@@ -111,6 +111,33 @@ public class GamePanel extends JPanel {
         if (field.getBuilding().getBuildingType() == BuildingTypes.INDUSTRY_3) {
           g.drawImage(ImageResource.INDUSTRY_3, x, y, width, height, null);
         }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST2) {
+          g.drawImage(ImageResource.FOREST2, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST3) {
+          g.drawImage(ImageResource.FOREST3, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST4) {
+          g.drawImage(ImageResource.FOREST5, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST5) {
+          g.drawImage(ImageResource.FOREST5, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST6) {
+          g.drawImage(ImageResource.FOREST6, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST7) {
+          g.drawImage(ImageResource.FOREST7, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST8) {
+          g.drawImage(ImageResource.FOREST8, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST9) {
+          g.drawImage(ImageResource.FOREST9, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST10) {
+          g.drawImage(ImageResource.FOREST10, x, y, width, height, null);
+        }
         if (field.getBuilding().isBurning()) {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }

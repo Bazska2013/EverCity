@@ -393,7 +393,7 @@ public class Game {
   public void initEarthQuake() {
     Game game = Game.getInstance();
     Random rand = new Random();
-    int number = rand.nextInt(0, 1000);
+    int number = rand.nextInt(0, 100000);
     int house_counter = 0;
     if (number < 50) {
       for (Field[] fieldRow : this.fields) {

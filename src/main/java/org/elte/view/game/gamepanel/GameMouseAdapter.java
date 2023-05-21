@@ -77,7 +77,7 @@ public class GameMouseAdapter extends MouseAdapter {
       case EMPTY -> field.getBuilding().delete();
       case FACTORY -> buildingType = new Factory(position);
       case FIRE_STATION -> buildingType = new FireStation(position);
-      case FOREST -> buildingType = new Forest(position);
+      case FOREST1 -> buildingType = new Forest(position);
       case POLICE -> buildingType = new Police(position);
       case STADIUM -> buildingType = new Stadium(position);
     }

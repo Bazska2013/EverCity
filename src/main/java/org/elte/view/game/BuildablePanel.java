@@ -112,8 +112,8 @@ public class BuildablePanel extends JPanel {
     fireStationButton.setToolTipText(Localization.getProp().getProperty("fire_station"));
     JButton forestButton =
         createBuildingTypeSelectionButton(
-            ImageResource.FOREST,
-            BuildingTypes.FOREST,
+            ImageResource.FOREST1,
+            BuildingTypes.FOREST1,
             "forest",
             BuildingPrices.FOREST.getPriceOfBuilding());
     forestButton.setToolTipText(Localization.getProp().getProperty("forest"));
