@@ -60,7 +60,7 @@ public class GameMouseAdapter extends MouseAdapter {
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {
-      infoBox.reRender("Warning!", "Clicked outside of playing area...", Color.RED);
+      infoBox.reRender(Localization.getProp().getProperty("warning"), Localization.getProp().getProperty("clicked_outside"), Color.RED);
       System.out.println("Clicked outside of playing area...");
       ex.printStackTrace();
     }
@@ -112,10 +112,10 @@ public class GameMouseAdapter extends MouseAdapter {
     if (newZone != null && newZone.isPlaceable()) {
       if (newZone instanceof Resident) {
         MainFrame.getInstance().repaintCitizenNumber();
-        newZone.create("Lakó zóna");
+        newZone.create("resident_zone");
       }
-      if (newZone instanceof Industry) newZone.create("Ipari zóna");
-      if (newZone instanceof Service) newZone.create("Szolgáltatási zóna");
+      if (newZone instanceof Industry) newZone.create("industry_zone");
+      if (newZone instanceof Service) newZone.create("service_zone");
     }
   }
 }
