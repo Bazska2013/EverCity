@@ -11,7 +11,7 @@ public class Stadium extends Building {
     buildingType = BuildingTypes.STADIUM;
     price = 100;
     yearlyFee = 20;
-    socialImpact = 20;
+    socialImpact = 10;
     impactRange = 10;
     width = 2;
     height = 2;

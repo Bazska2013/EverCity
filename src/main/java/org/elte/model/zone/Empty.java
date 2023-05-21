@@ -33,4 +33,6 @@ public class Empty extends Zone {
 
   @Override
   public void addCitizen(Citizen citizen) {}
+
+  public void changeHappiness(int changes) {}
 }

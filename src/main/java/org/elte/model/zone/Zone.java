@@ -44,6 +44,8 @@ public abstract class Zone {
   }
   ;
 
+  public abstract void changeHappiness(int changes);
+
   public abstract boolean isEmpty();
 
   public abstract FieldTypes getZoneType();

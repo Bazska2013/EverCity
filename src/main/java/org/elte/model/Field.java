@@ -25,11 +25,13 @@ public class Field {
   private int height = 1;
   private int width = 1;
   Position position;
+  List<Building> impactedBy;
 
   public Field(Position position) {
     zone = new org.elte.model.zone.Empty(position);
     building = new Empty(position);
     this.position = position;
+    impactedBy = new ArrayList<>();
   }
 
   public void setZone(Zone zone) {
@@ -144,5 +146,14 @@ public class Field {
       workers.removeAll(this.zone.getWorkers());
       this.zone.setWorkers(workers);
     }
+  }
+
+  /*lekéri, impactedBy épületeitől hogy mennyit befolyásolnak*/
+  public void affects() {
+    int sum = 0;
+    for (int i = 0; i < impactedBy.size(); i++) {
+      sum += impactedBy.get(i).getSocialImpact();
+    }
+    zone.changeHappiness(sum);
   }
 }

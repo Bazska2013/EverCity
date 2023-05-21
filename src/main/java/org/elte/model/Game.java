@@ -27,6 +27,7 @@ public class Game {
   static final int rows = 16;
   static final int columns = 32;
   private int balance = 20000;
+  private int mood = 50;
   public Field[][] fields;
   public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
@@ -50,10 +51,16 @@ public class Game {
               handleFire();
               searchUnemployedCitizens();
               searchPlaceToLive();
+              setMood(allHappiness());
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 allCosts.add("evesado" + "," + yearlyTax());
                 balance -= yearlyFee();
+                if (balance > 0) {
+                  GameTime.changeBalanceYears(false);
+                } else {
+                  GameTime.changeBalanceYears(true);
+                }
                 allCosts.add("evesfentdij" + "," + yearlyFee());
                 increaseForestImpacts();
                 System.out.println(allCosts.toString());
@@ -235,6 +242,92 @@ public class Game {
             + Localization.getProp().getProperty("paid"),
         Color.BLUE);
     return fees;
+  }
+
+  public static int indServBalance() {
+    int ind = 0;
+    int serv = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        /*if(fields[i][j].getZone()==Industry){
+          ind++;
+        }
+        if(fields[i][j].getZone()==Service){
+          serv++;
+        }*/
+      }
+    }
+    if (Math.abs(ind - serv) > 6) {
+      return -10;
+    } else if (Math.abs(ind - serv) > 3) {
+      return -5;
+    }
+    return 0;
+  }
+
+  public int allHappiness() {
+    int happy = 0;
+    int buildingnumber = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident
+            || fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
+          buildingnumber++;
+        }
+        fields[i][j].affects();
+        happy += fields[i][j].getZone().getHapiness();
+      }
+    }
+    if (buildingnumber == 0) {
+      return 0;
+    }
+    return (happy / buildingnumber);
+  }
+
+  public int cityCapacity() {
+    int count = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        count += fields[i][j].getZone().getCapacity();
+      }
+    }
+    return count;
+  }
+
+  public int populationRate() {
+    return 0;
+  }
+
+  public int balanceAffect() {
+    if (balance < 0) {
+      if ((balance % 10) == 0) {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 5;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 10;
+        } else {
+          return 15;
+        }
+      } else if ((balance % 100) == 0) {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 10;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 15;
+        } else {
+          return 20;
+        }
+      } else {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 15;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 20;
+        } else {
+          return 25;
+        }
+      }
+    }
+    return 0;
   }
 
   public List<Zone> findNotFullWorkplaces() {
