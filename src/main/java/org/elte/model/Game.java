@@ -133,13 +133,19 @@ public class Game {
                 && connectedField.getBuilding().canBurn()) {
               if (Math.random() < CHANCE_TO_FIRE_NEIGHBOURS) {
                 connectedField.getBuilding().setBurning(true);
-                GamePanel.infoBox.reRender(Localization.getProp().getProperty("warning"), Localization.getProp().getProperty("building_on_fire"), Color.ORANGE);
+                GamePanel.infoBox.reRender(
+                    Localization.getProp().getProperty("warning"),
+                    Localization.getProp().getProperty("building_on_fire"),
+                    Color.ORANGE);
               }
             }
           }
           if (field.getBuilding().getHealth() < 1) {
             field.getBuilding().delete();
-            GamePanel.infoBox.reRender(Localization.getProp().getProperty("warning"), Localization.getProp().getProperty("building_burned_down"), Color.RED);
+            GamePanel.infoBox.reRender(
+                Localization.getProp().getProperty("warning"),
+                Localization.getProp().getProperty("building_burned_down"),
+                Color.RED);
           }
         }
       }
@@ -153,7 +159,10 @@ public class Game {
         double randomNumber = Math.random();
         if (field.getBuilding().canBurn() && randomNumber < chanceToFire) {
           field.getBuilding().setBurning(true);
-            GamePanel.infoBox.reRender(Localization.getProp().getProperty("warning"), Localization.getProp().getProperty("building_on_fire"), Color.ORANGE);
+          GamePanel.infoBox.reRender(
+              Localization.getProp().getProperty("warning"),
+              Localization.getProp().getProperty("building_on_fire"),
+              Color.ORANGE);
         }
       }
     }
@@ -222,7 +231,12 @@ public class Game {
         fees += fields[i][j].getTaxes();
       }
     }
-    GamePanel.infoBox.reRender(Localization.getProp().getProperty("attention"), Localization.getProp().getProperty("evesado") + " " + Localization.getProp().getProperty("paid"), Color.BLUE);
+    GamePanel.infoBox.reRender(
+        Localization.getProp().getProperty("attention"),
+        Localization.getProp().getProperty("evesado")
+            + " "
+            + Localization.getProp().getProperty("paid"),
+        Color.BLUE);
     return fees;
   }
 
@@ -246,8 +260,8 @@ public class Game {
   public void searchUnemployedCitizens() {
     List<Citizen> joblessCitizens = new ArrayList<>();
     List<Zone> emptyWorkplaces = findNotFullWorkplaces();
-    for (int i = 0; i< rows; i++) {
-      for (int j = 0; j< columns; j++) {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
         Field field = fields[i][j];
         if (field.getZone() instanceof Resident && field.getBuilding() instanceof House) {
           for (Citizen c : ((Resident) field.getZone()).getCitizens()) {
@@ -269,7 +283,8 @@ public class Game {
         } else {
           Random rand = new Random();
           int rand_i = rand.nextInt(emptyWorkplaces.size());
-          if (emptyWorkplaces.get(rand_i).getCapacity() > emptyWorkplaces.get(rand_i).getWorkers().size()) {
+          if (emptyWorkplaces.get(rand_i).getCapacity()
+              > emptyWorkplaces.get(rand_i).getWorkers().size()) {
             c.setWorksAt(emptyWorkplaces.get(rand_i));
             emptyWorkplaces.get(rand_i).addCitizen(c);
           }

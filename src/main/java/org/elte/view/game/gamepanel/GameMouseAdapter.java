@@ -60,7 +60,10 @@ public class GameMouseAdapter extends MouseAdapter {
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {
-      infoBox.reRender(Localization.getProp().getProperty("warning"), Localization.getProp().getProperty("clicked_outside"), Color.RED);
+      infoBox.reRender(
+          Localization.getProp().getProperty("warning"),
+          Localization.getProp().getProperty("clicked_outside"),
+          Color.RED);
       System.out.println("Clicked outside of playing area...");
       ex.printStackTrace();
     }
