@@ -90,9 +90,21 @@ public class Resident extends Zone {
     Game game = Game.getInstance();
     ch -= game.balanceAffect();
     ch += Game.indServBalance();
-    this.hapiness = (50 + (ch + changes));
-    for (Citizen c : citizens) {
-      c.setSatisfaction((50 + (ch + changes)) + c.workHomeDistance());
+    if ((50 + (ch + changes)) >= 100) {
+      this.hapiness = 100;
+      for (Citizen c : citizens) {
+        c.setSatisfaction(100);
+      }
+    } else if ((50 + (ch + changes)) <= 0) {
+      this.hapiness = 0;
+      for (Citizen c : citizens) {
+        c.setSatisfaction(0);
+      }
+    } else {
+      this.hapiness = (50 + (ch + changes));
+      for (Citizen c : citizens) {
+        c.setSatisfaction((50 + (ch + changes)) + c.workHomeDistance());
+      }
     }
   }
 }

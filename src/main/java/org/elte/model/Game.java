@@ -279,8 +279,11 @@ public class Game {
         happy += fields[i][j].getZone().getHapiness();
       }
     }
-    if (buildingnumber == 0) {
+    if (buildingnumber == 0 || happy / buildingnumber <= 0) {
       return 0;
+    }
+    if (happy / buildingnumber >= 100) {
+      return 100;
     }
     return (happy / buildingnumber);
   }
