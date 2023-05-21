@@ -99,9 +99,9 @@ public class MainFrame {
             RERENDER_INTERVAL,
             e -> {
               updateTimer();
-              gamePanel.repaint();
               updateBalance();
               modifyMood();
+              gamePanel.repaint();
             });
 
     timer.start();

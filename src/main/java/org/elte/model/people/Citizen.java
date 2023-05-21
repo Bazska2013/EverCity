@@ -44,17 +44,19 @@ public class Citizen {
   }
 
   public int workHomeDistance() {
-    double distance =
-        Point2D.distance(
-            worksAt.getPosition().x(),
-            worksAt.getPosition().y(),
-            livestAt.getPosition().x(),
-            livestAt.getPosition().y());
-    if (distance >= 6) {
-      return -5;
-    } else if (distance <= 3) {
-      return 5;
+    if (worksAt != null) {
+      double distance =
+          Point2D.distance(
+              worksAt.getPosition().x(),
+              worksAt.getPosition().y(),
+              livestAt.getPosition().x(),
+              livestAt.getPosition().y());
+      if (distance >= 6) {
+        return -3;
+      } else if (distance <= 3) {
+        return 5;
+      }
     }
-    return 0;
+    return -5;
   }
 }

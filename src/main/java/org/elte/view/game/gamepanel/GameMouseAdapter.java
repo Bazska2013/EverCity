@@ -57,6 +57,7 @@ public class GameMouseAdapter extends MouseAdapter {
       }
       fieldInfoBox.setSelectedPosition(currentPosition);
       residentInfoBox.setSelectedPosition(currentPosition);
+      System.out.println(game.getField(currentPosition).getZone().getHapiness());
 
       gamePanel.repaint();
     } catch (ArrayIndexOutOfBoundsException ex) {

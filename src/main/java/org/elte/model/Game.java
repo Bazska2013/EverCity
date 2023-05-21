@@ -267,15 +267,22 @@ public class Game {
 
   public int allHappiness() {
     int happy = 0;
+    int buildingnumber = 0;
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident
+            || fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
+          buildingnumber++;
+        }
         fields[i][j].affects();
-        System.out.println(fields[i][j].getZone().getHapiness());
         happy += fields[i][j].getZone().getHapiness();
       }
     }
-    // System.out.println(happy);
-    return (happy / (rows * columns));
+    if (buildingnumber == 0) {
+      return 0;
+    }
+    return (happy / buildingnumber);
   }
 
   public int cityCapacity() {

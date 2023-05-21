@@ -147,9 +147,13 @@ public abstract class Building {
           game.setBalance(game.getBalance() - price);
         }
       }
-      for (int i = position.x() - impactRange; i <= position.x() + impactRange; i++) {
-        for (int j = position.y() - impactRange; j <= position.y() + impactRange; j++) {
-          game.getField(new Position(i, j)).getImpactedBy().add(this);
+      for (int i = Math.max(0, position.x() - impactRange);
+          i <= Math.min(position.x() + impactRange, game.getFields().length - 1);
+          i++) {
+        for (int j = Math.max(0, position.y() - impactRange);
+            j <= Math.min(position.y() + impactRange, game.getFields()[i].length - 1);
+            j++) {
+          game.getField(new Position(j, i)).getImpactedBy().add(this);
         }
       }
       game.setBalance(game.getBalance() - price);
