@@ -63,7 +63,7 @@ public class ForestTest {
 
   @Test
   public void testBuildingType() {
-    BuildingTypes expectedBuildingType = BuildingTypes.FOREST;
+    BuildingTypes expectedBuildingType = BuildingTypes.FOREST1;
     BuildingTypes actualBuildingType = forest.getBuildingType();
     assertEquals(expectedBuildingType, actualBuildingType);
   }

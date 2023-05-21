@@ -118,7 +118,7 @@ public class GamePanel extends JPanel {
           g.drawImage(ImageResource.FOREST3, x, y, width, height, null);
         }
         if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST4) {
-          g.drawImage(ImageResource.FOREST5, x, y, width, height, null);
+          g.drawImage(ImageResource.FOREST4, x, y, width, height, null);
         }
         if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST5) {
           g.drawImage(ImageResource.FOREST5, x, y, width, height, null);
