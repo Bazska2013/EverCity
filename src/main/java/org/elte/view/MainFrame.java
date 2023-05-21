@@ -191,7 +191,6 @@ public class MainFrame {
         new JMenu(
             Localization.getProp().getProperty("mood_level_text") + game.getMood() + MOOD_MEASURE);
     balanceMenu.setEnabled(false);
-    JMenu moodLevel = new JMenu(Localization.getProp().getProperty("mood_level_text"));
     menuBar.add(moodLevel);
 
     menuBar.add(Box.createHorizontalGlue());
