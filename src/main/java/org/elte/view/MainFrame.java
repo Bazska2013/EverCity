@@ -55,7 +55,7 @@ public class MainFrame {
 
   private BalanceInfoBox balanceInfoBox;
   private boolean balanceMenuPressed = false;
-
+  /** Privát konstruktor, amely inicializálja a főablakot és a játékot. */
   private MainFrame() {
     frame = new JFrame("EverCity");
     screenSize = ScreenUtils.getScreenSize();
@@ -107,18 +107,26 @@ public class MainFrame {
     timer.start();
     timer.setRepeats(true);
   }
-
+  /**
+   * Az osztály egyetlen példányának lekérdezése vagy létrehozása.
+   *
+   * @return Az osztály egyetlen példánya.
+   */
   public static MainFrame getInstance() {
     if (instance == null) {
       instance = new MainFrame();
     }
     return instance;
   }
-
+  /** Új példány létrehozása a főablakból. */
   public static void newInstance() {
     instance = new MainFrame();
   }
-
+  /**
+   * A menüsor létrehozása.
+   *
+   * @return Az elkészült menüsor.
+   */
   private JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
     JMenu gameOptions = new JMenu(Localization.getProp().getProperty("menu_text"));
@@ -199,7 +207,7 @@ public class MainFrame {
     menuBar.add(timeMenu);
     return menuBar;
   }
-
+  /** Az idő frissítése és az emberek újraéledése. */
   private void updateTimer() { // emberek újraéledése
     timeMenu.setText(game.getGameTime().toString());
     if (game.getGameTime().getDate().getYear() > currentYear) {
@@ -224,16 +232,20 @@ public class MainFrame {
       currentYear++;
     }
   }
-
+  /** Az egyenleg frissítése a menüsoron. */
   private void updateBalance() {
     balanceMenu.setText(
         Localization.getProp().getProperty("balance_text") + game.getBalance() + BALANCE_CURRENCY);
   }
-
+  /**
+   * A játékpanel lekérdezése.
+   *
+   * @return A játékpanel.
+   */
   public static GamePanel getGamePanel() {
     return gamePanel;
   }
-
+  /** Az emberek számának frissítése a menüsoron. */
   public void repaintCitizenNumber() {
     int citizenNumber = 0;
     for (int i = 0; i < Game.getColumns(); i++) {

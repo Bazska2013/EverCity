@@ -4,8 +4,15 @@ import java.util.*;
 
 import org.elte.model.Field;
 
+/** A BFSRunner osztály tartalmazza a BFS algoritmus végrehajtásához szükséges metódusokat. */
 public class BFSRunner {
-
+  /**
+   * Felépít egy útgráfot a mezőkből a megadott kétdimenziós tömb alapján.
+   *
+   * @param fields a mezők kétdimenziós tömbje
+   * @return a felépített útgráf, amely a mezők pozícióit és az azokhoz tartozó szomszédos
+   *     pozíciókat tartalmazza
+   */
   public static HashMap<Position, List<Position>> buildRoadGraph(Field[][] fields) {
     HashMap<Position, List<Position>> graph = new HashMap<>();
     int rows = fields.length;
@@ -27,7 +34,15 @@ public class BFSRunner {
     }
     return graph;
   }
-
+  /**
+   * Elvégzi a szélességi bejárást a megadott útgráfban a kezdőpozíciótól a célpontig.
+   *
+   * @param graph az útgráf, amely a mezők pozícióit és az azokhoz tartozó szomszédos pozíciókat
+   *     tartalmazza
+   * @param startingPosition a kezdőpozíció
+   * @param targetPosition a célpont pozíciója
+   * @return true, ha a célpont elérhető a kezdőpozícióból, false egyébként
+   */
   public static boolean traverse(
       HashMap<Position, List<Position>> graph, Position startingPosition, Position targetPosition) {
 
@@ -55,7 +70,15 @@ public class BFSRunner {
     }
     return false;
   }
-
+  /**
+   * Visszaadja az útvonalat az útgráfban a kezdőpozíciótól a célpontig.
+   *
+   * @param graph az útgráf, amely a mezők pozícióit és az azokhoz tartozó szomszédos pozíciókat
+   *     tartalmazza
+   * @param startingPosition a kezdőpozíció
+   * @param targetPosition a célpont pozíciója
+   * @return az útvonal, ha a célpont elérhető a kezdőpozícióból, null egyébként
+   */
   public static List<Position> getRoad(
       HashMap<Position, List<Position>> graph, Position startingPosition, Position targetPosition) {
     HashSet<Position> visited = new HashSet<>();

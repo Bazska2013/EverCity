@@ -15,48 +15,81 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/** Az absztrakt Building osztály reprezentál egy épületet a játékban. */
 public abstract class Building {
+  /** Az épület pozíciója. */
   Position position;
+  /** Az ár, amelyet fizetni kell az épület létrehozásához. */
   int price = 0;
+  /** Az épület egészségi állapota. */
   int health = 100;
+  /** Az éves fenttartási díj. */
   int yearlyFee;
+  /** Mennyivel befolyásolja a környezetét. */
   int socialImpact = 0;
+  /** Mekkora hatókörben befolyásolja a környezetét. */
   int impactRange = 0;
+  /** Az épület szélessége. */
   int width = 1;
+  /** Az épület magassága. */
   int height = 1;
+  /** Esély, hogy kigyulladjon az épület. */
   double chanceToFire = 0;
-
+  /** Esély, hogy összeomoljon az épület. */
   double chanceToCollapse = 0;
+  /** Tárolja, hogy éppen ég-e az épület. */
   boolean burning = false;
+  /** Az épület típusa. */
   BuildingTypes buildingType;
-  ArrayList<Position> fieldPositions = new ArrayList<>();
 
+  ArrayList<Position> fieldPositions = new ArrayList<>();
+  /**
+   * Megadja, hogy az épület elhelyezhető-e.
+   *
+   * @return true, ha az épület elhelyezhető, különben false.
+   */
   public boolean isPlaceable() {
     return hasEnoughSpace();
   }
-
+  /** Visszaadja, hogy az épület ki tud-e gyulladni. */
   public boolean canBurn() {
     return chanceToFire > 0;
   }
 
   public abstract boolean isConnected();
-
+  /**
+   * Megadja, hogy az épület fejleszthető-e.
+   *
+   * @return true, ha az épület fejleszthető, különben false.
+   */
   public abstract boolean upgradeable();
-
+  /** Visszaadja, hogy az épület ég-e. */
   public boolean isBurning() {
     return burning;
   }
-
+  /**
+   * Megadja, hogy az épület tűzoltóállomás-e.
+   *
+   * @return true, ha az épület tűzoltóállomas, különben false.
+   */
   public boolean isFireStation() {
     return false;
   }
-
+  /**
+   * Megadja, hogy van-e épület a zónán.
+   *
+   * @return true, ha nincs épület, különben false.
+   */
   public abstract boolean isEmpty();
-
+  /**
+   * Megadja, hogy az épület út-e.
+   *
+   * @return true, ha az épület út, különben false.
+   */
   public boolean isRoad() {
     return false;
   }
-
+  /** Megnézi van-e elegendő hely nagyobb épületek lehelyezéséhez. */
   public boolean hasEnoughSpace() {
     return hasEnoughSpace(FieldTypes.EMPTY);
   }
@@ -88,7 +121,7 @@ public abstract class Building {
     }
     return true;
   }
-
+  /** Visszaadja, hogy az épület egyik oldalán van-e út. */
   public boolean hasRoadAtLeastOneSide() {
     Game game = Game.getInstance();
     for (int i = position.y() - 1; i <= position.y() + height; i++) {
@@ -109,7 +142,7 @@ public abstract class Building {
     }
     return false;
   }
-
+  /** Visszaadja, hogy az épület egyik oldalán van-e épület. */
   public boolean hasBuildingAtLeastOneSide() {
     Game game = Game.getInstance();
     for (int i = position.y() - 1; i <= position.y() + height; i++) {
@@ -134,7 +167,7 @@ public abstract class Building {
     }
     return false;
   }
-
+  /** Létrehozza az épületet, ha lehelyezhető. */
   public void create(String s) {
     if (isPlaceable()) {
       Game game = Game.getInstance();
@@ -160,7 +193,7 @@ public abstract class Building {
       game.getAllCosts().add(s + "," + price);
     }
   }
-
+  /** Törli az épületet. */
   public void delete() {
     Game game = Game.getInstance();
     Building building = game.getField(position).getBuilding();
@@ -218,6 +251,10 @@ public abstract class Building {
       game.getField(position).setBuilding((new Empty(position)));
     }
   }
-
+  /**
+   * Visszaadja, hogy a épület éves fenttartási díjját.
+   *
+   * @return az épületre vonatkozó éves fenttartási díj
+   */
   public abstract int getTax();
 }

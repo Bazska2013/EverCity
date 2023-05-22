@@ -43,7 +43,13 @@ public class GamePanel extends JPanel {
   private MouseMotionListener mouseMotionListener;
 
   private Position selectedField = null;
-
+  /**
+   * GamePanel osztály konstruktora.
+   *
+   * @param fieldInfoBox Az információs doboz a mezőkhöz.
+   * @param infoBox Az információs doboz a játékhoz.
+   * @param residentInfoBox Az információs doboz a lakosokhoz.
+   */
   public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox, ResidentInfoBox residentInfoBox) {
     this.game = Game.getInstance();
     this.screenSize = ScreenUtils.getScreenSize();
@@ -60,7 +66,11 @@ public class GamePanel extends JPanel {
     this.setVisible(true);
     gamePanel = this;
   }
-
+  /**
+   * A panel kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
@@ -77,7 +87,11 @@ public class GamePanel extends JPanel {
     g.setColor(Color.blue);
     g.fillRect(screenSize.width - 200, screenSize.height / 2 - 150, 180, 150);
   }
-
+  /**
+   * Az épületek kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   private void drawBuildings(Graphics2D g) {
     ArrayList<Position> positionsToSkip = new ArrayList<>();
     for (int i = 0; i < Game.getColumns(); i++) {
@@ -154,7 +168,11 @@ public class GamePanel extends JPanel {
       }
     }
   }
-
+  /**
+   * A zónák kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   private void drawZones(Graphics g) {
     g.setColor(Color.black);
     for (int i = 0; i < Game.getColumns(); i++) {
@@ -170,7 +188,12 @@ public class GamePanel extends JPanel {
       }
     }
   }
-
+  /**
+   * A tűzoltók kirajzolása.
+   *
+   * @param g2d A kirajzolásra használt grafikus objektum.
+   * @param firetruck A kirajzolandó tűzoltó jármű.
+   */
   public void drawFiretruck(Graphics2D g2d, Firetruck firetruck) {
     double angle = 0; // default angle (no rotation)
     Direction direction = firetruck.getDirection();
@@ -206,7 +229,12 @@ public class GamePanel extends JPanel {
           ImageResource.FIRETRUCK, x, y, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
     if (direction != null) g2d.rotate(-angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
   }
-
+  /**
+   * Kép elforgatása.
+   *
+   * @param image Az elforgatandó kép.
+   * @return Az elforgatott kép.
+   */
   public static BufferedImage flip(BufferedImage image) {
     int w = image.getWidth();
     int h = image.getHeight();

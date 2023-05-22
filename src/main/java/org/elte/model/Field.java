@@ -17,6 +17,7 @@ import org.elte.utils.Position;
 import lombok.Getter;
 import lombok.Setter;
 
+/** A Field osztály reprezentál egy mezőt a játékban. */
 @Getter
 @Setter
 public class Field {
@@ -27,25 +28,46 @@ public class Field {
   Position position;
   List<Building> impactedBy;
 
+  /**
+   * Field osztály konstruktora.
+   *
+   * @param position A mező pozíciója.
+   */
   public Field(Position position) {
     zone = new org.elte.model.zone.Empty(position);
     building = new Empty(position);
     this.position = position;
     impactedBy = new ArrayList<>();
   }
-
+  /**
+   * Beállítja a mezőhöz tartozó zónát.
+   *
+   * @param zone A mezőhöz tartozó zóna.
+   */
   public void setZone(Zone zone) {
     this.zone = zone;
   }
-
+  /**
+   * Visszaadja a mezőhöz tartozó adókat.
+   *
+   * @return A mezőhöz tartozó adók összege.
+   */
   public int getTaxes() {
     return zone.getTax();
   }
-
+  /**
+   * Visszaadja a mezőhöz tartozó fenttartási díjakat.
+   *
+   * @return A mezőhöz tartozó fenttartási díjak összege.
+   */
   public int getFees() {
     return building.getTax();
   }
-
+  /**
+   * Visszaadja a mező szomszédait.
+   *
+   * @return A mező szomszédjainak listája.
+   */
   public ArrayList<Field> getNeighbors() {
     Game game = Game.getInstance();
     ArrayList<Field> neighbors = new ArrayList<>();
@@ -67,7 +89,12 @@ public class Field {
     }
     return neighbors;
   }
-
+  /**
+   * Ellenőrzi, hogy a mező kapcsolódik-e a megadott pozícióval.
+   *
+   * @param position A vizsgált pozíció.
+   * @return true, ha a mező kapcsolódik a megadott pozícióhoz, különben false.
+   */
   public boolean isConnectedWith(Position position) {
     Game game = Game.getInstance();
     Field current = this;
@@ -92,7 +119,12 @@ public class Field {
 
     return BFSRunner.traverse(graph, current.getPosition(), target.getPosition());
   }
-
+  /**
+   * Visszaadja az utat a mezőhöz a megadott pozícióból.
+   *
+   * @param position A cél pozíciója.
+   * @return Az útvonal a mezőhöz a cél pozícióból.
+   */
   public List<Position> getRoadToField(Position position) {
     Game game = Game.getInstance();
     Field current = this;
@@ -117,11 +149,16 @@ public class Field {
 
     return BFSRunner.getRoad(graph, current.getPosition(), target.getPosition());
   }
-
+  /**
+   * Ellenőrzi, hogy a mező kapcsolódik-e az egyik megadott pozícióhoz.
+   *
+   * @param positions A pozíciók listája.
+   * @return true, ha a mező kapcsolódik legalább egy megadott pozícióhoz, különben false.
+   */
   public boolean isConnectedWithOneOf(List<Position> positions) {
     return positions.stream().anyMatch(this::isConnectedWith);
   }
-
+  /** Eltávolítja a mezőről a lakosokat vagy a munkavállalókat. */
   public void removeCitizens() {
     if (this.zone instanceof Resident) {
       List<Citizen> citizens = ((Resident) this.zone).getCitizens();
