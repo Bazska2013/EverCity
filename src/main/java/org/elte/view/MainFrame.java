@@ -217,7 +217,7 @@ public class MainFrame {
           if (field.getZone() instanceof Resident) {
             for (Citizen cit : ((Resident) field.getZone()).getCitizens()) {
               cit.setAge(cit.getAge() + 1);
-              System.out.println(cit.getAge()+" "+cit.getLivestAt().toString());
+              System.out.println(cit.getAge() + " " + cit.getLivestAt().toString());
               if (cit.getAge() >= 65) {
                 cit.setWorksAt(null);
                 cit.setRetired(true);

@@ -59,15 +59,17 @@ public class Resident extends Zone {
   public FieldTypes getZoneType() {
     return FieldTypes.RESIDENT;
   }
-  public int isHereRetired(){
-    int j=0;
-    for (int i = 0; i < citizens.size(); i++) {
-      if(citizens.get(i).getAge()>65){
-        j++;
-      }
+
+    public int isHereRetired(){
+        int j=0;
+        for (int i = 0; i < citizens.size(); i++) {
+            if(citizens.get(i).getAge()>65){
+                j++;
+            }
+        }
+        return j;
     }
-    return j;
-  }
+
   /**
    * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.
    *
@@ -75,7 +77,7 @@ public class Resident extends Zone {
    */
   @Override
   public int getTax() {
-    if(isHereRetired()==0){
+    if (isHereRetired() == 0) {
       return tax * capacity;
     }
     return tax * (capacity - isHereRetired());
@@ -127,14 +129,14 @@ public class Resident extends Zone {
     citizens.add(citizen);
   }
 
-  public int getRetiredPay(){
-    int pay=0;
-    if(isHereRetired()==0){
+  public int getRetiredPay() {
+    int pay = 0;
+    if (isHereRetired() == 0) {
       return pay;
     }
-    for(int i=0;i<citizens.size();i++){
-      if(citizens.get(i).getAge()>65) {
-        pay += (tax/2);
+    for (int i = 0; i < citizens.size(); i++) {
+      if (citizens.get(i).getAge() > 65) {
+        pay += (tax / 2);
       }
     }
     return pay;
