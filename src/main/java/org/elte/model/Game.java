@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/** A játékot reprezentáló osztály. */
 @Getter
 @Setter
 @ToString
@@ -42,7 +43,7 @@ public class Game implements Serializable {
   // int balance;
   private final GameTime gameTime;
   public ArrayList<String> allCosts = new ArrayList<>();
-
+  /** Privát konstruktor a Singleton minta implementálásához. */
   private Game() {
     fields = new Field[rows][columns];
     fillFields();
@@ -77,7 +78,7 @@ public class Game implements Serializable {
             });
     gameTime.setTimerSpeed(TimerSpeed.ONE);
   }
-
+  /** Az erdők hatását növelő metódus. */
   private void increaseForestImpacts() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
@@ -88,7 +89,7 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /** Kitölti a mezőket véletlenszerűen erdőkkel. */
   public void fillFields() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
@@ -99,20 +100,36 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /**
+   * Visszaadja a sorok számát.
+   *
+   * @return a sorok száma
+   */
   public static int getRows() {
     return rows;
   }
-
+  /**
+   * Visszaadja az oszlopok számát.
+   *
+   * @return az oszlopok száma
+   */
   public static int getColumns() {
     return columns;
   }
-
+  /**
+   * A játékmezőt adja vissza a megadott pozíció alapján.
+   *
+   * @param position a pozíció, amely alapján megadja a játékmezőt
+   * @return a játékmező a megadott pozíció alapján, vagy null, ha a pozíció null
+   */
   public Field getField(Position position) {
     if (position != null) return fields[position.y()][position.x()];
     return null;
   }
-
+  /**
+   * Próbálkozik a lakóház elhelyezésével a játékban. Keres egy olyan pozíciót a városban, ahol a
+   * lakóházat el lehet helyezni, és véletlenszerűen eldönti, hogy ténylegesen elhelyezi-e.
+   */
   private void tryToPlaceCitizenHouse() {
     this.findZonePositionNearStreet(FieldTypes.RESIDENT)
         .ifPresent(
@@ -122,7 +139,13 @@ public class Game implements Serializable {
               }
             });
   }
-
+  /**
+   * Kezeli a tüzet a játékban. Végigmegy az összes mezőn, és ha az épület ég, akkor keres egy olyan
+   * tűzoltóautót, amely nem mozog, és a tűzzel szomszédos, majd beállítja a tűzoltóautónak a célt
+   * és elindítja azt. Az épület életerejét csökkenti, majd megvizsgálja a szomszédos mezőket, és ha
+   * azok megfelelően éghetők és véletlenszerűen teljesül a tűz keletkezésének esélye, akkor azokat
+   * is meggyújtja. Ha az épület életereje 0 alá csökken, akkor az épületet eltávolítja.
+   */
   private void handleFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
@@ -164,7 +187,10 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /**
+   * Inicializál véletlenszerű tüzeket a játékban. Végigmegy az összes mezőn, és ha az épület tud
+   * égni, akkor véletlenszerűen teljesül az égés esélye, akkor az épületet kigyullad.
+   */
   private void initRandomFire() {
     for (Field[] fieldRow : this.fields) {
       for (Field field : fieldRow) {
@@ -180,7 +206,11 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /**
+   * Próbálkozik a szolgáltató épület elhelyezésével a játékban. Keres egy olyan pozíciót a
+   * városban, ahol a szolgáltató épületet el lehet helyezni, és véletlenszerűen eldönti, hogy
+   * ténylegesen elhelyezi-e.
+   */
   private void tryToPlaceServiceBuilding() {
     this.findZonePositionNearStreet(FieldTypes.SERVICE)
         .ifPresent(
@@ -190,7 +220,14 @@ public class Game implements Serializable {
               }
             });
   }
-
+  /**
+   * Keres egy olyan pozíciót a városban, ahol a megadott zóna típusával ellátott játékmező
+   * szomszédos a közlekedési úthálózattal. Ha talál ilyen pozíciót, visszaadja a pozíciót, különben
+   * üres opcionális értékkel tér vissza.
+   *
+   * @param zoneType a keresett zóna típusa
+   * @return a megtalált pozíció, vagy üres opcionális érték
+   */
   public Optional<Position> findZonePositionNearStreet(FieldTypes zoneType) {
     for (int i = 0; i < fields.length; i++) {
       for (int j = 0; j < fields[i].length; j++) {
@@ -220,7 +257,11 @@ public class Game implements Serializable {
     }
     return Optional.empty();
   }
-
+  /**
+   * Visszaadja az éves fenttartási díjak összegét a játékban.
+   *
+   * @return az éves fenttartási díjak összege
+   */
   public int yearlyFee() {
     int fees = 0;
     for (int i = 0; i < rows; i++) {
@@ -230,13 +271,23 @@ public class Game implements Serializable {
     }
     return fees;
   }
-
+  /**
+   * Visszaadja a játék példányt. Ha még nincs létrehozva példány, létrehoz egyet, majd visszaadja
+   * azt.
+   *
+   * @return a játék példány
+   */
   public static Game getInstance() {
     if (INSTANCE == null) INSTANCE = new Game();
 
     return INSTANCE;
   }
-
+  /**
+   * Visszaadja az éves adók összegét a játékban. Emellett kiírja az információs dobozba, hogy az
+   * éves adókat fizették.
+   *
+   * @return az éves adók összege
+   */
   public int yearlyTax() {
     int fees = 0;
     for (int i = 0; i < rows; i++) {
@@ -252,7 +303,6 @@ public class Game implements Serializable {
         Color.BLUE);
     return fees;
   }
-
   public static int indServBalance() {
     int ind = 0;
     int serv = 0;
@@ -273,15 +323,14 @@ public class Game implements Serializable {
     }
     return 0;
   }
-
   public int allHappiness() {
     int happy = 0;
     int buildingnumber = 0;
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Resident
-            || fields[i][j].getZone() instanceof Industry
-            || fields[i][j].getZone() instanceof Service) {
+                || fields[i][j].getZone() instanceof Industry
+                || fields[i][j].getZone() instanceof Service) {
           buildingnumber++;
         }
         fields[i][j].affects();
@@ -342,6 +391,11 @@ public class Game implements Serializable {
     return 0;
   }
 
+  /**
+   * Megkeresi azokat a munkahelyeket, amelyek még nem teltek meg a városban.
+   *
+   * @return a nem teljes munkahelyek listája
+   */
   public List<Zone> findNotFullWorkplaces() {
     List<Zone> workplaces = new ArrayList<>();
     for (int i = 0; i < rows; i++) {
@@ -358,7 +412,11 @@ public class Game implements Serializable {
     }
     return workplaces;
   }
-
+  /**
+   * Keresi az állástalan lakosokat a városban, majd véletlenszerűen kijelöl egy munkahelyet
+   * számukra, és beállítja nekik a munkahelyet. Az állástalan lakosokat a kiválasztott munkahelyhez
+   * rendeli.
+   */
   public void searchUnemployedCitizens() {
     List<Citizen> joblessCitizens = new ArrayList<>();
     List<Zone> emptyWorkplaces = findNotFullWorkplaces();
@@ -394,11 +452,14 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /** Új játékot kezd. */
   public void resetGame() {
     INSTANCE = new Game();
   }
-
+  /**
+   * Elindít egy földrengést a játékban. A földrengés során az épületek esetleges összeomlanak, és a
+   * rászoruló lakosokat eltávolítják.
+   */
   public void initEarthQuake() {
     Game game = Game.getInstance();
     Random rand = new Random();
@@ -435,7 +496,9 @@ public class Game implements Serializable {
           Color.RED);
     }
   }
-
+  /**
+   * Keres egy helyet az embereknek, ahol lakhatnak. Az lakható helyekhez hozzáadja az új lakosokat.
+   */
   public void searchPlaceToLive() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
@@ -456,11 +519,20 @@ public class Game implements Serializable {
       }
     }
   }
-
+  /**
+   * Fizetést hajt végre a játékban. Az összeget levonja az egyenlegeből.
+   *
+   * @param amount a fizetendő összeg
+   */
   public void pay(int amount) {
     balance -= amount;
   }
-
+  /**
+   * Ellenőrzi, hogy minden még mindig összeköttetésben van-e a játékban. Az ellenőrzés során a
+   * lakóövezetekben élő lakosok munkahelyeikhez való kapcsolódását vizsgálja.
+   *
+   * @return true, ha minden még mindig összeköttetésben van, különben false
+   */
   public boolean everythingStillConnected() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {

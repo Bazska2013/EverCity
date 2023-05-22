@@ -7,6 +7,7 @@ import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 
+/** Az ImageResource osztály kép erőforrásokat tartalmazó segédosztály. */
 public abstract class ImageResource {
 
   public static final Image GRASS = ResourceLoader.loadImage("grass.png");
@@ -47,7 +48,12 @@ public abstract class ImageResource {
   public static final Image FIRE = ResourceLoader.loadImage("fire.png");
 
   public static final Image RUBBLE = ResourceLoader.loadImage("rubble.png");
-
+  /**
+   * Visszaadja a megadott osztályhoz tartozó képet.
+   *
+   * @param clazz az osztály, amelyhez a kép tartozik
+   * @return a kép erőforrás
+   */
   public static Image getImageOfClass(Class<?> clazz) {
     if (clazz == FireStation.class) return FIRE_STATION;
     if (clazz == Factory.class) return FACTORY;
@@ -60,7 +66,12 @@ public abstract class ImageResource {
     if (clazz == Rubble.class) return RUBBLE;
     return GRASS;
   }
-
+  /**
+   * Visszaadja a megadott zóna osztályhoz tartozó képet.
+   *
+   * @param clazz a zóna osztály, amelyhez a kép tartozik
+   * @return a zóna kép erőforrás
+   */
   public static Image getZoneImageOfClass(Class<?> clazz) {
     if (clazz == org.elte.model.zone.Road.class) return ZONE_ROAD;
     if (clazz == Industry.class) return ZONE_INDUSTRY;

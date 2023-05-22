@@ -13,12 +13,18 @@ import org.elte.view.game.GamePanel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/** A tűzoltóautó megjelenítéséért felelős osztály a játékpanelen. */
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public class FiretruckView extends JPanel {
   private static final long serialVersionUID = 1L;
+  /** A megjelenítendő tűrzoltóautó. */
   Firetruck firetruck;
-
+  /**
+   * Konstruktor a tűzoltóautó megjelenítésének inicializálásához.
+   *
+   * @param firetruck a megjelenítendő tűzoltóautó
+   */
   public FiretruckView(Firetruck firetruck) {
     super();
     this.firetruck = firetruck;
@@ -31,7 +37,11 @@ public class FiretruckView extends JPanel {
         0, 0, GamePanel.FIELD_SIZE * Game.getColumns(), GamePanel.FIELD_SIZE * Game.getRows());
     System.out.println(this.getBounds());
   }
-
+  /**
+   * A komponens megjelenítéséért felelős metódus.
+   *
+   * @param g a Graphics objektum a komponens kirajzolásához
+   */
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
     // paint the component

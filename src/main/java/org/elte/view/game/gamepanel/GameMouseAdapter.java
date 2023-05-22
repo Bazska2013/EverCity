@@ -17,6 +17,7 @@ import org.elte.view.MainFrame;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 
+/** A GameMouseAdapter osztály egy egér eseménykezelőt reprezentál a játékpanelen. */
 public class GameMouseAdapter extends MouseAdapter {
   Game game;
   GamePanel gamePanel;
@@ -24,6 +25,7 @@ public class GameMouseAdapter extends MouseAdapter {
   ResidentInfoBox residentInfoBox;
   InfoBox infoBox;
 
+  /** Konstruktora a GameMouseAdapter osztálynak. */
   public GameMouseAdapter(
       Game game,
       GamePanel gamePanel,
@@ -36,7 +38,7 @@ public class GameMouseAdapter extends MouseAdapter {
     this.game = game;
     this.gamePanel = gamePanel;
   }
-
+  /** Kezelei a mouseClicked eventeket. */
   public void mouseClicked(MouseEvent e) {
     int current_x = (int) Math.floor((e.getX()) / GamePanel.FIELD_SIZE);
     int current_y = (int) Math.floor((e.getY()) / GamePanel.FIELD_SIZE);
@@ -68,7 +70,11 @@ public class GameMouseAdapter extends MouseAdapter {
       ex.printStackTrace();
     }
   }
-
+  /**
+   * Lehelyez épületet, adott pozícióra.
+   *
+   * @param position az pozíciója
+   */
   private void placeBuilding(Position position) {
     Field field = game.getField(position);
     Building buildingType = new org.elte.model.building.Empty(position);
@@ -104,7 +110,11 @@ public class GameMouseAdapter extends MouseAdapter {
 
     if (buildingType instanceof Road) field.setZone(new org.elte.model.zone.Road(position));
   }
-
+  /**
+   * Lehelyez zónát, adott pozícióra.
+   *
+   * @param position az pozíciója
+   */
   private void placeZone(Position position) {
     Zone newZone = null;
     switch (BuildablePanel.getSelectedFieldZoneType()) {

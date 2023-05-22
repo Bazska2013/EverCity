@@ -9,6 +9,7 @@ import org.elte.utils.ScreenUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Az InfoBox osztály egy információs dobozt reprezentál a játékpanelen. */
 @Getter
 @Setter
 public class InfoBox extends JPanel {
@@ -21,7 +22,7 @@ public class InfoBox extends JPanel {
   private Game game;
   private JLabel type;
   private JLabel message;
-
+  /** Az InfoBox osztály konstruktora. */
   public InfoBox() {
     super();
     this.game = Game.getInstance();
@@ -52,7 +53,13 @@ public class InfoBox extends JPanel {
               timer.stop();
             });
   }
-
+  /**
+   * Az InfoBox újrarajzolása a megadott adatokkal.
+   *
+   * @param type Az információ típusa.
+   * @param message Az üzenet szövege.
+   * @param color Az InfoBox hátterének színe.
+   */
   public void reRender(String type, String message, Color color) {
     this.setBackground(color);
     this.type.setText(type);

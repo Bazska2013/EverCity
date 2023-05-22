@@ -14,6 +14,7 @@ import org.elte.utils.ScreenUtils;
 import org.elte.view.Localization;
 import org.elte.view.MainFrame;
 
+/** A BuildablePanel osztály egy építkezési panelt reprezentál egy játékban. */
 public class BuildablePanel extends JPanel {
 
   private JButton[] zoneButtons;
@@ -22,12 +23,12 @@ public class BuildablePanel extends JPanel {
 
   private static FieldTypes selectedFieldZoneType = null;
   private static BuildingTypes selectedBuildingType = null;
-
+  /** Konstruktor, amely létrehozza a BuildablePanel objektumot. */
   public BuildablePanel() {
     super();
     buildBuildablePanel();
   }
-
+  /** Az építési panel inicializálása és felépítése. */
   private void buildBuildablePanel() {
     this.setBounds(
         0, MainFrame.ZONE_BOX_Y, ScreenUtils.getScreenSize().width, MainFrame.ZONE_BOX_SIZE);
@@ -54,7 +55,7 @@ public class BuildablePanel extends JPanel {
     addButtonsToComponent(buildingButtons);
     switchButtons();
   }
-
+  /** Az építési panel újragenerálása. */
   public void regenerateBuildablePanel() {
     this.removeAll();
     this.buildingButtons = null;
@@ -62,7 +63,11 @@ public class BuildablePanel extends JPanel {
     this.toggleButton = null;
     buildBuildablePanel();
   }
-
+  /**
+   * Létrehoz és inicializál gombokat a zóna típus kiválasztásához.
+   *
+   * @return Az inicializált gombok tömbje.
+   */
   private JButton[] createZoneTypeSelectionButtons() {
     JButton residentZoneButton =
         createZoneTypeSelectionButton(ImageResource.ZONE_RESIDENT, FieldTypes.RESIDENT);
@@ -80,7 +85,11 @@ public class BuildablePanel extends JPanel {
       residentZoneButton, industryZoneButton, serviceZoneButton, emptyZoneButton
     };
   }
-
+  /**
+   * Létrehoz és inicializál gombokat az épület típus kiválasztásához.
+   *
+   * @return Az inicializált gombok tömbje.
+   */
   private JButton[] createBuildingTypeSelectionButtons() {
     JButton roadButton =
         createBuildingTypeSelectionButton(
@@ -141,7 +150,13 @@ public class BuildablePanel extends JPanel {
       stadiumButton
     };
   }
-
+  /**
+   * Létrehoz és inicializál egy gombot a zóna típus kiválasztásához.
+   *
+   * @param image Az ikonkép.
+   * @param fieldType A zóna típusa.
+   * @return Az inicializált gomb.
+   */
   private JButton createZoneTypeSelectionButton(Image image, FieldTypes fieldType) {
     JButton button = new JButton(new ImageIcon(image));
     button.setBorder(BorderFactory.createEmptyBorder());
@@ -155,7 +170,15 @@ public class BuildablePanel extends JPanel {
         });
     return button;
   }
-
+  /**
+   * Létrehoz és inicializál egy gombot az épület típus kiválasztásához.
+   *
+   * @param image Az ikonkép.
+   * @param buildingType Az épület típusa.
+   * @param localizationString A lokalizációs kulcs szövege.
+   * @param price Az épület ára.
+   * @return Az inicializált gomb.
+   */
   private JButton createBuildingTypeSelectionButton(
       Image image, BuildingTypes buildingType, String localizationString, int price) {
 
@@ -194,19 +217,34 @@ public class BuildablePanel extends JPanel {
         });
     return button;
   }
-
+  /**
+   * Hozzáadja a gombokat a komponenshez.
+   *
+   * @param buttons A gombok tömbje.
+   */
   private void addButtonsToComponent(JButton[] buttons) {
     Arrays.stream(buttons).forEach(jButton -> this.add(jButton, BorderLayout.CENTER));
   }
-
+  /**
+   * Megjeleníti a gombokat.
+   *
+   * @param buttons A gombok tömbje.
+   */
   private void showButtons(JButton[] buttons) {
     Arrays.stream(buttons).forEach(btn -> btn.setVisible(true));
   }
-
+  /**
+   * Elrejti a gombokat.
+   *
+   * @param buttons A gombok tömbje.
+   */
   private void removeButtons(JButton[] buttons) {
     Arrays.stream(buttons).forEach(btn -> btn.setVisible(false));
   }
-
+  /**
+   * Váltás a gombok között. Az épület és zóna típus kiválasztását kezeli, és megjeleníti vagy
+   * elrejti a gombokat a jelenlegi játékállapot alapján.
+   */
   private void switchButtons() {
     selectedBuildingType = null;
     selectedFieldZoneType = null;
@@ -219,7 +257,12 @@ public class BuildablePanel extends JPanel {
     }
     repaint();
   }
-
+  /**
+   * Zóna típus kiválasztása esetén végrehajtandó műveletek kezelése.
+   *
+   * @param button Az érintett gomb.
+   * @param fieldType Az aktuálisan kiválasztott zóna típusa.
+   */
   private void handleZoneTypeSelectionButton(JButton button, FieldTypes fieldType) {
     if (selectedFieldZoneType != fieldType) {
       resetZoneTypeSelectionButtons();
@@ -232,7 +275,12 @@ public class BuildablePanel extends JPanel {
       selectedFieldZoneType = null;
     }
   }
-
+  /**
+   * Épület típus kiválasztása esetén végrehajtandó műveletek kezelése.
+   *
+   * @param button Az érintett gomb.
+   * @param buildingType Az aktuálisan kiválasztott épület típusa.
+   */
   private void handleBuildingTypeSelectionButton(JButton button, BuildingTypes buildingType) {
     if (selectedBuildingType != buildingType) {
       resetBuildingTypeSelectionButtons();
@@ -246,38 +294,62 @@ public class BuildablePanel extends JPanel {
       button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
     }
   }
-
+  /** Az összes kiválasztott zóna típus alaphelyzetbe állítását végrehajtó metódus. */
   private void resetZoneTypeSelectionButtons() {
     Arrays.stream(zoneButtons).forEach(this::resetZoneTypeSelectionButton);
   }
-
+  /** Az összes kiválasztott épület típus alaphelyzetbe állítását végrehajtó metódus. */
   public void resetBuildingTypeSelectionButtons() {
     Arrays.stream(buildingButtons).forEach(this::resetBuildingTypeSelectionButton);
   }
-
+  /**
+   * Egy kiválasztott zóna típus alaphelyzetbe állítását végrehajtó metódus.
+   *
+   * @param button Az érintett gomb.
+   */
   private void resetZoneTypeSelectionButton(JButton button) {
     button.setBorder(BorderFactory.createEmptyBorder());
     button.setContentAreaFilled(false);
   }
-
+  /**
+   * Egy kiválasztott épület típus alaphelyzetbe állítását végrehajtó metódus.
+   *
+   * @param button Az érintett gomb.
+   */
   public void resetBuildingTypeSelectionButton(JButton button) {
     button.setBorder(BorderFactory.createEmptyBorder());
     button.setBackground(Color.LIGHT_GRAY);
     button.setBorder(BorderFactory.createLineBorder(Color.white, 1));
   }
-
+  /**
+   * Az aktuálisan kiválasztott zóna típusának visszaadása.
+   *
+   * @return Az aktuálisan kiválasztott zóna típusa.
+   */
   public static FieldTypes getSelectedFieldZoneType() {
     return selectedFieldZoneType;
   }
-
+  /**
+   * Az aktuálisan kiválasztott épület típusának visszaadása.
+   *
+   * @return Az aktuálisan kiválasztott épület típusa.
+   */
   public static BuildingTypes getSelectedBuildingType() {
     return selectedBuildingType;
   }
-
+  /**
+   * Az aktuálisan kiválasztott zóna típusának beállítása.
+   *
+   * @param selectedFieldZoneType Az aktuálisan kiválasztott zóna típusa.
+   */
   public static void setSelectedFieldZoneType(FieldTypes selectedFieldZoneType) {
     BuildablePanel.selectedFieldZoneType = selectedFieldZoneType;
   }
-
+  /**
+   * Az aktuálisan kiválasztott épület típusának beállítása.
+   *
+   * @param selectedBuildingType Az aktuálisan kiválasztott épület típusa.
+   */
   public static void setSelectedBuildingType(BuildingTypes selectedBuildingType) {
     BuildablePanel.selectedBuildingType = selectedBuildingType;
   }

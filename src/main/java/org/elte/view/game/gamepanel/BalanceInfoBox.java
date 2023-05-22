@@ -11,17 +11,28 @@ import org.elte.view.game.GamePanel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * A BalanceInfoBox osztály egy információs panelt reprezentál a játékban, amely megjeleníti a
+ * játékos egyenlegét és a költségeket.
+ */
 @Getter
 @Setter
 public class BalanceInfoBox extends JPanel {
+  /** A panel magassága a képernyő méretének 50%-a. */
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.50);
+  /** A panel szélessége a képernyő szélességének 15%-a mínusz 10 pixel. */
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.15) - 10;
+  /** A panel x-koordinátája a képernyő szélességétől levonva a panel szélességét. */
   public static final int X = (ScreenUtils.getScreenSize().width) - WIDTH;
+  /** A panel y-koordinátája a képernyő magasságának 10%-a. */
   public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.10);
 
   private Game game;
   private GamePanel gamePanel;
-
+  /**
+   * Konstruktor az BalanceInfoBox osztályhoz. Beállítja a játékot, pozíciót, méretet, keretet,
+   * elrendezést és háttérszínt. Alapértelmezés szerint nem látható.
+   */
   public BalanceInfoBox() {
     super();
     this.game = Game.getInstance();
@@ -32,7 +43,7 @@ public class BalanceInfoBox extends JPanel {
     this.setVisible(false);
     //        reRender();
   }
-
+  /** Újrarajzolja az információs panelt a játék aktuális állapotával. */
   public void reRender() {
     this.removeAll();
     JPanel contentPanel = new JPanel();
@@ -77,12 +88,16 @@ public class BalanceInfoBox extends JPanel {
     this.add(scrollPane, BorderLayout.CENTER);
     this.setVisible(true);
   }
-
+  /** Elrejti az információs panelt. */
   public void hideInfoBox() {
     this.removeAll();
     this.setVisible(false);
   }
-
+  /**
+   * Beállítja a játékpanelt, amelyhez a BalanceInfoBox tartozik.
+   *
+   * @param gamePanel a játékpanel
+   */
   public void setGamepanel(GamePanel gamePanel) {
     this.gamePanel = gamePanel;
   }

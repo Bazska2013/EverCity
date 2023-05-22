@@ -17,6 +17,7 @@ import org.elte.view.game.GamePanel;
 import lombok.Getter;
 import lombok.Setter;
 
+/** A ResidentInfoBox osztály egy lakókról való információs dobozt reprezentál a játékpanelen. */
 @Getter
 @Setter
 public class ResidentInfoBox extends JPanel {
@@ -29,7 +30,7 @@ public class ResidentInfoBox extends JPanel {
   private Game game;
   private GamePanel gamePanel;
   private Position selectedPosition;
-
+  /** A ResidentInfoBox osztály konstruktora. */
   public ResidentInfoBox() {
     super();
     this.game = Game.getInstance();
@@ -40,7 +41,7 @@ public class ResidentInfoBox extends JPanel {
     this.setVisible(true);
     reRender();
   }
-
+  /** Az információk frissítése és az újrarajzolás a kiválasztott pozíció alapján. */
   public void reRender() {
     if (selectedPosition != null) {
       Field selectedField = game.getField(selectedPosition);
@@ -119,7 +120,13 @@ public class ResidentInfoBox extends JPanel {
       this.setVisible(false);
     }
   }
-
+  /**
+   * Beállítja a címkére vonatkozó tulajdonságokat és létrehoz egy új JLabel objektumot.
+   *
+   * @param textToDisplay a megjelenítendő szöveg
+   * @param property a tulajdonság
+   * @return a létrehozott JLabel objektum
+   */
   public JLabel setLabelProperties(String textToDisplay, String property) {
     Font labelFont = new Font("Arial", Font.PLAIN, 14);
     JLabel label = new JLabel();
@@ -128,11 +135,19 @@ public class ResidentInfoBox extends JPanel {
     label.setText(textToDisplay + property);
     return label;
   }
-
+  /**
+   * Beállítja a játékpanel referenciáját.
+   *
+   * @param gamePanel a játékpanel referenciája
+   */
   public void setGamePanel(GamePanel gamePanel) {
     this.gamePanel = gamePanel;
   }
-
+  /**
+   * Beállítja a kiválasztott pozíciót és újrarajzolja az információkat.
+   *
+   * @param position a kiválasztott pozíció
+   */
   public void setSelectedPosition(Position position) {
     this.selectedPosition = position;
     reRender();

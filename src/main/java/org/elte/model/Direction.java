@@ -2,12 +2,19 @@ package org.elte.model;
 
 import org.elte.utils.Position;
 
+/** A mozgás irányát reprezentáló felsorolási típus. */
 public enum Direction {
   UP,
   DOWN,
   LEFT,
   RIGHT;
-
+  /**
+   * Az irányt megadó statikus metódus, amely két pozíció közötti irányt számítja ki.
+   *
+   * @param from a kiinduló pozíció.
+   * @param to a célpont pozíció.
+   * @return a kiszámított irány.
+   */
   public static Direction getDirection(Position from, Position to) {
     int dx = to.x() - from.x();
     int dy = to.y() - from.y();
