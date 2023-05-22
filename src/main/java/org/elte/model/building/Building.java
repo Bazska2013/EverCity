@@ -157,6 +157,7 @@ public abstract class Building {
         }
       }
       game.setBalance(game.getBalance() - price);
+      game.getAllCosts().add(s + "," + price);
     }
   }
 

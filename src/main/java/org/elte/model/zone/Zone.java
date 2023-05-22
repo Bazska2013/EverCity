@@ -116,4 +116,6 @@ public abstract class Zone {
    * @param citizens a zónán dolgozók listája
    */
   public void setWorkers(List<Citizen> citizens) {}
+
+  public abstract void changeHappiness(int changes);
 }
