@@ -1,5 +1,8 @@
 package org.elte.model.enums;
-
+/**
+ * Enum osztály, amely az épület típusokat tartalmazza. Az enum értékei az egyes épületek típusait
+ * reprezentálják.
+ */
 public enum BuildingTypes {
   EMPTY,
   ROAD,
