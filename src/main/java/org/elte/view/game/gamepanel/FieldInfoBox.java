@@ -16,14 +16,22 @@ import org.elte.view.game.GamePanel;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * A FieldInfoBox osztály egy információs panelt reprezentál a játékban, amely megjeleníti a
+ * kiválasztott mező részleteit.
+ */
 @Getter
 @Setter
 public class FieldInfoBox extends JPanel {
-
+  /** A panel x-koordinátája 0. */
   public static final int X = 0;
+  /** A panel y-koordinátája a képernyő magasságának 10%-a. */
   public static final int Y = (int) (ScreenUtils.getScreenSize().height * 0.10);
+  /** A panel magassága a képernyő méretének 50%-a. */
   public static final int HEIGHT = (int) (ScreenUtils.getScreenSize().height * 0.50);
+  /** A panel szélessége a képernyő szélességének 15%-a mínusz 10 pixel. */
   public static final int WIDTH = (int) (ScreenUtils.getScreenSize().width * 0.15) - 10;
+
   private Game game;
   private GamePanel gamePanel;
   private Position selectedPosition;
@@ -34,7 +42,10 @@ public class FieldInfoBox extends JPanel {
   private JLabel citizenNumber;
   private JButton deleteButton;
   private JButton upgradeButton;
-
+  /**
+   * Konstruktor az FieldInfoBox osztályhoz. Beállítja a játékot, pozíciót, méretet, keretet,
+   * elrendezést és háttérszínt. Létrehozza és inicializálja a címkéket és gombokat.
+   */
   public FieldInfoBox() {
     super();
     this.game = Game.getInstance();
@@ -71,11 +82,11 @@ public class FieldInfoBox extends JPanel {
     citizenNumber.setFont(labelFont);
     this.add(citizenNumber);
 
-    deleteButton = new TextButton("Delete");
+    deleteButton = new TextButton(Localization.getProp().getProperty("delete"));
     deleteButton.setBackground(Color.RED);
     this.add(deleteButton);
 
-    upgradeButton = new TextButton("Upgrade");
+    upgradeButton = new TextButton(Localization.getProp().getProperty("upgrade"));
     upgradeButton.setBackground(Color.decode("#339157"));
 
     upgradeButton.addActionListener(
@@ -92,7 +103,7 @@ public class FieldInfoBox extends JPanel {
 
     reRender();
   }
-
+  /** Újrarajzolja az információs panelt a kiválasztott mező adataival. */
   public void reRender() {
     if (selectedPosition != null) {
       zoneTypeLabel.setText(
@@ -108,12 +119,16 @@ public class FieldInfoBox extends JPanel {
       positionYLabel.setText(
           Localization.getProp().getProperty("zone_position_y") + " " + selectedPosition.y());
       citizenNumber.setText(
-          "Number of citizens: " + game.getField(selectedPosition).getZone().getCitizenNumber());
+          Localization.getProp().getProperty("number_of_citizens")
+              + ": "
+              + game.getField(selectedPosition).getZone().getCitizenNumber());
       deleteButton.setVisible(true); // enable the button when a position is selected
 
       Field selectedField = game.getField(selectedPosition);
 
-      if (selectedField.getZone() instanceof Empty || selectedField.getZone() instanceof Road) {
+      if (selectedField.getZone() instanceof Empty
+          || selectedField.getZone() instanceof Road
+          || selectedField.getBuilding() instanceof org.elte.model.building.Rubble) {
         if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
           this.remove(deleteButton);
           this.remove(upgradeButton);
@@ -135,21 +150,6 @@ public class FieldInfoBox extends JPanel {
           this.setLayout(new GridLayout(5, 1));
         }
       }
-
-      //      if (!(selectedField.getZone() instanceof Empty)) {
-      //        this.add(deleteButton);
-      //        this.add(upgradeButton);
-      //        this.setLayout(new GridLayout(7, 1));
-      //        upgradeButton.setVisible(true);
-      //      } else if (selectedField.getBuilding() instanceof org.elte.model.building.Empty) {
-      //        this.remove(deleteButton);
-      //        this.remove(upgradeButton);
-      //        this.setLayout(new GridLayout(5, 1));
-      //      } else {
-      //        this.add(deleteButton);
-      //        this.remove(upgradeButton);
-      //        this.setLayout(new GridLayout(6, 1));
-      //      }
     } else {
       zoneTypeLabel.setText("");
       buildingTypeLabel.setText("");
@@ -160,11 +160,19 @@ public class FieldInfoBox extends JPanel {
       upgradeButton.setVisible(false);
     }
   }
-
+  /**
+   * Beállítja a játékpanelt, amelyhez a FieldInfoBox tartozik.
+   *
+   * @param gamePanel a játékpanel
+   */
   public void setGamePanel(GamePanel gamePanel) {
     this.gamePanel = gamePanel;
   }
-
+  /**
+   * Beállítja a kiválasztott pozíciót, és újrarajzolja az információs panelt.
+   *
+   * @param position a kiválasztott pozíció
+   */
   public void setSelectedPosition(Position position) {
     this.selectedPosition = position;
     reRender();

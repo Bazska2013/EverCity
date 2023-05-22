@@ -1,13 +1,18 @@
 package org.elte;
 
-import org.elte.view.MainFrame;
+import org.elte.view.MainMenu;
 
+/** Az EverCity játék főosztálya. */
 public class EverCityApp {
+  /**
+   * A program belépési pontja.
+   *
+   * @param args a parancssori argumentumok
+   */
   public static void main(String[] args) {
-    // MainMenu mainMenu = new MainMenu();
 
     try {
-      MainFrame gui = MainFrame.getInstance();
+      MainMenu mainMenu = new MainMenu();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

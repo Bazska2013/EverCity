@@ -1,6 +1,12 @@
 package org.elte.model.enums;
 
-public enum FieldTypes {
+import java.io.Serializable;
+
+/**
+ * Enum osztály, amely a zóna típusokat tartalmazza. Az enum értékei az egyes mezők típusait
+ * reprezentálják.
+ */
+public enum FieldTypes implements Serializable {
   ROAD,
   EMPTY,
   RESIDENT,

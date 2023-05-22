@@ -16,10 +16,7 @@ import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.ImageResource;
 import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
-import org.elte.view.game.gamepanel.FieldInfoBox;
-import org.elte.view.game.gamepanel.GameMouseAdapter;
-import org.elte.view.game.gamepanel.GameMouseMotionListener;
-import org.elte.view.game.gamepanel.InfoBox;
+import org.elte.view.game.gamepanel.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +32,7 @@ public class GamePanel extends JPanel {
   private Game game;
   private Dimension screenSize;
   private FieldInfoBox fieldInfoBox;
+  private ResidentInfoBox residentInfoBox;
   public static InfoBox infoBox;
   public static GamePanel gamePanel = null;
 
@@ -45,22 +43,34 @@ public class GamePanel extends JPanel {
   private MouseMotionListener mouseMotionListener;
 
   private Position selectedField = null;
-
-  public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox) {
+  /**
+   * GamePanel osztály konstruktora.
+   *
+   * @param fieldInfoBox Az információs doboz a mezőkhöz.
+   * @param infoBox Az információs doboz a játékhoz.
+   * @param residentInfoBox Az információs doboz a lakosokhoz.
+   */
+  public GamePanel(FieldInfoBox fieldInfoBox, InfoBox infoBox, ResidentInfoBox residentInfoBox) {
     this.game = Game.getInstance();
     this.screenSize = ScreenUtils.getScreenSize();
     this.fieldInfoBox = fieldInfoBox;
     fieldInfoBox.setGamePanel(this);
+    this.residentInfoBox = residentInfoBox;
+    residentInfoBox.setGamePanel(this);
     this.infoBox = infoBox;
     this.mouseMotionListener = new GameMouseMotionListener(fieldInfoBox);
-    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox);
+    this.mouseListener = new GameMouseAdapter(game, this, fieldInfoBox, infoBox, residentInfoBox);
     addMouseListener(mouseListener);
     addMouseMotionListener(mouseMotionListener);
     this.setBounds(X, Y, FIELD_SIZE * Game.getColumns(), FIELD_SIZE * Game.getRows());
     this.setVisible(true);
     gamePanel = this;
   }
-
+  /**
+   * A panel kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
@@ -77,7 +87,11 @@ public class GamePanel extends JPanel {
     g.setColor(Color.blue);
     g.fillRect(screenSize.width - 200, screenSize.height / 2 - 150, 180, 150);
   }
-
+  /**
+   * Az épületek kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   private void drawBuildings(Graphics2D g) {
     ArrayList<Position> positionsToSkip = new ArrayList<>();
     for (int i = 0; i < Game.getColumns(); i++) {
@@ -111,6 +125,33 @@ public class GamePanel extends JPanel {
         if (field.getBuilding().getBuildingType() == BuildingTypes.INDUSTRY_3) {
           g.drawImage(ImageResource.INDUSTRY_3, x, y, width, height, null);
         }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST2) {
+          g.drawImage(ImageResource.FOREST2, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST3) {
+          g.drawImage(ImageResource.FOREST3, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST4) {
+          g.drawImage(ImageResource.FOREST4, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST5) {
+          g.drawImage(ImageResource.FOREST5, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST6) {
+          g.drawImage(ImageResource.FOREST6, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST7) {
+          g.drawImage(ImageResource.FOREST7, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST8) {
+          g.drawImage(ImageResource.FOREST8, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST9) {
+          g.drawImage(ImageResource.FOREST9, x, y, width, height, null);
+        }
+        if (field.getBuilding().getBuildingType() == BuildingTypes.FOREST10) {
+          g.drawImage(ImageResource.FOREST10, x, y, width, height, null);
+        }
         if (field.getBuilding().isBurning()) {
           g.drawImage(ImageResource.FIRE, x, y, width, height, null);
         }
@@ -127,7 +168,11 @@ public class GamePanel extends JPanel {
       }
     }
   }
-
+  /**
+   * A zónák kirajzolása.
+   *
+   * @param g A kirajzolásra használt grafikus objektum.
+   */
   private void drawZones(Graphics g) {
     g.setColor(Color.black);
     for (int i = 0; i < Game.getColumns(); i++) {
@@ -143,7 +188,12 @@ public class GamePanel extends JPanel {
       }
     }
   }
-
+  /**
+   * A tűzoltók kirajzolása.
+   *
+   * @param g2d A kirajzolásra használt grafikus objektum.
+   * @param firetruck A kirajzolandó tűzoltó jármű.
+   */
   public void drawFiretruck(Graphics2D g2d, Firetruck firetruck) {
     double angle = 0; // default angle (no rotation)
     Direction direction = firetruck.getDirection();
@@ -179,7 +229,12 @@ public class GamePanel extends JPanel {
           ImageResource.FIRETRUCK, x, y, GamePanel.FIELD_SIZE, GamePanel.FIELD_SIZE, null);
     if (direction != null) g2d.rotate(-angle, x + (FIELD_SIZE / 2), y + (FIELD_SIZE / 2));
   }
-
+  /**
+   * Kép elforgatása.
+   *
+   * @param image Az elforgatandó kép.
+   * @return Az elforgatott kép.
+   */
   public static BufferedImage flip(BufferedImage image) {
     int w = image.getWidth();
     int h = image.getHeight();
