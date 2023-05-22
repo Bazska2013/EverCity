@@ -59,7 +59,9 @@ public class GameTime extends Timer {
       return true;
     }
     return false;
-  }public boolean passed300Days() {
+  }
+
+  public boolean passed300Days() {
     if ((passedDays % 10) == 0) {
       return true;
     }

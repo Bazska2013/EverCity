@@ -303,6 +303,7 @@ public class Game implements Serializable {
         Color.BLUE);
     return fees;
   }
+
   public static int indServBalance() {
     int ind = 0;
     int serv = 0;
@@ -323,14 +324,15 @@ public class Game implements Serializable {
     }
     return 0;
   }
+
   public int allHappiness() {
     int happy = 0;
     int buildingnumber = 0;
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Resident
-                || fields[i][j].getZone() instanceof Industry
-                || fields[i][j].getZone() instanceof Service) {
+            || fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
           buildingnumber++;
         }
         fields[i][j].affects();
