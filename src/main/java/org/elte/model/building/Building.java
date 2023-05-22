@@ -8,6 +8,7 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
+import org.elte.view.Localization;
 import org.elte.view.MainFrame;
 
 import lombok.Getter;
@@ -177,7 +178,6 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
-          game.setBalance(game.getBalance() - price);
         }
       }
       for (int i = Math.max(0, position.x() - impactRange);
@@ -205,11 +205,21 @@ public abstract class Building {
           .setBalance(
               Game.getInstance().getBalance()
                   + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+      game.getAllCosts()
+          .add(
+              Localization.getProp().getProperty("add")
+                  + ","
+                  + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
     } else {
       Game.getInstance()
           .setBalance(
               Game.getInstance().getBalance()
                   - Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
+      game.getAllCosts()
+          .add(
+              Localization.getProp().getProperty("remove")
+                  + ","
+                  + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
     }
 
     if (isRoad()) {
