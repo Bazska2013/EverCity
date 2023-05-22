@@ -1,5 +1,6 @@
 package org.elte.model.zone;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.elte.model.Game;
@@ -9,13 +10,21 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /** Az absztrakt Zone osztály reprezentál egy zónát a játékban. */
 @Getter
 @Setter
-public abstract class Zone {
+@ToString
+public abstract class Zone implements Serializable {
   /** A zóna pozíciója. */
   Position position;
+
+  FieldTypes fieldType;
+
+  public Zone() {
+    fieldType = FieldTypes.EMPTY;
+  }
 
   /**
    * Zone osztály konstruktora.
@@ -24,6 +33,7 @@ public abstract class Zone {
    */
   public Zone(Position position) {
     this.position = position;
+    fieldType = FieldTypes.EMPTY;
   }
   /** Az ár, amelyet fizetni kell a zóna létrehozásához. */
   protected int price = 10;
@@ -68,12 +78,15 @@ public abstract class Zone {
    * @return true, ha a zóna üres, egyébként false
    */
   public abstract boolean isEmpty();
+
   /**
    * Absztrakt metódus, amely visszaadja a zóna típusát.
    *
    * @return a zóna típusa
    */
-  public abstract FieldTypes getZoneType();
+  public FieldTypes getZoneType() {
+    return fieldType;
+  }
   /**
    * Absztrakt metódus, amely visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.
    *

@@ -1,5 +1,6 @@
 package org.elte.model.zone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +11,15 @@ import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * A Resident osztály egy lakó zónát reprezentálja a játékban. Ez az osztály a Zone osztályból
  * származik, és implementálja az absztrakt metódusokat.
  */
 @Getter
-public class Resident extends Zone {
+@NoArgsConstructor
+public class Resident extends Zone implements Serializable {
   /** A zónán élő polgárok listája. */
   protected List<Citizen> citizens = new ArrayList<>();
   /**
@@ -31,6 +34,7 @@ public class Resident extends Zone {
     hapiness = 50;
     tax = 5;
     level = 1;
+    fieldType = FieldTypes.RESIDENT;
   }
   /**
    * Ellenőrzi, hogy a zóna törölhető-e.
@@ -49,15 +53,6 @@ public class Resident extends Zone {
   @Override
   public boolean isEmpty() {
     return false;
-  }
-  /**
-   * Visszaadja a zóna típusát.
-   *
-   * @return a zóna típusa
-   */
-  @Override
-  public FieldTypes getZoneType() {
-    return FieldTypes.RESIDENT;
   }
 
   public int isHereRetired() {

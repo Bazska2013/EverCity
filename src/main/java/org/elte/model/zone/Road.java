@@ -1,14 +1,19 @@
 package org.elte.model.zone;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
+
+import lombok.NoArgsConstructor;
 
 /**
  * A Road osztály egy utat reprezentál a játékban. Ez az osztály a Zone osztályból származik, és
  * implementálja az absztrakt metódusokat.
  */
-public class Road extends Zone {
+@NoArgsConstructor
+public class Road extends Zone implements Serializable {
   /**
    * A Road osztály konstruktora.
    *
@@ -19,6 +24,7 @@ public class Road extends Zone {
     price = 5;
     capacity = 4;
     tax = 5;
+    fieldType = FieldTypes.ROAD;
   }
   /**
    * Ellenőrzi, hogy az út törölhető-e.
@@ -37,15 +43,6 @@ public class Road extends Zone {
   @Override
   public boolean isEmpty() {
     return false;
-  }
-  /**
-   * Visszaadja a zóna típusát.
-   *
-   * @return a zóna típusa
-   */
-  @Override
-  public FieldTypes getZoneType() {
-    return FieldTypes.ROAD;
   }
   /**
    * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.

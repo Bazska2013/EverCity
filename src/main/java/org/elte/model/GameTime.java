@@ -1,16 +1,19 @@
 package org.elte.model;
 
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.time.LocalDate;
 import javax.swing.*;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /** A játék időtartamát reprezentáló osztály, amely a játék időmúlását és dátumát kezeli. */
 @Getter
 @Setter
-public class GameTime extends Timer {
+@ToString
+public class GameTime extends Timer implements Serializable {
   private int passedDays = 0;
   private static final int START_YEAR = 2023;
   private static int negativeBalanceYears = 0;
@@ -20,15 +23,10 @@ public class GameTime extends Timer {
    * @param listener az eseménykezelő, amelyet a Timer eseményeihez rendelünk
    */
   public GameTime(ActionListener listener) {
-    super(TimerSpeed.STOP.getValue(), listener);
+    super(TimerSpeed.ONE.getValue(), listener);
     super.addActionListener(e -> passedDays++);
     super.setRepeats(true);
     super.start();
-  }
-
-  @Override
-  public String toString() {
-    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays()).toString();
   }
   /**
    * Beállítja a Timer sebességét a megadott TimerSpeed érték alapján.
@@ -46,19 +44,20 @@ public class GameTime extends Timer {
     this.setDelay(timerSpeed.getValue());
   }
 
-  public LocalDate getDate() {
-    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays());
+  @Override
+  public String toString() {
+    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays()).toString();
   }
-  /**
-   * Ellenőrzi, hogy eltelt-e egy év.
-   *
-   * @return true, ha igen, különben false
-   */
+
   public boolean overAYear() {
     if ((getPassedDays() % 365) == 0) {
       return true;
     }
     return false;
+  }
+
+  public LocalDate getDate() {
+    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays());
   }
 
   public boolean passed300Days() {

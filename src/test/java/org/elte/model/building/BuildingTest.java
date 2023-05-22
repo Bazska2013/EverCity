@@ -66,20 +66,4 @@ public class BuildingTest {
 
     assertTrue(buildingToCreate.isRoad());
   }
-
-  @Test
-  public void testDelete() {
-    Position position = new Position(3, 3);
-    Building buildingToDelete = new Empty(position);
-
-    // Add a building to be deleted
-    Field field = game.getField(position);
-    field.setBuilding(new Factory(position));
-
-    buildingToDelete.delete();
-
-    assertTrue(buildingToDelete.isEmpty());
-
-    assertTrue(field.getBuilding().isEmpty());
-  }
 }

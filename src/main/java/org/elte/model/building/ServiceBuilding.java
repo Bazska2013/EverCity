@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
 
@@ -7,7 +9,7 @@ import org.elte.utils.Position;
  * A ServiceBuilding osztály az szolgáltatási épületeket reprezentálja a játékban. Ez az osztály a
  * Building osztályból származik.
  */
-public class ServiceBuilding extends Building {
+public class ServiceBuilding extends Building implements Serializable {
   /**
    * A ServiceBuilding osztály konstruktora.
    *

@@ -1,6 +1,7 @@
 package org.elte.model.people;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.Random;
 
 import org.elte.model.zone.Resident;
@@ -12,7 +13,7 @@ import lombok.Setter;
 /** A Citizen osztály egy polgárt reprezentál a játékban. */
 @Getter
 @Setter
-public class Citizen {
+public class Citizen implements Serializable {
   /** A polgár lakhelye. */
   private Zone livestAt;
   /** A polgár munkahelye. */

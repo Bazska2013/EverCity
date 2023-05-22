@@ -1,5 +1,6 @@
 package org.elte.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +17,17 @@ import org.elte.utils.Position;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /** A Field osztály reprezentál egy mezőt a játékban. */
 @Getter
 @Setter
-public class Field {
+@ToString
+public class Field implements Serializable {
   Building building;
+
   private Zone zone;
+  private Class<? extends Zone> zoneClass;
   private int height = 1;
   private int width = 1;
   Position position;

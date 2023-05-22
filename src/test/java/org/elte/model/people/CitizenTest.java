@@ -23,7 +23,7 @@ public class CitizenTest {
 
   @Test
   public void testResetCitizen() {
-    citizen.resetCitizen();
+    citizen.resetCitizen(new Resident(new Position(0, 0)));
 
     assertEquals(50, citizen.getSatisfaction());
     assertEquals(0, citizen.getIncome());

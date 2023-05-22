@@ -1,5 +1,6 @@
 package org.elte.model.zone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +11,15 @@ import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * A Service osztály a szolgáltatási zónákat reprezentálja a játékban. Ez az osztály a Zone
  * osztályból származik, és implementálja az absztrakt metódusokat.
  */
 @Getter
-public class Service extends Zone {
+@NoArgsConstructor
+public class Service extends Zone implements Serializable {
 
   /** A zónában dolgozó polgárok listája. */
   List<Citizen> workers = new ArrayList<>();
@@ -33,6 +36,7 @@ public class Service extends Zone {
     hapiness = 50;
     tax = 5;
     level = 1;
+    fieldType = FieldTypes.SERVICE;
   }
   /**
    * Ellenőrzi, hogy a zóna törölhető-e.
@@ -51,15 +55,6 @@ public class Service extends Zone {
   @Override
   public boolean isEmpty() {
     return false;
-  }
-  /**
-   * Visszaadja a zóna típusát.
-   *
-   * @return a zóna típusa
-   */
-  @Override
-  public FieldTypes getZoneType() {
-    return FieldTypes.SERVICE;
   }
   /**
    * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.

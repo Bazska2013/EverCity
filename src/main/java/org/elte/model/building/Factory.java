@@ -1,5 +1,7 @@
 package org.elte.model.building;
 
+import java.io.Serializable;
+
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.utils.Position;
@@ -8,7 +10,7 @@ import org.elte.utils.Position;
  * A Factory osztály a gyár épületeket reprezentálja a játékban. Ez az osztály a Building osztályból
  * származik.
  */
-public class Factory extends Building {
+public class Factory extends Building implements Serializable {
   /**
    * A Factory osztály konstruktora.
    *
