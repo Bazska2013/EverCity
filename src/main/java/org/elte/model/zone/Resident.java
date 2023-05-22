@@ -60,15 +60,15 @@ public class Resident extends Zone {
     return FieldTypes.RESIDENT;
   }
 
-    public int isHereRetired(){
-        int j=0;
-        for (int i = 0; i < citizens.size(); i++) {
-            if(citizens.get(i).getAge()>65){
-                j++;
-            }
-        }
-        return j;
+  public int isHereRetired() {
+    int j = 0;
+    for (int i = 0; i < citizens.size(); i++) {
+      if (citizens.get(i).getAge() > 65) {
+        j++;
+      }
     }
+    return j;
+  }
 
   /**
    * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.

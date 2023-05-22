@@ -1,7 +1,6 @@
 package org.elte.model.people;
 
 import java.awt.geom.Point2D;
-
 import java.util.Random;
 
 import org.elte.model.zone.Resident;
@@ -27,37 +26,36 @@ public class Citizen {
   /** A polgár nyugdíjas-e. */
   private boolean isRetired = false;
 
-	/**
-	 * A Citizen osztály konstruktora.
-	 *
-	 * @param livesAt a polgár lakhelye
-	 * @param worksAt a polgár munkahelye
-	 * @param age a polgár életkora
-	 */
-	public Citizen(Zone livesAt, Zone worksAt, int age) {
-		Random rand = new Random();
-		this.livestAt = livesAt;
-		this.worksAt = worksAt;
-		this.age = age;
-		satisfaction = 50;
-		income = rand.nextInt(30);
-	}
-
+  /**
+   * A Citizen osztály konstruktora.
+   *
+   * @param livesAt a polgár lakhelye
+   * @param worksAt a polgár munkahelye
+   * @param age a polgár életkora
+   */
+  public Citizen(Zone livesAt, Zone worksAt, int age) {
+    Random rand = new Random();
+    this.livestAt = livesAt;
+    this.worksAt = worksAt;
+    this.age = age;
+    satisfaction = 50;
+    income = rand.nextInt(30);
+  }
 
   /** Ha egy polgár elhalálozik, az adatait alaphelyzetbe állítja. */
   public void resetCitizen(Resident r) {
-				System.out.println("Citizen resetted...");
-				satisfaction = 50;
-				income = 0;
-				age = 18;
-				isRetired = false;
-				livestAt=r;
-		}
-	/**
-	 * Megadja, hogy a polgár nyugdíjas-e.
-	 *
-	 * @return true, ha a polgár 65 év feletti, false ha nem
-	 */
+    System.out.println("Citizen resetted...");
+    satisfaction = 50;
+    income = 0;
+    age = 18;
+    isRetired = false;
+    livestAt = r;
+  }
+  /**
+   * Megadja, hogy a polgár nyugdíjas-e.
+   *
+   * @return true, ha a polgár 65 év feletti, false ha nem
+   */
   public boolean isRetired() {
     return isRetired;
   }
