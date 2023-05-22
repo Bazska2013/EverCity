@@ -63,6 +63,13 @@ public class Field {
   public int getFees() {
     return building.getTax();
   }
+
+  public int getRetiredPay() {
+    if (zone instanceof Resident) {
+      return ((Resident) zone).getRetiredPay();
+    }
+    return 0;
+  }
   /**
    * Visszaadja a mező szomszédait.
    *

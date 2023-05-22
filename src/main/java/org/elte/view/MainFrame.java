@@ -217,18 +217,19 @@ public class MainFrame {
           if (field.getZone() instanceof Resident) {
             for (Citizen cit : ((Resident) field.getZone()).getCitizens()) {
               cit.setAge(cit.getAge() + 1);
-              System.out.println(cit.getAge());
+              System.out.println(cit.getAge() + " " + cit.getLivestAt().toString());
               if (cit.getAge() >= 65) {
                 cit.setWorksAt(null);
                 cit.setRetired(true);
                 if (cit.getAge() > 65 + Math.floorMod(rand.nextInt(), 36)) {
-                  cit.resetCitizen();
+                  cit.resetCitizen(game.getRandomResident());
                 }
               }
             }
           }
         }
       }
+      System.out.println("---------");
       currentYear++;
     }
   }
