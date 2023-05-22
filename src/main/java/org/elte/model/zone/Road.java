@@ -63,4 +63,7 @@ public class Road extends Zone {
    */
   @Override
   public void addCitizen(Citizen citizen) {}
+
+  @Override
+  public void changeHappiness(int changes) {}
 }

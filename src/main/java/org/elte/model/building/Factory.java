@@ -11,7 +11,7 @@ public class Factory extends Building {
     buildingType = BuildingTypes.FACTORY;
     price = 10;
     yearlyFee = 50;
-    socialImpact = 10;
+    socialImpact = -5;
     impactRange = 10;
     width = 2;
     height = 2;

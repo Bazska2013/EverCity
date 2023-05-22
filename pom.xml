@@ -38,6 +38,30 @@
       <artifactId>spotless-maven-plugin</artifactId>
       <version>2.35.0</version>
     </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter</artifactId>
+          <version>5.8.1</version>
+          <scope>test</scope>
+      </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.1</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -48,7 +72,7 @@
         <version>2.35.0</version>
         <configuration>
           <java>
-            <ratchetFrom>f472c3f81d092f30002b7fae6f01829c325adc1a</ratchetFrom>
+            <ratchetFrom>d5b7404411330b1f0dfb0c07071f985267b7e2b4</ratchetFrom>
             <includes>
               <include>src/main/java/**/*.java</include>
               <include>src/test/java/**/*.java</include>

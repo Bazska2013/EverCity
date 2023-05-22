@@ -135,7 +135,7 @@ public abstract class Building {
     return false;
   }
 
-  public void create() {
+  public void create(String s) {
     if (isPlaceable()) {
       Game game = Game.getInstance();
       for (int i = 0; i < this.height; i++) {
@@ -144,6 +144,16 @@ public abstract class Building {
           Field currentField = game.getField(currentPosition);
           fieldPositions.add(currentPosition);
           currentField.setBuilding(this);
+          game.setBalance(game.getBalance() - price);
+        }
+      }
+      for (int i = Math.max(0, position.x() - impactRange);
+          i <= Math.min(position.x() + impactRange, game.getFields().length - 1);
+          i++) {
+        for (int j = Math.max(0, position.y() - impactRange);
+            j <= Math.min(position.y() + impactRange, game.getFields()[i].length - 1);
+            j++) {
+          game.getField(new Position(j, i)).getImpactedBy().add(this);
         }
       }
       game.setBalance(game.getBalance() - price);

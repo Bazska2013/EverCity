@@ -11,7 +11,7 @@ public class Police extends Building {
     buildingType = BuildingTypes.POLICE;
     price = 30;
     yearlyFee = 10;
-    socialImpact = 5;
+    socialImpact = 10;
     impactRange = 30;
     width = 1;
     height = 1;

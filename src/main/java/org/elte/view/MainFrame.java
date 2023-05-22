@@ -33,6 +33,7 @@ public class MainFrame {
       ScreenUtils.getScreenSize().height - ZONE_BOX_SIZE - TIME_PANEL_SIZE;
   private static final int RERENDER_INTERVAL = 100;
   public static final String BALANCE_CURRENCY = "$";
+  public static final String MOOD_MEASURE = "%";
   private final JFrame frame;
   private static GamePanel gamePanel;
   private final TimeButtons timeButtons;
@@ -49,6 +50,7 @@ public class MainFrame {
 
   private static MainFrame instance = null;
   private JMenu balanceMenu;
+  private JMenu moodLevel;
   private JMenu populationBar;
 
   private BalanceInfoBox balanceInfoBox;
@@ -97,8 +99,9 @@ public class MainFrame {
             RERENDER_INTERVAL,
             e -> {
               updateTimer();
-              gamePanel.repaint();
               updateBalance();
+              modifyMood();
+              gamePanel.repaint();
             });
 
     timer.start();
@@ -184,7 +187,10 @@ public class MainFrame {
 
     menuBar.add(Box.createHorizontalStrut(50));
 
-    JMenu moodLevel = new JMenu(Localization.getProp().getProperty("mood_level_text"));
+    moodLevel =
+        new JMenu(
+            Localization.getProp().getProperty("mood_level_text") + game.getMood() + MOOD_MEASURE);
+    balanceMenu.setEnabled(false);
     menuBar.add(moodLevel);
 
     menuBar.add(Box.createHorizontalGlue());
@@ -244,5 +250,13 @@ public class MainFrame {
     }
 
     populationBar.setText(Localization.getProp().getProperty("population") + " " + citizenNumber);
+  }
+
+  public void modifyMood() {
+    moodLevel.setText(
+        Localization.getProp().getProperty("mood_level_text")
+            + " "
+            + game.getMood()
+            + MOOD_MEASURE);
   }
 }

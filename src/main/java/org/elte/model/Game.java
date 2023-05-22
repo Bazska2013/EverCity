@@ -1,7 +1,11 @@
 package org.elte.model;
 
 import java.awt.*;
+import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.elte.model.building.*;
@@ -12,20 +16,27 @@ import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
+import org.elte.view.Localization;
 import org.elte.view.MainFrame;
 import org.elte.view.game.GamePanel;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class Game {
+@ToString
+public class Game implements Serializable {
+
+  @Serial private static final long serialVersionUID = 6529685098267757690L;
   private static final double CHANCE_TO_FIRE_NEIGHBOURS = 0.05;
   private static Game INSTANCE = null;
+  public static int STARTING_MONEY = 20000;
   static final int rows = 16;
   static final int columns = 32;
-  private int balance = 20000;
+  private int balance = STARTING_MONEY;
+  private int mood = 50;
   public Field[][] fields;
   public List<Firetruck> firetrucks = new ArrayList<>();
   // int balance;
@@ -49,10 +60,16 @@ public class Game {
               handleFire();
               searchUnemployedCitizens();
               searchPlaceToLive();
+              setMood(allHappiness());
               if (getGameTime().overAYear()) {
                 balance += yearlyTax();
                 allCosts.add("evesado" + "," + yearlyTax());
                 balance -= yearlyFee();
+                if (balance > 0) {
+                  GameTime.changeBalanceYears(false);
+                } else {
+                  GameTime.changeBalanceYears(true);
+                }
                 allCosts.add("evesfentdij" + "," + yearlyFee());
                 increaseForestImpacts();
                 System.out.println(allCosts.toString());
@@ -129,13 +146,19 @@ public class Game {
                 && connectedField.getBuilding().canBurn()) {
               if (Math.random() < CHANCE_TO_FIRE_NEIGHBOURS) {
                 connectedField.getBuilding().setBurning(true);
-                GamePanel.infoBox.reRender("Warning!", "A building is on fire!", Color.ORANGE);
+                GamePanel.infoBox.reRender(
+                    Localization.getProp().getProperty("warning"),
+                    Localization.getProp().getProperty("building_on_fire"),
+                    Color.ORANGE);
               }
             }
           }
           if (field.getBuilding().getHealth() < 1) {
             field.getBuilding().delete();
-            GamePanel.infoBox.reRender("Warning!", "A building burned down!", Color.RED);
+            GamePanel.infoBox.reRender(
+                Localization.getProp().getProperty("warning"),
+                Localization.getProp().getProperty("building_burned_down"),
+                Color.RED);
           }
         }
       }
@@ -149,7 +172,10 @@ public class Game {
         double randomNumber = Math.random();
         if (field.getBuilding().canBurn() && randomNumber < chanceToFire) {
           field.getBuilding().setBurning(true);
-          GamePanel.infoBox.reRender("Warning!", "A building is on fire!", Color.ORANGE);
+          GamePanel.infoBox.reRender(
+              Localization.getProp().getProperty("warning"),
+              Localization.getProp().getProperty("building_on_fire"),
+              Color.ORANGE);
         }
       }
     }
@@ -218,8 +244,102 @@ public class Game {
         fees += fields[i][j].getTaxes();
       }
     }
-    GamePanel.infoBox.reRender("Attention!", "Yearly TAX payed", Color.BLUE);
+    GamePanel.infoBox.reRender(
+        Localization.getProp().getProperty("attention"),
+        Localization.getProp().getProperty("evesado")
+            + " "
+            + Localization.getProp().getProperty("paid"),
+        Color.BLUE);
     return fees;
+  }
+
+  public static int indServBalance() {
+    int ind = 0;
+    int serv = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        /*if(fields[i][j].getZone()==Industry){
+          ind++;
+        }
+        if(fields[i][j].getZone()==Service){
+          serv++;
+        }*/
+      }
+    }
+    if (Math.abs(ind - serv) > 6) {
+      return -10;
+    } else if (Math.abs(ind - serv) > 3) {
+      return -5;
+    }
+    return 0;
+  }
+
+  public int allHappiness() {
+    int happy = 0;
+    int buildingnumber = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if (fields[i][j].getZone() instanceof Resident
+            || fields[i][j].getZone() instanceof Industry
+            || fields[i][j].getZone() instanceof Service) {
+          buildingnumber++;
+        }
+        fields[i][j].affects();
+        happy += fields[i][j].getZone().getHapiness();
+      }
+    }
+    if (buildingnumber == 0 || happy / buildingnumber <= 0) {
+      return 0;
+    }
+    if (happy / buildingnumber >= 100) {
+      return 100;
+    }
+    return (happy / buildingnumber);
+  }
+
+  public int cityCapacity() {
+    int count = 0;
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        count += fields[i][j].getZone().getCapacity();
+      }
+    }
+    return count;
+  }
+
+  public int populationRate() {
+    return 0;
+  }
+
+  public int balanceAffect() {
+    if (balance < 0) {
+      if ((balance % 10) == 0) {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 5;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 10;
+        } else {
+          return 15;
+        }
+      } else if ((balance % 100) == 0) {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 10;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 15;
+        } else {
+          return 20;
+        }
+      } else {
+        if (GameTime.affectBalanceYears() == 0) {
+          return 15;
+        } else if (GameTime.affectBalanceYears() == 3) {
+          return 20;
+        } else {
+          return 25;
+        }
+      }
+    }
+    return 0;
   }
 
   public List<Zone> findNotFullWorkplaces() {
@@ -240,26 +360,35 @@ public class Game {
   }
 
   public void searchUnemployedCitizens() {
+    List<Citizen> joblessCitizens = new ArrayList<>();
+    List<Zone> emptyWorkplaces = findNotFullWorkplaces();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (fields[i][j].getZone() instanceof Resident) {
-          List<Citizen> citizens = ((Resident) fields[i][j].getZone()).getCitizens();
-          List<Zone> workplaces = findNotFullWorkplaces();
-          Random rand = new Random();
-          if (workplaces.size() != 0 && citizens != null) {
-            for (Citizen c : citizens) {
-              if (c.getWorksAt() == null) {
-                while (true) {
-                  int rand_w = rand.nextInt(workplaces.size());
-                  if (workplaces.get(rand_w).getCitizenNumber()
-                      < workplaces.get(rand_w).getCapacity()) {
-                    c.setWorksAt(workplaces.get(rand_w));
-                    workplaces.get(rand_w).addCitizen(c);
-                    break;
-                  }
-                }
-              }
+        Field field = fields[i][j];
+        if (field.getZone() instanceof Resident && field.getBuilding() instanceof House) {
+          for (Citizen c : ((Resident) field.getZone()).getCitizens()) {
+            if (c.getWorksAt() == null) {
+              joblessCitizens.add(c);
             }
+          }
+        }
+      }
+    }
+    assignWorkplaces(joblessCitizens, emptyWorkplaces);
+  }
+
+  public void assignWorkplaces(List<Citizen> joblessCitizens, List<Zone> emptyWorkplaces) {
+    if (joblessCitizens != null && joblessCitizens.size() != 0) {
+      for (Citizen c : joblessCitizens) {
+        if (emptyWorkplaces == null || emptyWorkplaces.size() == 0) {
+          break;
+        } else {
+          Random rand = new Random();
+          int rand_i = rand.nextInt(emptyWorkplaces.size());
+          if (emptyWorkplaces.get(rand_i).getCapacity()
+              > emptyWorkplaces.get(rand_i).getWorkers().size()) {
+            c.setWorksAt(emptyWorkplaces.get(rand_i));
+            emptyWorkplaces.get(rand_i).addCitizen(c);
           }
         }
       }
@@ -273,7 +402,7 @@ public class Game {
   public void initEarthQuake() {
     Game game = Game.getInstance();
     Random rand = new Random();
-    int number = rand.nextInt(0, 1000);
+    int number = rand.nextInt(0, 100000);
     int house_counter = 0;
     if (number < 50) {
       for (Field[] fieldRow : this.fields) {
@@ -300,7 +429,10 @@ public class Game {
           }
         }
       }
-      GamePanel.infoBox.reRender("Earthquake!", house_counter + " house collapsed.", Color.RED);
+      GamePanel.infoBox.reRender(
+          Localization.getProp().getProperty("earthquake"),
+          house_counter + " " + Localization.getProp().getProperty("house_collapsed"),
+          Color.RED);
     }
   }
 

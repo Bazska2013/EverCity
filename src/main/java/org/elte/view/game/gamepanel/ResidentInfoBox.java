@@ -87,10 +87,6 @@ public class ResidentInfoBox extends JPanel {
                 setLabelProperties(Localization.getProp().getProperty("worksat") + ": ", workplace);
             contentPanel.add(worksAt);
           }
-          JLabel income =
-              setLabelProperties(
-                  Localization.getProp().getProperty("earns") + " ", c.getIncome() + "$");
-          contentPanel.add(income);
           JLabel satisfaction =
               setLabelProperties(
                   Localization.getProp().getProperty("mood") + ": ", c.getSatisfaction() + "%");

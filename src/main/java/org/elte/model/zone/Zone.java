@@ -57,6 +57,7 @@ public abstract class Zone {
       Game game = Game.getInstance();
       game.getField(this.position).setZone(this);
       game.setBalance(game.getBalance() - price);
+      System.out.println(s);
       game.getAllCosts().add(s + "," + price);
     }
   }
