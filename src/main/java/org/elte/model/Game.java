@@ -507,15 +507,15 @@ public class Game implements Serializable {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Resident
-                && fields[i][j].getBuilding() instanceof House) {
+            && fields[i][j].getBuilding() instanceof House) {
           if (fields[i][j].getZone().getCitizenNumber() < fields[i][j].getZone().getCapacity()) {
             fields[i][j]
-                    .getZone()
-                    .addCitizen(
-                            new Citizen(
-                                    fields[i][j].getZone(),
-                                    null,
-                                    Math.floorMod(new Random().nextInt(), 43) + 18));
+                .getZone()
+                .addCitizen(
+                    new Citizen(
+                        fields[i][j].getZone(),
+                        null,
+                        Math.floorMod(new Random().nextInt(), 43) + 18));
             MainFrame mainframe = MainFrame.getInstance();
             mainframe.repaintCitizenNumber();
           }
@@ -541,7 +541,7 @@ public class Game implements Serializable {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         if (fields[i][j].getZone() instanceof Resident
-                && fields[i][j].getBuilding() instanceof House) {
+            && fields[i][j].getBuilding() instanceof House) {
           for (Citizen c : ((Resident) fields[i][j].getZone()).getCitizens()) {
             if (c.getWorksAt() != null) {
               if (!fields[i][j].isConnectedWith(c.getWorksAt().getPosition())) {
@@ -554,6 +554,7 @@ public class Game implements Serializable {
     }
     return true;
   }
+
   public void makeResidents() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {

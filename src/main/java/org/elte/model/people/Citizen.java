@@ -4,10 +4,6 @@ import java.awt.geom.Point2D;
 
 import java.util.Random;
 
-import org.elte.model.zone.Zone;
-
-import lombok.Getter;
-import lombok.Setter;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
 

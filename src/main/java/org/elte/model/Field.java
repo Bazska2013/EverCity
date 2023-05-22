@@ -10,7 +10,6 @@ import org.elte.model.people.Citizen;
 import org.elte.model.zone.Industry;
 import org.elte.model.zone.Resident;
 import org.elte.model.zone.Service;
-import org.elte.model.zone.Resident;
 import org.elte.model.zone.Zone;
 import org.elte.utils.BFSRunner;
 import org.elte.utils.Position;
