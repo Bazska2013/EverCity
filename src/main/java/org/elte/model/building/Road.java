@@ -24,25 +24,30 @@ public class Road extends Building {
 				return true;
 		}
 
-		public boolean isDeletable() {
-				return true;
-		}
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.Position;
 
-		public boolean isConnected() {
-				return true;
-		}
-
-		public boolean upgradeable() {
-				return false;
-		}
-
-		public boolean isBurning() {
-				return false;
-		}
-
-		public boolean isEmpty() {
-				return false;
-		}
+/**
+ * A Road osztály az utakat reprezentálja a játékban. Ez az osztály a Building osztályból származik.
+ */
+public class Road extends Building implements Serializable {
+  /**
+   * A Road osztály konstruktora.
+   *
+   * @param position az épület pozíciója
+   */
+  public Road(Position position) {
+    this.position = position;
+    buildingType = BuildingTypes.ROAD;
+    price = 20;
+    yearlyFee = 5;
+    socialImpact = 0;
+    impactRange = 0;
+    chanceToFire = 0;
+    chanceToCollapse = 0;
+    width = 1;
+    height = 1;
+  }
 
 		@Override
 		public boolean isRoad() {

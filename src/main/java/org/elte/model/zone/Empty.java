@@ -4,7 +4,9 @@ import org.elte.view.MainFrame;
 
 import java.util.List;
 
-public class Empty extends Zone {
+import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
+import org.elte.utils.Position;
 
     public Empty(int price) {
         this.capacity = 0;

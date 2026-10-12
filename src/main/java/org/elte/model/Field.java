@@ -1,11 +1,25 @@
 package org.elte.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.elte.model.building.Building;
 import org.elte.model.building.Empty;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Industry;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
 import org.elte.model.zone.Zone;
+import org.elte.utils.BFSRunner;
+import org.elte.utils.Position;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/** A Field osztály reprezentál egy mezőt a játékban. */
 @Getter
 @Setter
 public class Field {

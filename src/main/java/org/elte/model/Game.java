@@ -1,14 +1,28 @@
 package org.elte.model;
 
-import lombok.Getter;
-import org.elte.model.building.House;
-import org.elte.model.building.Road;
+import java.awt.*;
+import java.io.*;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.elte.model.building.*;
+import org.elte.model.enums.FieldTypes;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Industry;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
+import org.elte.model.zone.Zone;
 import org.elte.utils.Position;
 import org.elte.view.MainFrame;
 
-import java.awt.*;
-import java.util.Optional;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+/** A játékot reprezentáló osztály. */
 @Getter
 public class Game {
 		public static Game INSTANCE = null;

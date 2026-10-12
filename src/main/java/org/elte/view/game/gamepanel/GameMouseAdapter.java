@@ -1,0 +1,134 @@
+package org.elte.view.game.gamepanel;
+
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import org.elte.model.Field;
+import org.elte.model.Game;
+import org.elte.model.building.*;
+import org.elte.model.zone.Industry;
+import org.elte.model.zone.Resident;
+import org.elte.model.zone.Service;
+import org.elte.model.zone.Zone;
+import org.elte.utils.Position;
+import org.elte.view.Localization;
+import org.elte.view.MainFrame;
+import org.elte.view.game.BuildablePanel;
+import org.elte.view.game.GamePanel;
+
+/** A GameMouseAdapter osztály egy egér eseménykezelőt reprezentál a játékpanelen. */
+public class GameMouseAdapter extends MouseAdapter {
+  Game game;
+  GamePanel gamePanel;
+  FieldInfoBox fieldInfoBox;
+  ResidentInfoBox residentInfoBox;
+  InfoBox infoBox;
+
+  /** Konstruktora a GameMouseAdapter osztálynak. */
+  public GameMouseAdapter(
+      Game game,
+      GamePanel gamePanel,
+      FieldInfoBox fieldInfoBox,
+      InfoBox infoBox,
+      ResidentInfoBox residentInfoBox) {
+    this.fieldInfoBox = fieldInfoBox;
+    this.residentInfoBox = residentInfoBox;
+    this.infoBox = infoBox;
+    this.game = game;
+    this.gamePanel = gamePanel;
+  }
+  /** Kezelei a mouseClicked eventeket. */
+  public void mouseClicked(MouseEvent e) {
+    int current_x = (int) Math.floor((e.getX()) / GamePanel.FIELD_SIZE);
+    int current_y = (int) Math.floor((e.getY()) / GamePanel.FIELD_SIZE);
+
+    System.out.println("Clicked - X: " + current_x + ", Y: " + current_y);
+
+    try {
+      fieldInfoBox.setSelectedPosition(null);
+      residentInfoBox.setSelectedPosition(null);
+      Position currentPosition = new Position(current_x, current_y);
+      if (BuildablePanel.getSelectedFieldZoneType() != null) {
+        placeZone(currentPosition);
+        return;
+      }
+      if (BuildablePanel.getSelectedBuildingType() != null) {
+        placeBuilding(currentPosition);
+        return;
+      }
+      fieldInfoBox.setSelectedPosition(currentPosition);
+      residentInfoBox.setSelectedPosition(currentPosition);
+
+      gamePanel.repaint();
+    } catch (ArrayIndexOutOfBoundsException ex) {
+      infoBox.reRender(
+          Localization.getProp().getProperty("warning"),
+          Localization.getProp().getProperty("clicked_outside"),
+          Color.RED);
+      System.out.println("Clicked outside of playing area...");
+      ex.printStackTrace();
+    }
+  }
+  /**
+   * Lehelyez épületet, adott pozícióra.
+   *
+   * @param position az pozíciója
+   */
+  private void placeBuilding(Position position) {
+    Field field = game.getField(position);
+    Building buildingType = new org.elte.model.building.Empty(position);
+    switch (BuildablePanel.getSelectedBuildingType()) {
+      case ROAD -> buildingType = new Road(position);
+      case EMPTY -> field.getBuilding().delete();
+      case FACTORY -> buildingType = new Factory(position);
+      case FIRE_STATION -> buildingType = new FireStation(position);
+      case FOREST1 -> buildingType = new Forest(position);
+      case POLICE -> buildingType = new Police(position);
+      case STADIUM -> buildingType = new Stadium(position);
+    }
+    if (buildingType.isPlaceable() && !buildingType.isEmpty()) {
+      if (buildingType instanceof Road) buildingType.create("road");
+      if (buildingType instanceof Empty) buildingType.create("zone_deleting");
+      if (buildingType instanceof Factory) buildingType.create("factory");
+      if (buildingType instanceof FireStation) buildingType.create("fire_station");
+      if (buildingType instanceof Forest) buildingType.create("forest");
+      if (buildingType instanceof Police) buildingType.create("police");
+      if (buildingType instanceof Stadium) buildingType.create("stadium");
+    } else {
+      if (!buildingType.isEmpty()) {
+        infoBox.reRender(
+            Localization.getProp().getProperty("error"),
+            String.format(
+                Localization.getProp().getProperty("cant_be_placed"),
+                Localization.getProp()
+                    .getProperty(buildingType.getBuildingType().name().toLowerCase())),
+            Color.RED);
+        System.out.println(buildingType.getBuildingType().name() + " can't be placed");
+      }
+    }
+
+    if (buildingType instanceof Road) field.setZone(new org.elte.model.zone.Road(position));
+  }
+  /**
+   * Lehelyez zónát, adott pozícióra.
+   *
+   * @param position az pozíciója
+   */
+  private void placeZone(Position position) {
+    Zone newZone = null;
+    switch (BuildablePanel.getSelectedFieldZoneType()) {
+      case SERVICE -> newZone = new Service(position);
+      case INDUSTRY -> newZone = new Industry(position);
+      case RESIDENT -> newZone = new Resident(position);
+    }
+    if (newZone != null && newZone.isPlaceable()) {
+      if (newZone instanceof Resident) {
+        MainFrame.getInstance().repaintCitizenNumber();
+        newZone.create("resident_zone");
+      }
+      if (newZone instanceof Industry) newZone.create("industry_zone");
+      if (newZone instanceof Service) newZone.create("service_zone");
+    }
+  }
+}

@@ -2,13 +2,20 @@ package org.elte.view;
 
 import lombok.Setter;
 import org.elte.model.Game;
+import org.elte.model.enums.LanguageEnum;
+import org.elte.model.people.Citizen;
+import org.elte.model.zone.Resident;
+import org.elte.utils.Position;
 import org.elte.utils.ScreenUtils;
 import org.elte.view.game.BuildablePanel;
 import org.elte.view.game.GamePanel;
 import org.elte.view.game.TimeButtons;
+import org.elte.view.game.gamepanel.BalanceInfoBox;
+import org.elte.view.game.gamepanel.FieldInfoBox;
+import org.elte.view.game.gamepanel.InfoBox;
+import org.elte.view.game.gamepanel.ResidentInfoBox;
 
-import javax.swing.*;
-import java.awt.*;
+import lombok.Setter;
 
 @Setter
 

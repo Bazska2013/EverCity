@@ -1,12 +1,15 @@
 package org.elte.model;
 
+import java.awt.event.ActionListener;
+import java.io.Serializable;
+import java.time.LocalDate;
+import javax.swing.*;
+
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-
+/** A játék időtartamát reprezentáló osztály, amely a játék időmúlását és dátumát kezeli. */
 @Getter
 @Setter
 public class GameTime extends Timer {
