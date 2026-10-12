@@ -1,7 +1,7 @@
 package org.elte.model.zone;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import org.elte.view.MainFrame;
+
 import java.util.List;
 
 import org.elte.model.Game;
@@ -10,70 +10,13 @@ import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-/**
- * A Service osztály a szolgáltatási zónákat reprezentálja a játékban. Ez az osztály a Zone
- * osztályból származik, és implementálja az absztrakt metódusokat.
- */
-@Getter
-@NoArgsConstructor
-public class Service extends Zone implements Serializable {
-
-  /** A zónában dolgozó polgárok listája. */
-  List<Citizen> workers = new ArrayList<>();
-
-  /**
-   * A Service osztály konstruktora.
-   *
-   * @param position a terület pozíciója
-   */
-  public Service(Position position) {
-    super(position);
-    price = 15;
-    capacity = 4;
-    hapiness = 50;
-    tax = 5;
-    level = 1;
-    fieldType = FieldTypes.SERVICE;
-  }
-  /**
-   * Ellenőrzi, hogy a zóna törölhető-e.
-   *
-   * @return true, ha a zóna törölhető, egyébként false
-   */
-  @Override
-  public boolean isDeletable() {
-    return false;
-  }
-  /**
-   * Ellenőrzi, hogy a zóna üres-e.
-   *
-   * @return true, ha a zóna üres, egyébként false
-   */
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
-  /**
-   * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.
-   *
-   * @return a zónára vonatkozó adó
-   */
-  @Override
-  public int getTax() {
-    return tax * capacity;
-  }
-  /**
-   * Visszaadja a zónán dolgozó polgárok számát.
-   *
-   * @return a zónán dolgozó polgárok száma
-   */
-  @Override
-  public int getCitizenNumber() {
-    if (workers != null) {
-      return workers.size();
+    public Service(int capacity, int hapiness, int tax, int price, int level) {
+        this.capacity = capacity;
+        this.hapiness = hapiness;
+        this.tax = tax;
+        this.level = level;
+        this.price = price;
+        payment();
     }
     return 0;
   }
@@ -144,9 +87,13 @@ public class Service extends Zone implements Serializable {
     for (Citizen c : workers) {
       ch += c.workHomeDistance();
     }
-    Game game = Game.getInstance();
-    ch -= game.balanceAffect();
-    ch += Game.indServBalance();
-    this.hapiness = (50 + (ch + changes));
-  }
+    @Override
+    public int getTax() {
+        return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()-price);
+    }
+
 }

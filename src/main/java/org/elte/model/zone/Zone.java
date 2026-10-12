@@ -130,5 +130,7 @@ public abstract class Zone implements Serializable {
    */
   public void setWorkers(List<Citizen> citizens) {}
 
-  public abstract void changeHappiness(int changes);
+    public abstract int getTax();
+    public abstract void payment();
+
 }

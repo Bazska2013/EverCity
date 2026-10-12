@@ -1,6 +1,27 @@
 package org.elte.model.building;
 
-import java.io.Serializable;
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
+
+public class Forest extends Building {
+
+		int size;
+
+		public Forest() {
+				buildingType = BuildingTypes.FOREST;
+				price = 10;
+				yearlyFee = 5;
+				socialImpact = 10;
+				impactRange = 5;
+				width = 1;
+				height = 1;
+				chanceToFire = 1;
+				burning = false;
+				this.size = 1;
+				imageResource = ImageResource.FOREST;
+				payment();
+		}
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
@@ -68,39 +89,13 @@ public class Forest extends Building implements Serializable {
     return size;
   }
 
-  /**
-   * Beállítja az erdő méretét.
-   *
-   * @param size az erdő mérete, amire be kell állítani
-   */
-  public void setSize(int size) {
-    this.size = Math.min(10, size);
-    if (this.size == 2) {
-      this.buildingType = BuildingTypes.FOREST2;
-    }
-    if (this.size == 3) {
-      this.buildingType = BuildingTypes.FOREST3;
-    }
-    if (this.size == 4) {
-      this.buildingType = BuildingTypes.FOREST4;
-    }
-    if (this.size == 5) {
-      this.buildingType = BuildingTypes.FOREST5;
-    }
-    if (this.size == 6) {
-      this.buildingType = BuildingTypes.FOREST6;
-    }
-    if (this.size == 7) {
-      this.buildingType = BuildingTypes.FOREST7;
-    }
-    if (this.size == 8) {
-      this.buildingType = BuildingTypes.FOREST8;
-    }
-    if (this.size == 9) {
-      this.buildingType = BuildingTypes.FOREST9;
-    }
-    if (this.size == 10) {
-      this.buildingType = BuildingTypes.FOREST10;
-    }
-  }
+		public boolean isEmpty() {
+				return false;
+		}
+
+		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

@@ -1,6 +1,12 @@
 package org.elte.model.building;
 
-import java.io.Serializable;
+import org.elte.view.MainFrame;
+
+public class House extends Building {
+		@Override
+		public boolean isPlaceable() {
+				return false;
+		}
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
@@ -31,34 +37,23 @@ public class House extends Building implements Serializable {
     return hasEnoughSpace();
   }
 
-  @Override
-  public boolean isConnected() {
-    return false;
-  }
-  /**
-   * Megadja, hogy az épület fejleszthető-e.
-   *
-   * @return true, ha az épület fejleszthető, különben false.
-   */
-  @Override
-  public boolean upgradeable() {
-    return false;
-  }
-  /**
-   * Megadja, hogy van-e épület a zónán.
-   *
-   * @return true, ha nincs épület, különben false.
-   */
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
-  /**
-   * Visszaadja, hogy a épület éves fenttartási díjját.
-   *
-   * @return az épületre vonatkozó éves fenttartási díj
-   */
-  public int getTax() {
-    return yearlyFee;
-  }
+		@Override
+		public boolean upgradeable() {
+				return false;
+		}
+
+		@Override
+		public boolean isBurning() {
+				return false;
+		}
+
+		@Override
+		public boolean isEmpty() {
+				return false;
+		}
+
+		public int getTax(){return yearlyFee;}
+
+		public void payment(){}
+
 }

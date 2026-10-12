@@ -1,6 +1,28 @@
 package org.elte.model.building;
 
-import java.io.Serializable;
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
+
+public class Empty extends Building {
+
+		public Empty() {
+				buildingType = BuildingTypes.EMPTY;
+				price = 0;
+				yearlyFee = 0;
+				socialImpact = 0;
+				impactRange = 0;
+				width = 1;
+				height = 1;
+				chanceToFire = 0;
+				burning = false;
+				imageResource = ImageResource.GRASS;
+				payment();
+		}
+
+		public boolean isPlaceable() {
+				return true;
+		}
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
@@ -38,35 +60,13 @@ public class Empty extends Building implements Serializable {
     return hasBuildingAtLeastOneSide();
   }
 
-  public boolean isConnected() {
-    return false;
-  }
-  /**
-   * Megadja, hogy az épület fejleszthető-e.
-   *
-   * @return true, ha az épület fejleszthető, különben false.
-   */
-  public boolean upgradeable() {
-    return false;
-  }
-  /** Visszaadja, hogy az épület ég-e. */
-  public boolean isBurning() {
-    return false;
-  }
-  /**
-   * Megadja, hogy van-e épület a zónán.
-   *
-   * @return true, ha nincs épület, különben false.
-   */
-  public boolean isEmpty() {
-    return true;
-  }
-  /**
-   * Visszaadja, hogy a épület éves fenttartási díjját.
-   *
-   * @return az épületre vonatkozó éves fenttartási díj
-   */
-  public int getTax() {
-    return yearlyFee;
-  }
+		public boolean isEmpty() {
+				return true;
+		}
+
+		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

@@ -8,7 +8,7 @@ import org.elte.model.Game;
 import org.elte.model.enums.BuildingTypes;
 import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
-import org.elte.utils.Position;
+import org.elte.view.MainFrame;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -65,27 +65,14 @@ public class Resident extends Zone implements Serializable {
     return j;
   }
 
-  /**
-   * Visszaadja, hogy a zónán lakók mennyi adót kötelesek fizetnek.
-   *
-   * @return a zónára vonatkozó adó
-   */
-  @Override
-  public int getTax() {
-    if (isHereRetired() == 0) {
-      return tax * capacity;
-    }
-    return tax * (capacity - isHereRetired());
-  }
-  /**
-   * Visszaadja a zónán lakó polgárok számát.
-   *
-   * @return a zónán dolgozó polgárok száma
-   */
-  @Override
-  public int getCitizenNumber() {
-    if (citizens != null) {
-      return citizens.size();
+    public Resident(int capacity, int hapiness, int tax, int price, int level, List<Citizen> citizens) {
+        this.capacity = capacity;
+        this.citizens = citizens;
+        this.hapiness = hapiness;
+        this.tax = tax;
+        this.level = level;
+        this.price = price;
+        payment();
     }
     return 0;
   }
@@ -167,5 +154,12 @@ public class Resident extends Zone implements Serializable {
         c.setSatisfaction((50 + (ch + changes)) + c.workHomeDistance());
       }
     }
-  }
+    @Override
+    public int getTax() {
+        return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()-price);
+    }
 }

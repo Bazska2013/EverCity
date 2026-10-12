@@ -1,7 +1,7 @@
 package org.elte.model.zone;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import org.elte.view.MainFrame;
+
 import java.util.List;
 
 import org.elte.model.Game;
@@ -10,50 +10,14 @@ import org.elte.model.enums.FieldTypes;
 import org.elte.model.people.Citizen;
 import org.elte.utils.Position;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-/**
- * A Industry osztály az ipari zónákat reprezentálja a játékban. Ez az osztály a Zone osztályból
- * származik, és implementálja az absztrakt metódusokat.
- */
-@Getter
-@NoArgsConstructor
-public class Industry extends Zone implements Serializable {
-  /** A zónában dolgozó polgárok listája. */
-  List<Citizen> workers = new ArrayList<>();
-  /**
-   * A Industry osztály konstruktora.
-   *
-   * @param position a terület pozíciója
-   */
-  public Industry(Position position) {
-    super(position);
-    price = 15;
-    capacity = 8;
-    hapiness = 50;
-    tax = 5;
-    level = 1;
-    fieldType = FieldTypes.INDUSTRY;
-  }
-  /**
-   * Ellenőrzi, hogy a zóna törölhető-e.
-   *
-   * @return true, ha a zóna törölhető, egyébként false
-   */
-  @Override
-  public boolean isDeletable() {
-    return false;
-  }
-  /**
-   * Ellenőrzi, hogy a zóna üres-e.
-   *
-   * @return true, ha a zóna üres, egyébként false
-   */
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
+    public Industry(int capacity, int hapiness, int tax, int price, int level){
+        this.capacity = capacity;
+        this.hapiness = hapiness;
+        this.tax = tax;
+        this.level = level;
+        this.price = price;
+        payment();
+    }
 
   @Override
   public int getTax() {
@@ -137,9 +101,12 @@ public class Industry extends Zone implements Serializable {
     for (Citizen c : workers) {
       ch += c.workHomeDistance();
     }
-    Game game = Game.getInstance();
-    ch -= game.balanceAffect();
-    ch += Game.indServBalance();
-    this.hapiness = (50 + (ch + changes));
-  }
+    @Override
+    public int getTax() {
+        return tax*capacity;
+    }
+    @Override
+    public void payment(){
+        MainFrame.SetBalance(MainFrame.GetBalance()-price);
+    }
 }

@@ -1,6 +1,28 @@
 package org.elte.model.building;
 
-import java.io.Serializable;
+import org.elte.model.enums.BuildingTypes;
+import org.elte.utils.ImageResource;
+import org.elte.view.MainFrame;
+
+public class Stadium extends Building {
+
+		public Stadium() {
+				buildingType = BuildingTypes.STADIUM;
+				price = 100;
+				yearlyFee = 20;
+				socialImpact = 20;
+				impactRange = 10;
+				width = 2;
+				height = 2;
+				chanceToFire = 1;
+				burning = false;
+				imageResource = ImageResource.STADIUM;
+				payment();
+		}
+
+		public boolean isPlaceable() {
+				return true;
+		}
 
 import org.elte.model.enums.BuildingTypes;
 import org.elte.utils.Position;
@@ -38,39 +60,13 @@ public class Stadium extends Building implements Serializable {
     return hasEnoughSpace() && hasRoadAtLeastOneSide();
   }
 
-  public boolean isConnected() {
-    return true;
-  }
-  /**
-   * Megadja, hogy az épület fejleszthető-e.
-   *
-   * @return true, ha az épület fejleszthető, különben false.
-   */
-  public boolean upgradeable() {
-    return false;
-  }
-  /**
-   * Megadja, hogy az épület ég-e.
-   *
-   * @return true, ha az épület ég, különben false.
-   */
-  public boolean isBurning() {
-    return burning;
-  }
-  /**
-   * Megadja, hogy van-e épület a zónán.
-   *
-   * @return true, ha nincs épület, különben false.
-   */
-  public boolean isEmpty() {
-    return false;
-  }
-  /**
-   * Visszaadja, hogy a épület éves fenttartási díjját.
-   *
-   * @return az épületre vonatkozó éves fenttartási díj
-   */
-  public int getTax() {
-    return yearlyFee;
-  }
+		public boolean isEmpty() {
+				return false;
+		}
+
+		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

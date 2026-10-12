@@ -225,49 +225,10 @@ public abstract class Building implements Serializable {
                   + Math.round(game.getField(position).getBuilding().getPrice() / 2.f));
     }
 
-    if (isRoad()) {
-      if (!hasBuildingAtLeastOneSide()) {
-        fieldPositions.forEach(
-            pos -> {
-              Field currentField = game.getField(pos);
-              currentField.setBuilding(new Empty(pos));
-            });
-        game.getField(position).setBuilding((new Empty(position)));
-        if (!game.everythingStillConnected()) {
-          fieldPositions.forEach(
-              pos -> {
-                Field currentField = game.getField(pos);
-                currentField.setBuilding(new Road(pos));
-              });
-          game.getField(position).setBuilding((new Road(position)));
-        }
-      }
-    } else if (!(game.getField(position).getZone() instanceof org.elte.model.zone.Empty)) {
-      fieldPositions.forEach(
-          pos -> {
-            Field currentField = game.getField(pos);
-            currentField.removeCitizens();
-            currentField.setBuilding(new Empty(pos));
-            MainFrame mainFrame = MainFrame.getInstance();
-            mainFrame.repaintCitizenNumber();
-          });
-      game.getField(position).removeCitizens();
-      MainFrame mainFrame = MainFrame.getInstance();
-      mainFrame.repaintCitizenNumber();
-      game.getField(position).setBuilding((new Empty(position)));
-    } else {
-      fieldPositions.forEach(
-          pos -> {
-            Field currentField = game.getField(pos);
-            currentField.setBuilding(new Empty(pos));
-          });
-      game.getField(position).setBuilding((new Empty(position)));
-    }
-  }
-  /**
-   * Visszaadja, hogy a épület éves fenttartási díjját.
-   *
-   * @return az épületre vonatkozó éves fenttartási díj
-   */
-  public abstract int getTax();
+		public boolean isRoad() {
+				return false;
+		}
+
+		public abstract int getTax();
+		public abstract void payment();
 }

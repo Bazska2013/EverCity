@@ -1,6 +1,25 @@
 package org.elte.model.building;
 
-import java.io.Serializable;
+import org.elte.model.enums.BuildingTypes;
+import org.elte.view.MainFrame;
+
+public class FireStation extends Building {
+		public FireStation() {
+				buildingType = BuildingTypes.FIRE_STATION;
+				price = 30;
+				yearlyFee = 10;
+				socialImpact = 5;
+				impactRange = 30;
+				width = 1;
+				height = 1;
+				chanceToFire = 0;
+				burning = false;
+				payment();
+		}
+
+		public boolean isPlaceable() {
+				return true;
+		}
 
 import org.elte.model.Firetruck;
 import org.elte.model.Game;
@@ -46,71 +65,13 @@ public class FireStation extends Building implements Serializable {
     return hasEnoughSpace() && hasRoadAtLeastOneSide();
   }
 
-  @Override
-  public boolean isConnected() {
-    return false;
-  }
-  /**
-   * Megadja, hogy az épület fejleszthető-e.
-   *
-   * @return true, ha az épület fejleszthető, különben false.
-   */
-  public boolean upgradeable() {
-    return true;
-  }
-  /** Visszaadja, hogy az épület ég-e. */
-  public boolean isBurning() {
-    return false;
-  }
-  /**
-   * Megadja, hogy az épület tűzoltóállomás-e.
-   *
-   * @return true, ha az épület tűzoltóállomas, különben false.
-   */
-  @Override
-  public boolean isFireStation() {
-    return true;
-  }
-  /**
-   * Megadja, hogy van-e épület a zónán.
-   *
-   * @return true, ha nincs épület, különben false.
-   */
-  @Override
-  public boolean isEmpty() {
-    return false;
-  }
-  /** Törli az épületet. */
-  @Override
-  public void delete() {
-    super.delete();
-    Game.getInstance().getFiretrucks().remove(firetruck);
-    // List<FiretruckView> oldFiretruckViews = GamePanel.gamePanel.getFiretruckViews();
-    // FiretruckView oldFiretruckView = oldFiretruckViews.stream().filter(item ->
-    // item.getFiretruck().equals(firetruck)).findFirst().get();
-    // GamePanel.gamePanel.remove(oldFiretruckView);
-    // GamePanel.gamePanel.setFiretruckViews(oldFiretruckViews.stream().filter(item ->
-    // !item.getFiretruck().equals(firetruck)).collect(Collectors.toList()));
-    // System.out.println(Game.getInstance().getFiretrucks());
-  }
-  /** Létrehozza az épületet, ha lehelyezhető. */
-  @Override
-  public void create(String s) {
-    if (this.isPlaceable()) {
-      super.create("fire_station");
-      firetruck = new Firetruck(this);
-      Game.getInstance().getFiretrucks().add(firetruck);
-      // FiretruckView firetruckView = new FiretruckView(firetruck);
-      // GamePanel.gamePanel.add(firetruckView);
-      // GamePanel.gamePanel.getFiretruckViews().add(firetruckView);
-    }
-  }
-  /**
-   * Visszaadja, hogy a épület éves fenttartási díjját.
-   *
-   * @return az épületre vonatkozó éves fenttartási díj
-   */
-  public int getTax() {
-    return yearlyFee;
-  }
+		public boolean isEmpty() {
+				return false;
+		}
+
+		public int getTax(){return yearlyFee;}
+
+		public void payment(){
+			MainFrame.SetBalance(MainFrame.GetBalance()-price);
+		}
 }

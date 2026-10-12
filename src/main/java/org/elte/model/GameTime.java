@@ -12,77 +12,37 @@ import lombok.ToString;
 /** A játék időtartamát reprezentáló osztály, amely a játék időmúlását és dátumát kezeli. */
 @Getter
 @Setter
-@ToString
-public class GameTime extends Timer implements Serializable {
-  private int passedDays = 0;
-  private static final int START_YEAR = 2023;
-  private static int negativeBalanceYears = 0;
-  /**
-   * Konstruktor a GameTime objektum létrehozásához.
-   *
-   * @param listener az eseménykezelő, amelyet a Timer eseményeihez rendelünk
-   */
-  public GameTime(ActionListener listener) {
-    super(TimerSpeed.ONE.getValue(), listener);
-    super.addActionListener(e -> passedDays++);
-    super.setRepeats(true);
-    super.start();
-  }
-  /**
-   * Beállítja a Timer sebességét a megadott TimerSpeed érték alapján.
-   *
-   * @param timerSpeed a Timer sebességének beállításához használt TimerSpeed érték
-   */
-  public void setTimerSpeed(TimerSpeed timerSpeed) {
-    if (timerSpeed.getValue() < 0) {
-      this.stop();
-      return;
-    }
-    if (!this.isRunning()) {
-      this.restart();
-    }
-    this.setDelay(timerSpeed.getValue());
-  }
+public class GameTime extends Timer {
+		private int passedDays = 0;
+		private static final int START_YEAR = 2023;
 
-  @Override
-  public String toString() {
-    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays()).toString();
-  }
+		public GameTime(ActionListener listener) {
+				super(TimerSpeed.ONE.getValue(), listener);
+				super.addActionListener(e -> passedDays++);
+				super.setRepeats(true);
+				super.start();
+		}
 
-  public boolean overAYear() {
-    if ((getPassedDays() % 365) == 0) {
-      return true;
-    }
-    return false;
-  }
+		@Override
+		public String toString() {
+				return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays()).toString();
+		}
 
-  public LocalDate getDate() {
-    return LocalDate.of(START_YEAR, 1, 1).plusDays(getPassedDays());
-  }
+		public void setTimerSpeed(TimerSpeed timerSpeed) {
+				if (timerSpeed.getValue() < 0) {
+						this.stop();
+						return;
+				}
+				if (!this.isRunning()) {
+						this.restart();
+				}
+				this.setDelay(timerSpeed.getValue());
+		}
 
-  public boolean passed300Days() {
-    if ((passedDays % 10) == 0) {
-      return true;
-    }
-    return false;
-  }
-
-  public static void changeBalanceYears(boolean neg) {
-    if (neg) {
-      negativeBalanceYears++;
-    } else {
-      if (negativeBalanceYears > 0) {
-        negativeBalanceYears = 0;
-      }
-    }
-  }
-
-  public static int affectBalanceYears() {
-    if (negativeBalanceYears <= 5) {
-      return 3;
-    } else if (negativeBalanceYears > 5) {
-      return 5;
-    }
-    return 0;
-  }
+		public boolean overAYear(){
+			if((getPassedDays()%365)==0){
+				return true;
+			}
+			return false;
+		}
 }
